@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.cos.jwt.domain.flog.Flog;
 import com.cos.jwt.domain.post.Board;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -27,14 +28,15 @@ import lombok.NoArgsConstructor;
 public class Member {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private int mno;
 	@Column(unique = true)
-	private String membername;
+	private String username;
 	private String password;
-	private String email;
+	private String nickname;
+	private String profile_image;
 
-	// 나는 연관관계의 주인이 아니야!!(나는 FK를 가진 아이가 아니니까 DB만들지마)
-	@JsonIgnoreProperties({ "member" }) // 중괄호 안에 무시하고싶은 변수"member"
-	@OneToMany(mappedBy = "member") // Board 오브젝트의 member변수를 걸어야함.
-	private List<Board> Boards;
+	@JoinColumn(name="fno")
+	@ManyToOne //foreign key 설정
+	private Flog flog;
+
 }

@@ -55,18 +55,23 @@ const JoinInputStyle = styled.input`
   
 
 
-const Join = (props) => {
+const Join = () => {
+
 
   const [member, setMember] = useState({
-    username: "",
+    membername: "",
     password: "",
-    nickname: "",
+    email: "",
   });
+  function inputHandle(e) {
+    console.log(e.target.value);
+    setMember({ ...member, [e.target.name]: e.target.value });
+    console.log(member);
+  }
 
   function createMember(e){
-
     e.preventDefault(); //submit 되지마라
-    fetch("http://localhost:8000/join",{
+    fetch("http://localhost:8000/joinProc",{
       method:"post",
       body: JSON.stringify(member),
       headers:{
@@ -75,18 +80,11 @@ const Join = (props) => {
     }).then(res=>res.text())
     .then((res)=>{
       if(res === "ok"){
-        alert("회원가입이 완료되었습니다.");
-        props.histoty.push("/LoginForm");
-      } else {
-        alert("회원가입 실패!");
-      }
-      
-    });
-  }
 
-  const inputHandle = (e) => {
-    setMember({ ...member, 
-      [e.target.name]: e.target.value });
+      
+        alert("회원가입이 완료되었습니다.");
+      }
+    },[]);
   }
     
   return (
@@ -95,16 +93,19 @@ const Join = (props) => {
       
       <JoinStyle>
 <JoinMainTitleStyle>여기는 가족블로그</JoinMainTitleStyle><br></br>
-  <JoinSubTitleStyle >아이디</JoinSubTitleStyle>
-         <JoinInputStyle type="text" name="username" onChange={inputHandle}/>
+      <JoinSubTitleStyle >아이디</JoinSubTitleStyle>
+         <JoinInputStyle type="text" name="membername" onChange={inputHandle}/>
          <JoinSubTitleStyle >닉네임</JoinSubTitleStyle>
          <JoinInputStyle type="text" name="nickname"/>
   <JoinSubTitleStyle >비밀번호</JoinSubTitleStyle>             
        <JoinInputStyle type="password" name="password" onChange={inputHandle}/>
         <JoinSubTitleStyle >비밀번호 확인</JoinSubTitleStyle>             
        <JoinInputStyle type="password" name="password2" />
-
-        <JoinButtonStyle onClick={createMember} >회원가입하겠습니다.</JoinButtonStyle>
+        <JoinSubTitleStyle >이메일</JoinSubTitleStyle>
+        <JoinInputStyle type="email" name="email" onChange={inputHandle} />
+        <JoinSubTitleStyle >가족코드</JoinSubTitleStyle>
+        <JoinInputStyle type="code" name="code"  placeholder="미입력시 코드생성화면으로 이동"/>
+        <JoinButtonStyle onClick={createMember}>회원가입하겠습니다.</JoinButtonStyle>
           
           </JoinStyle>
     </FormStyle>

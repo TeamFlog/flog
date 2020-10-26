@@ -15,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 @Configuration
 public class FilterConfig {
 	
-	private final MemberRepository personRepository;
+	private final MemberRepository memberRepository;
 	
 	@Bean
 	public FilterRegistrationBean<CorsFilter> corsFilter(){
@@ -30,8 +30,8 @@ public class FilterConfig {
 	public FilterRegistrationBean<JwtAuthenticationFilter> jwtAuthenticationFilter(){
 		System.out.println("JwtAuthenticationFilter 필터 등록");
 		FilterRegistrationBean<JwtAuthenticationFilter> bean = 
-				new FilterRegistrationBean<>(new JwtAuthenticationFilter(personRepository));
-		bean.addUrlPatterns("/loginProc");
+				new FilterRegistrationBean<>(new JwtAuthenticationFilter(memberRepository));
+		bean.addUrlPatterns("/login");
 		bean.setOrder(1); // 낮은 번호부터 실행됨.
 		return bean;
 	}
@@ -40,8 +40,8 @@ public class FilterConfig {
 	public FilterRegistrationBean<JwtAuthorizationFilter> jwtAuthorizationFilter(){
 		System.out.println("JwtAuthorizationFilter 필터 등록");
 		FilterRegistrationBean<JwtAuthorizationFilter> bean = 
-				new FilterRegistrationBean<>(new JwtAuthorizationFilter(personRepository));
-		bean.addUrlPatterns("/person/*");
+				new FilterRegistrationBean<>(new JwtAuthorizationFilter(memberRepository));
+		bean.addUrlPatterns("/member/*");
 		bean.setOrder(2); // 낮은 번호부터 실행됨.
 		return bean;
 	}

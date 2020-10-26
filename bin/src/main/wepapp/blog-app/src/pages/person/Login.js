@@ -58,43 +58,46 @@ const JoinInputStyle = styled.input`
 const Login = (props) => {
   
   const [member, setMember] = useState({
-    username: "",
+    membername: "",
     password: "",
   });
+  function inputHandle(e) {
+    console.log(e.target.value);
+    setMember({ ...member, [e.target.name]: e.target.value });
+    console.log(member);
+  }
 
 
-  const loginBtn = (e) => {    
-      e.preventDefault();
-      fetch("http://localhost:8000/login", {
+
+  function loginBtn () {    
+      fetch("http://localhost:8000/loginProc", {
         method: "post",
         body: JSON.stringify(member),
         headers: {
           'Content-Type': "application/json; charset=utf-8"
-        }, body: JSON.stringify(member)
+        }
       }).then(res => {
-
+        console.log(1, res);
         for (let header of res.headers.entries()) {
           if (header[0] === "authorization") {
             localStorage.setItem("authorization", header[1]);
           }
+
         }
         return res.text();
       }).then(res => {
-        if(res==="ok"){ 
-          dispatch(login());
-          props.history.push("/"); 
-        } else {
-          alert("아이디 혹시 비밀번호가 틀렸습니다!");
+        if(res==="ok"){ // ==두개는 값비교 === 세개는 값과 타입비교
+          props.history.push("/join"); //라우터에서 역사를 찾아서 푸쉬를 하면 URL 이동가능
+            //push는 이전페이지를 기억하고  replace는 초기값으로 되돌림.
         }
 
       });
-  }
-
-  const inputHandle = (e) => {
-    setMember({ ...member, 
-      [e.target.name]: e.target.value });
-  }
-
+}
+      //localStorage.setItem("jwt","asdfabsdf");
+      //let jwtToken = localStorage.getItem("jwt");
+      //console.log(jwtToken);
+    
+  
   return (
     <FormStyle>
       <JoinStyle>
@@ -102,7 +105,7 @@ const Login = (props) => {
         <JoinInputStyle type="text" name="membername" value={member.membername} onChange={inputHandle} />
         <JoinSubTitleStyle >비밀번호</JoinSubTitleStyle>
         <JoinInputStyle type="password" name="password" value={member.password} onChange={inputHandle} />
-        <JoinButtonStyle type="submit" onClick={loginBtn}>로그인</JoinButtonStyle>
+        <JoinButtonStyle onClick={loginBtn}>로그인</JoinButtonStyle>
       </JoinStyle>
     </FormStyle>
   );
