@@ -1,5 +1,8 @@
 package com.cos.jwt.domain.post;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 import com.cos.jwt.domain.person.Member;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -24,15 +29,30 @@ import lombok.NoArgsConstructor;
 public class Board {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private int bno;
 	private String title;
 	@Column(length = 100000)
 	private String content;
-	private int readCount;
+	@CreationTimestamp
+	private Timestamp reg_date;
+	
 	
 	@JsonIgnoreProperties({"Boards"})
-	@JoinColumn(name="memberId")
+	@JoinColumn(name="mno")
 	@ManyToOne //foreign key 설정
 	private Member member;
+	
+	
+	public String  getReg_date() {
+		try {
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			 String dateFormated = dateFormat.format(reg_date);
+		     return dateFormated;
+			
+			}catch(Exception e){
+				e.getMessage();
+				return null;
+			}
+	}
 	
 }

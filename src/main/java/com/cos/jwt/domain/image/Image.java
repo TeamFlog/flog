@@ -1,6 +1,4 @@
-package com.cos.jwt.domain.person;
-
-import java.util.List;
+package com.cos.jwt.domain.image;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,11 +7,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
-import com.cos.jwt.domain.flog.Flog;
 import com.cos.jwt.domain.post.Board;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,22 +16,21 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Entity
-public class Member {
+public class Image {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int mno;
-	@Column(unique = true)
-	private String username;
-	private String password;
-	private String nickname;
-	private String profile_image;
-
-	@JoinColumn(name="fno")
-	@ManyToOne //foreign key 설정
-	private Flog flog;
-
+	private int ino;
+	private String image_name;
+	@Column(length = 500)
+	private String image_url;
+	
+	@JoinColumn(name="bno")
+	@ManyToOne
+	private Board board;
+	
 }
