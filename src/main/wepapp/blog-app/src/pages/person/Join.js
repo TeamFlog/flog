@@ -98,7 +98,7 @@ const Join = (props) => {
   <JoinSubTitleStyle >아이디</JoinSubTitleStyle>
          <JoinInputStyle type="text" name="username" onChange={inputHandle}/>
          <JoinSubTitleStyle >닉네임</JoinSubTitleStyle>
-         <JoinInputStyle type="text" name="nickname"/>
+         <JoinInputStyle type="text" name="nickname"onChange={inputHandle}/>
   <JoinSubTitleStyle >비밀번호</JoinSubTitleStyle>             
        <JoinInputStyle type="password" name="password" onChange={inputHandle}/>
         <JoinSubTitleStyle >비밀번호 확인</JoinSubTitleStyle>             
