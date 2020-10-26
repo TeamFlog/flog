@@ -23,4 +23,5 @@ public class Flog {
 	private int fno;
 	private String flog_name;
 	private String flog_motto;
+	private String flog_img;
 }

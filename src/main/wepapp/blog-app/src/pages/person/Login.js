@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { useDispatch } from 'react-redux';
+import { login } from '../../store';
 
 const FormStyle = styled.div`
     display: grid;
@@ -57,6 +59,7 @@ const JoinInputStyle = styled.input`
 
 const Login = (props) => {
   
+  const dispatch = useDispatch();
   const [member, setMember] = useState({
     username: "",
     password: "",
@@ -67,7 +70,6 @@ const Login = (props) => {
       e.preventDefault();
       fetch("http://localhost:8000/login", {
         method: "post",
-        body: JSON.stringify(member),
         headers: {
           'Content-Type': "application/json; charset=utf-8"
         }, body: JSON.stringify(member)
@@ -81,12 +83,10 @@ const Login = (props) => {
         return res.text();
       }).then(res => {
         if(res==="ok"){ // ==두개는 값비교 === 세개는 값과 타입비교
-<<<<<<< HEAD
-=======
           dispatch(login());
->>>>>>> 8afb35113b12748ca42dc6ba10dd13f5aec3cb35
+          alert(member.username+"님 환영합니다!");
           props.history.push("/floglist"); //라우터에서 역사를 찾아서 푸쉬를 하면 URL 이동가능
-            //push는 이전페이지를 기억하고  replace는 초기값으로 되돌림.
+          //push는 이전페이지를 기억하고  replace는 초기값으로 되돌림.
         } else {
           alert("아이디 혹은 비밀번호가 틀렸습니다!");
         }
