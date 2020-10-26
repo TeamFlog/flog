@@ -26,14 +26,12 @@ const NavStyle = styled.div`
 
 const Header = () => {
 
-
   const isLogin = useSelector((store) => store.isLogin);
   const dispatch = useDispatch();
 
   const logoutProc = () => {
     localStorage.removeItem("Authorization");
     dispatch(logout());
-    alert("로그아웃되었습니다!");
   }
 
   return (
@@ -42,7 +40,10 @@ const Header = () => {
       <MenuStyle>
       {isLogin ? 
         (
-        <>    
+        <>
+          <li>
+             
+          </li>        
           <li>
             <Link onClick={logoutProc}>로그아웃</Link>  
           </li>

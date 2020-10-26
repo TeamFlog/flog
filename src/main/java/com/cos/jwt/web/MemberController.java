@@ -27,11 +27,12 @@ public class MemberController {
 		memberService.회원가입(member);
 		return new ResponseEntity<String>("ok", HttpStatus.CREATED);
 	}
-	
+	/*
 	// 로그아웃
 	@GetMapping("/logout")
 	public ResponseEntity<?> logout() {
 		session.invalidate();
 		return new ResponseEntity<String>("ok", HttpStatus.OK);
 	}
+	*/
 }
