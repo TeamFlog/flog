@@ -76,7 +76,7 @@ const Join = (props) => {
     .then((res)=>{
       if(res === "ok"){
         alert("회원가입이 완료되었습니다.");
-        props.histoty.push("/LoginForm");
+        props.history.push("/login");
       } else {
         alert("회원가입 실패!");
       }

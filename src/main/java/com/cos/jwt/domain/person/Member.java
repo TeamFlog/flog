@@ -34,6 +34,10 @@ public class Member {
 	private String password;
 	private String nickname;
 	private String profile_image;
+	private String emotion;
+	private String state_message;
+	private String home_io;
+
 
 	@JoinColumn(name="fno")
 	@ManyToOne //foreign key 설정
