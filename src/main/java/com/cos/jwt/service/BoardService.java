@@ -37,8 +37,8 @@ public class BoardService {
 	}
 	
 	@Transactional
-	public int 글삭제하기(int bno) {
-		int i =boardRepository.DeleteByBno(bno);
-		return i;
+	public void 글삭제하기(int bno) {
+		boardRepository.DeleteByBno(bno);
+		
 	}
 }

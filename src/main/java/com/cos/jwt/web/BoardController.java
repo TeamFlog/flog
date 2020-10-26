@@ -36,13 +36,13 @@ public class BoardController {
 		return "writeForm";
 	}
 	
-	@PostMapping("write")
-	public String write(@RequestBody Board board) {
+	@PostMapping("write") //글쓰기
+	public String writeBoard(@RequestBody Board board) {
 		boardService.글쓰기(board);
 		return "ok";
 	}
 	
-	@GetMapping("/boardList")
+	@GetMapping("/boardList") //글목록
 	public Page<Board> boardList(@PageableDefault(size = 5, sort = "bno", direction = Direction.DESC) Pageable pageable){
 		Page<Board> boards = boardService.글목록(pageable);
 		return boards;
@@ -50,13 +50,13 @@ public class BoardController {
 	}
 	
 	@DeleteMapping("/board/{bno}")
-	public String delete(@PathVariable int bno) {
+	public String deleteBoard(@PathVariable int bno) {
 		boardService.글삭제하기(bno);
 		return "ok";
 	}
 	
 	@PutMapping("/board/{bno}")
-	public String update(@PathVariable int bno, @RequestBody Board board) {
+	public String updateBoard(@PathVariable int bno, @RequestBody Board board) {
 		boardService.글수정하기(bno, board);
 		return "ok";
 	}
