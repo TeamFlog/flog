@@ -1,11 +1,10 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import Status from "../../components/Status";
 
 
-const StatusStyle = styled.div`
-display :grid;
-`;
+
 const ChatStyle = styled.div``;
 
 const BoardStyle = styled.div`
@@ -32,9 +31,9 @@ width: 500px;
 const BoardList = () => {
     return (
         <BoardStyle>
-        <StatusStyle>
-        ss
-        </StatusStyle>
+        <Status>
+        
+        </Status>
         <BoardListStyle>
             <div>글제목:</div>
                             <FlogimgStyle src="images/background.jpg"/>

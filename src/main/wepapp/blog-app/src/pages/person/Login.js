@@ -80,11 +80,9 @@ const Login = (props) => {
         }
         return res.text();
       }).then(res => {
+
         if(res==="ok"){ // ==두개는 값비교 === 세개는 값과 타입비교
-<<<<<<< HEAD
-=======
-          dispatch(login());
->>>>>>> 8afb35113b12748ca42dc6ba10dd13f5aec3cb35
+          //dispatch(login());
           props.history.push("/floglist"); //라우터에서 역사를 찾아서 푸쉬를 하면 URL 이동가능
             //push는 이전페이지를 기억하고  replace는 초기값으로 되돌림.
         } else {

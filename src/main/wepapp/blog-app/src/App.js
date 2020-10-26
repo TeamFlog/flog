@@ -8,6 +8,7 @@ import BoardList from "./pages/board/BoardList";
 import FlogList from "./pages/flog/FlogList"
 import Login from "./pages/person/Login";
 import styled from "styled-components";
+import Status from "./components/Status";
 
 const AppFont = styled.div`
   font-family : 'Cafe24Simplehae';
