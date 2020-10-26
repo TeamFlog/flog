@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
+const HeaderStyle = styled.div`
+`;
 
 const NavStyle = styled.div`
     display: grid;
@@ -18,10 +20,11 @@ const NavStyle = styled.div`
     font-weight: 800;
     
   `;
+  
 
-const Nav = () => {
+const Header = () => {
   return (
-    
+    <HeaderStyle>
     <NavStyle>
       <MenuStyle>
       <li>
@@ -35,8 +38,8 @@ const Nav = () => {
           </Link></li>
           </MenuStyle>
     </NavStyle>
-    
+</HeaderStyle>
   );
 };
 
-export default Nav;
+export default Header;
