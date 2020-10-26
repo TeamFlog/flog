@@ -17,6 +17,11 @@ const AppBackgroundStyle = styled.div`
   background-repeat: no-repeat;
   background-position: center
 `;
+const AppTitleStyle = styled.div`
+font-weight: 800;
+font-size:40px;
+text-align:center;
+`;
 function App() {
 
   
@@ -25,7 +30,7 @@ function App() {
     <AppFont>
    <AppBackgroundStyle>
      <Nav/>
-   
+   <AppTitleStyle><br/><br/>가족블로그</AppTitleStyle>
   <Route path="/join" exact={true} component={Join}></Route>
   <Route path="/login" exact={true} component={Login}></Route>
  
