@@ -1,10 +1,13 @@
-package com.cos.jwt.domain.flog;
+package com.cos.jwt.domain.Calender;
+
+import java.sql.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.cos.jwt.domain.flog.Flog;
 import com.cos.jwt.domain.person.Member;
 
 import lombok.AllArgsConstructor;
@@ -17,11 +20,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Flog {
+public class Calender {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int fno;
-	private String flog_name;
-	private String flog_motto;
-	private String flog_img;
+	private int cno;
+	private String s_name;
+	private Date s_date;
 }
