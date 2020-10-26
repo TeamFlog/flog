@@ -80,18 +80,11 @@ const Login = (props) => {
         }
         return res.text();
       }).then(res => {
-<<<<<<< HEAD
         if(res==="ok"){ // ==두개는 값비교 === 세개는 값과 타입비교
-
           props.history.push("/floglist"); //라우터에서 역사를 찾아서 푸쉬를 하면 URL 이동가능
             //push는 이전페이지를 기억하고  replace는 초기값으로 되돌림.
-=======
-        if(res==="ok"){ 
-          dispatch(login());
-          props.history.push("/"); 
         } else {
-          alert("아이디 혹시 비밀번호가 틀렸습니다!");
->>>>>>> 7c3978f0c691e4655a42ec2ca639c3b347350cde
+          alert("아이디 혹은 비밀번호가 틀렸습니다!");
         }
 
       });
@@ -106,7 +99,7 @@ const Login = (props) => {
     <FormStyle>
       <JoinStyle>
         <JoinSubTitleStyle >아이디</JoinSubTitleStyle>
-        <JoinInputStyle type="text" name="membername" value={member.membername} onChange={inputHandle} />
+        <JoinInputStyle type="text" name="username" value={member.username} onChange={inputHandle} />
         <JoinSubTitleStyle >비밀번호</JoinSubTitleStyle>
         <JoinInputStyle type="password" name="password" value={member.password} onChange={inputHandle} />
         <JoinButtonStyle type="submit" onClick={loginBtn}>로그인</JoinButtonStyle>
