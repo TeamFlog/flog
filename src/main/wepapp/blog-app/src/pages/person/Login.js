@@ -80,20 +80,13 @@ const Login = (props) => {
         }
         return res.text();
       }).then(res => {
-<<<<<<< HEAD
         if(res==="ok"){ // ==두개는 값비교 === 세개는 값과 타입비교
-
+          dispatch(login());
           props.history.push("/floglist"); //라우터에서 역사를 찾아서 푸쉬를 하면 URL 이동가능
             //push는 이전페이지를 기억하고  replace는 초기값으로 되돌림.
-=======
-        if(res==="ok"){ 
-          dispatch(login());
-          props.history.push("/"); 
         } else {
-          alert("아이디 혹시 비밀번호가 틀렸습니다!");
->>>>>>> 7c3978f0c691e4655a42ec2ca639c3b347350cde
+          alert("아이디 혹은 비밀번호가 틀렸습니다!");
         }
-
       });
   }
 
