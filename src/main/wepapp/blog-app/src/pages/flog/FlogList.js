@@ -29,38 +29,36 @@ const Flogimage = styled.img`
   height:100px;
 `;
 
-const FlogList = () => {
+const FlogList = (props) => {
+
+  const [flogs, setFlogs] = useState([]);
+  const [pages, setPages] = useState([]);
+
+  useEffect(()=>{
+    fetch("http://localhost:8000/flogList")
+    .then((res)=>res.json())
+    .then((res)=>
+    {setFlogs(res.content);
+      setPages(res.pageable);
+      console.log(res);
+      console.log(res.content);
+      console.log(res.pageable);
+    }
+    );
+  },[]);
 
 
   return (
     <div>
     <FlogWriteStyle><button>블로그 생성</button></FlogWriteStyle>
     <FloglistStyle>
-      <FlogStyle>
-      <Flogimage src="images/background.jpg"></Flogimage>
-      <div>Flog :갭써서 늘림</div><button>신청하기</button>      
-      </FlogStyle>
-      <FlogStyle>
-      <Flogimage src="images/background.jpg"></Flogimage>
-      <div>Flog :갭써서 늘림</div><button>신청하기</button>      
-      </FlogStyle>
-      <FlogStyle>
-      <Flogimage src="images/background.jpg"></Flogimage>
-      <div>Flog :갭써서 늘림</div><button>신청하기</button>      
-      </FlogStyle>
-      <FlogStyle>
-      <Flogimage src="images/background.jpg"></Flogimage>
-      <div>Flog :갭써서 늘림</div><button>신청하기</button>      
-      </FlogStyle>
-      <FlogStyle>
-      <Flogimage src="images/background.jpg"></Flogimage>
-      <div>Flog :갭써서 늘림</div><button>신청하기</button>      
-      </FlogStyle>
-      <FlogStyle>
-      <Flogimage src="images/background.jpg"></Flogimage>
-      <div>Flog :갭써서 늘림</div><button>신청하기</button>      
-      </FlogStyle>
-    
+      {flogs.map((flog)=>(
+        <FlogStyle>
+        <Flogimage src="images/background.jpg"></Flogimage>
+        <div>Flog :{flog.flog_name}</div><button>신청하기</button>      
+        </FlogStyle>
+      ))}
+      
       </FloglistStyle>
       </div>
   );
