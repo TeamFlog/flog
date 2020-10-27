@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import React, { useEffect,useState } from 'react';
+=======
+import React, { useState, useEffect } from 'react';
+>>>>>>> ec437b7f940e06e2a212a88f94e8a77026416798
 import { Link } from "react-router-dom";   
 import styled from "styled-components";
 import Status from "../../components/Status";
@@ -30,10 +34,26 @@ max-width:500px; //보드이미지최대너비
 `;
 
 
-const BoardList = () => {
+const BoardList = (props) => {
+
+    const [boards, setBoards] = useState([]);
+        // 페이징은 아직 안했음.
+
+    useEffect(()=>{
+        fetch("http://localhost:8000/boardList")
+        .then((res)=>res.json())
+        .then((res)=>
+        {setBoards(res.content);
+        console.log(res);
+        console.log(res.content);
+        }
+        );
+    },[]);
+
     return (
         <div>
         <BoardStyle>
+<<<<<<< HEAD
         <Status/>
         <div>
         <BoardListStyle>
@@ -75,6 +95,24 @@ const BoardList = () => {
         <Chat/>
         </BoardStyle>
         </div>
+=======
+        <Status>
+        
+        </Status>
+        {boards.map((board) => (
+        <BoardListStyle>           
+            <div>글제목:{board.title}</div>
+            <FlogimgStyle src="images/background.jpg"/>
+            <div>글내용:{board.content}</div>
+            <div>작성일:{board.reg_date}</div>
+            <div>작성자:</div>
+            <Link to={"/updateForm/"+board.bno} style={{ textDecoration: "none", color: "black" }}>수정</Link>
+
+        </BoardListStyle>
+        ))}
+                    <ChatStyle>ss</ChatStyle> 
+        </BoardStyle>
+>>>>>>> ec437b7f940e06e2a212a88f94e8a77026416798
     );
 };
 

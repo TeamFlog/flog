@@ -71,7 +71,7 @@ const Join = (props) => {
 
     e.preventDefault(); //submit 되지마라
     fetch("http://localhost:8000/join",{
-      method:"post",
+      method:"POST",
       body: JSON.stringify(member),
       headers:{
         'Content-Type':"application/json; charset=utf-8"

@@ -2,11 +2,15 @@ package com.cos.jwt.web;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,23 +21,24 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cos.jwt.domain.person.Member;
 import com.cos.jwt.domain.post.Board;
 import com.cos.jwt.service.BoardService;
 
 import lombok.RequiredArgsConstructor;
 
 
-
-@RestController
 @RequiredArgsConstructor
+@RestController
 public class BoardController {
 
 	
 	private final BoardService boardService;
+	private final HttpSession session;
 	
-	@GetMapping("/writeForm")
-	public String writeForm() {
-		return "writeForm";
+	@GetMapping("/boardForm")
+	public String boardForm() {
+		return "boardForm";
 	}
 	
 	@PostMapping("write") //글쓰기
@@ -60,9 +65,6 @@ public class BoardController {
 		boardService.글수정하기(bno, board);
 		return "ok";
 	}
-	
-	
-	
-	
+
 	
 }
