@@ -9,14 +9,10 @@ import BoardList from "./pages/board/BoardList";
 import FlogList from "./pages/flog/FlogList"
 import Login from "./pages/person/Login";
 import styled from "styled-components";
-<<<<<<< HEAD
 
 
-
-=======
 import Status from "./components/Status";
 import UpdateForm from './pages/board/UpdateForm';
->>>>>>> ec437b7f940e06e2a212a88f94e8a77026416798
 
 const AppFont = styled.div`
   font-family : 'Cafe24Simplehae';  
@@ -35,9 +31,6 @@ margin-top: 50px;
 `;
 
 function App() {
-
-  
-
   return (
     <AppFont>
      <Header/>
@@ -49,12 +42,8 @@ function App() {
   <Route path="/login" exact={true} component={Login}></Route>
   <Route path="/floglist" exact={true} component={FlogList}></Route>
   <Route path="/boardlist" exact={true} component={BoardList}></Route>
-<<<<<<< HEAD
    </AppBodyStyle>
-=======
   <Route path="/updateForm/:bno" exact={true} component={UpdateForm}></Route>
-   </AppBackgroundStyle>
->>>>>>> ec437b7f940e06e2a212a88f94e8a77026416798
    <Footer/>
    </AppFont>
   );
