@@ -2,6 +2,7 @@ package com.cos.jwt.web;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.catalina.connector.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,10 +29,12 @@ public class MemberController {
 		return new ResponseEntity<String>("ok", HttpStatus.CREATED);
 	}
 	
+	
 	// 로그아웃
 	@GetMapping("/logout")
 	public ResponseEntity<?> logout() {
 		session.invalidate();
 		return new ResponseEntity<String>("ok", HttpStatus.OK);
 	}
+	
 }

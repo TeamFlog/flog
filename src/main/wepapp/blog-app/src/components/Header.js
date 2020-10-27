@@ -32,6 +32,7 @@ const Header = () => {
   const logoutProc = () => {
     localStorage.removeItem("Authorization");
     dispatch(logout());
+    window.location.href="/";
   }
 
   return (
@@ -55,7 +56,6 @@ const Header = () => {
             <li>
               <Link to="/join" style={{ textDecoration: "none", color: "black" }}>회원가입</Link>
             </li>
-
             <li>
                 <Link to="/login" style={{ textDecoration: "none", color: "black" }}>로그인</Link>
             </li>                   
