@@ -5,9 +5,12 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Join from "./pages/person/Join";
 import BoardList from "./pages/board/BoardList";
+
 import FlogList from "./pages/flog/FlogList"
 import Login from "./pages/person/Login";
 import styled from "styled-components";
+import Status from "./components/Status";
+import UpdateForm from './pages/board/UpdateForm';
 
 const AppFont = styled.div`
   font-family : 'Cafe24Simplehae';
@@ -38,6 +41,7 @@ function App() {
   <Route path="/login" exact={true} component={Login}></Route>
   <Route path="/floglist" exact={true} component={FlogList}></Route>
   <Route path="/boardlist" exact={true} component={BoardList}></Route>
+  <Route path="/updateForm/:bno" exact={true} component={UpdateForm}></Route>
    </AppBackgroundStyle>
    <Footer/>
    </AppFont>

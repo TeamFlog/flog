@@ -8,10 +8,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.cos.jwt.domain.person.Member;
 import com.cos.jwt.domain.post.Board;
 import com.cos.jwt.domain.post.BoardRepository;
 
+import lombok.RequiredArgsConstructor;
+
 //게시판 기능
+@RequiredArgsConstructor
 @Service
 public class BoardService {
 
@@ -32,13 +36,12 @@ public class BoardService {
 	public void 글수정하기(int bno, Board board) {
 		Board boardEntity = boardRepository.FindByBno(bno);
 		boardEntity.setTitle(board.getTitle());
-		boardEntity.setContent(board.getContent());
-		
+		boardEntity.setContent(board.getContent());		
 	}
 	
 	@Transactional
-	public int 글삭제하기(int bno) {
-		int i =boardRepository.DeleteByBno(bno);
-		return i;
+	public void 글삭제하기(int bno) {
+		boardRepository.DeleteByBno(bno);
+		
 	}
 }
