@@ -1,17 +1,16 @@
-import React from 'react';
+import React, { useEffect,useState } from 'react';
 import { Link } from "react-router-dom";   
-
 import styled from "styled-components";
 import Status from "../../components/Status";
-
-
-
-const ChatStyle = styled.div``;
+import Chat from "../../components/Chat";
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
 
 const BoardStyle = styled.div`
 display: grid;
 grid-template-columns: auto auto auto;
-justify-content: space-between;
+justify-content: space-around;
+min-height: 680px;
 `;
 
 const BoardListStyle = styled.div`
@@ -23,27 +22,59 @@ const BoardListStyle = styled.div`
     border-radius: 6px;
     padding: 20px 30px;
     box-shadow: 0 8px 8px 0 rgb(214, 214, 214);
+    margin-bottom:30px;
+    
   `;
 const FlogimgStyle = styled.img`
-width: 500px;
+max-width:500px; //보드이미지최대너비
 `;
 
 
 const BoardList = () => {
     return (
+        <div>
         <BoardStyle>
-        <Status>
-        
-        </Status>
+        <Status/>
+        <div>
         <BoardListStyle>
-            <div>글제목:</div>
-                            <FlogimgStyle src="images/background.jpg"/>
-            <div>글내용:</div>
-            <div>작성일:</div>
-            <div>작성자:</div>
+            <div>글제목: 두둥실글자</div>
+            <FlogimgStyle src="images/background.jpg"/>
+            <div>글내용: 아이가 넷</div>
+            <div>작성일: 2020-10-26</div>
+            <div>작성자: 마스터</div>
         </BoardListStyle>
-                    <ChatStyle>ss</ChatStyle> 
-            </BoardStyle>
+        <BoardListStyle>
+            <div>글제목: 두둥실글자</div>
+            <FlogimgStyle src="images/background.jpg"/>
+            <div>글내용: 아이가 넷</div>
+            <div>작성일: 2020-10-26</div>
+            <div>작성자: 마스터</div>
+        </BoardListStyle>
+        <BoardListStyle>
+            <div>글제목: 두둥실글자</div>
+            <FlogimgStyle src="images/background.jpg"/>
+            <div>글내용: 아이가 넷</div>
+            <div>작성일: 2020-10-26</div>
+            <div>작성자: 마스터</div>
+        </BoardListStyle>
+        <BoardListStyle>
+            <div>글제목: 두둥실글자</div>
+            <FlogimgStyle src="images/background.jpg"/>
+            <div>글내용: 아이가 넷</div>
+            <div>작성일: 2020-10-26</div>
+            <div>작성자: 마스터</div>
+        </BoardListStyle>
+        <BoardListStyle>
+            <div>글제목: 두둥실글자</div>
+            <FlogimgStyle src="images/background.jpg"/>
+            <div>글내용: 아이가 넷</div>
+            <div>작성일: 2020-10-26</div>
+            <div>작성자: 마스터</div>
+        </BoardListStyle>
+        </div>
+        <Chat/>
+        </BoardStyle>
+        </div>
     );
 };
 

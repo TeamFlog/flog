@@ -7,8 +7,8 @@ import { login } from '../../store';
 const FormStyle = styled.div`
     display: grid;
     grid-template-columns: auto auto;
-     justify-content: end;
-  
+    justify-content: end;
+    position: relative;
   `;
 
   const JoinStyle = styled.div`
@@ -23,12 +23,9 @@ const FormStyle = styled.div`
     padding: 20px 30px;
     box-shadow: 0 8px 8px 0 rgb(214, 214, 214);
   `;
-
-  const JoinMainTitleStyle = styled.td`
-    padding: 10px 0;
-    font-size: 22px;
-    font-weight: 600;
-  `;
+const JoinBackgroundStyle = styled.div`
+min-height:680px;
+`;
 
   const JoinSubTitleStyle = styled.td`
     padding: 10px 0;
@@ -100,6 +97,7 @@ const Login = (props) => {
 
   return (
     <FormStyle>
+    <JoinBackgroundStyle>
       <JoinStyle>
         <JoinSubTitleStyle >아이디</JoinSubTitleStyle>
         <JoinInputStyle type="text" name="username" value={member.username} onChange={inputHandle} />
@@ -107,6 +105,7 @@ const Login = (props) => {
         <JoinInputStyle type="password" name="password" value={member.password} onChange={inputHandle} />
         <JoinButtonStyle type="submit" onClick={loginBtn}>로그인</JoinButtonStyle>
       </JoinStyle>
+      </JoinBackgroundStyle>
     </FormStyle>
   );
 };
