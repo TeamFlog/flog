@@ -9,7 +9,9 @@ public interface BoardRepository extends JpaRepository<Board,Integer>{
 	@Query(value = "SELECT * FROM board WHERE bno = :bno",nativeQuery = true)
 	Board FindByBno(int bno);
 	
+	
 	@Modifying
 	@Query(value = "DELETE FROM board WHERE bno =:bno",nativeQuery = true)
 	int DeleteByBno(int bno);
+	
 }

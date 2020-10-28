@@ -7,6 +7,7 @@ display : grid;
 grid-template-columns: auto auto auto auto auto auto;
 grid-gap : 10px; 
 justify-content: center;
+height:630px;
 `;
 
 const FlogWriteStyle = styled.div`

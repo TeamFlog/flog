@@ -1,17 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect,useState } from 'react';
 import { Link } from "react-router-dom";   
-
 import styled from "styled-components";
 import Status from "../../components/Status";
-
-
-
-const ChatStyle = styled.div``;
+import Chat from "../../components/Chat";
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
 
 const BoardStyle = styled.div`
 display: grid;
 grid-template-columns: auto auto auto;
-justify-content: space-between;
+justify-content: space-around;
+min-height: 680px;
 `;
 
 const BoardListStyle = styled.div`
@@ -23,9 +22,11 @@ const BoardListStyle = styled.div`
     border-radius: 6px;
     padding: 20px 30px;
     box-shadow: 0 8px 8px 0 rgb(214, 214, 214);
+    margin-bottom:30px;
+    
   `;
 const FlogimgStyle = styled.img`
-width: 500px;
+max-width:500px; //보드이미지최대너비
 `;
 
 
@@ -33,37 +34,68 @@ const BoardList = (props) => {
 
     const [boards, setBoards] = useState([]);
         // 페이징은 아직 안했음.
-
+    
     useEffect(()=>{
+        
         fetch("http://localhost:8000/boardList")
         .then((res)=>res.json())
-        .then((res)=>
-        {setBoards(res.content);
-        console.log(res);
-        console.log(res.content);
-        }
+        .then((res)=>{
+            setBoards(res.content);
+            }
         );
+
+        /*
+        fetch("http://localhost:8000/board/"+props.match.params.bno, {
+			method: "GET",
+			headers:{
+				"Authorization": localStorage.getItem("Authorization")
+			}
+		}).then(res=>res.json()).then(res=>{
+			setPost(res); 
+		});
+        */
     },[]);
 
-    return (
-        <BoardStyle>
-        <Status>
+    const deleteBoard =(bno) => {
         
-        </Status>
-        {boards.map((board) => (
-        <BoardListStyle>           
-            <div>글제목:{board.title}</div>
-            <FlogimgStyle src="images/background.jpg"/>
-            <div>글내용:{board.content}</div>
-            <div>작성일:{board.reg_date}</div>
-            <div>작성자:</div>
-            <Link to={"/updateForm/"+board.bno} style={{ textDecoration: "none", color: "black" }}>수정</Link>
+        fetch("http://localhost:8000/board/"+ bno, {
+            method: "DELETE",
+            headers: {
+               "Authorization": localStorage.getItem("Authorization")
+            }
+        }).then(res=>res.text())
+        .then(res => {
+            if (res === "ok") {
+                alert("삭제성공!");
+                props.history.push("/boardList");
+            } else {
+                alert("삭제실패");
+            }
+        });
+    }
 
-        </BoardListStyle>
-        ))}
-                    <ChatStyle>ss</ChatStyle> 
+    return (
+
+        <div>
+        <BoardStyle>
+        <Status/>
+        <div>
+            {boards.map((board) => (    
+            <BoardListStyle>
+                <div>글제목: {board.title}</div>
+                <FlogimgStyle src="images/background.jpg"/>
+                <div>글내용: {board.content}</div>
+                <div>작성일: {board.reg_date}</div>
+                <div>작성자: 마스터</div>
+                <Link to={"/updateForm/"+board.bno} style={{ textDecoration: "none", color: "black" }}>수정</Link>
+                <button onClick={()=>deleteBoard(board.bno)}>삭제</button>
+            </BoardListStyle>
+            ))}
+        </div>
+        <Chat/>
         </BoardStyle>
+        </div>
     );
-};
+}
 
 export default BoardList;

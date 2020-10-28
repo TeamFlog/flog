@@ -54,15 +54,22 @@ public class BoardController {
 		
 	}
 	
-	@DeleteMapping("/board/{bno}")
-	public String deleteBoard(@PathVariable int bno) {
-		boardService.글삭제하기(bno);
-		return "ok";
+	@GetMapping("/board/{bno}") //글상세보기 (글수정 시 정보 들고옴)
+	public Board boardDetail(@PageableDefault(size = 5, sort = "bno", direction = Direction.DESC) Pageable pageable,@PathVariable int bno){
+		Board board = boardService.글상세보기(pageable, bno);
+		return board;
+		
 	}
 	
 	@PutMapping("/board/{bno}")
 	public String updateBoard(@PathVariable int bno, @RequestBody Board board) {
 		boardService.글수정하기(bno, board);
+		return "ok";
+	}
+	
+	@DeleteMapping("/board/{bno}")
+	public String deleteBoard(@PathVariable int bno) {
+		boardService.글삭제하기(bno);
 		return "ok";
 	}
 
