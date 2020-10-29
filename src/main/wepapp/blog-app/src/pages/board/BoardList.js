@@ -27,13 +27,13 @@ const BoardListStyle = styled.div`
   `;
 
 const WriteStyle = styled.button`
-display:grid;
-grid-template-columns: auto;
-background-color: black;
-margin-left: 500px;
+    display:inline-block;
+    margin-left: 500px;
+    background-color: black;
     color: white;
     height: 25px;
-    font-size: 15px;
+    width:70px;
+    padding:5px 15px;
     font-weight: 400;
     border-radius: 6px;
     border: 0;
@@ -96,11 +96,11 @@ const BoardList = (props) => {
         <Status/>
         <div>
             <FamilyMotto/>
+                <Link to={"/boardForm/"} style={{ textDecoration: "none", color: "white"}}>
             <WriteStyle>
-                <Link to={"/boardForm/"} style={{ textDecoration: "none", color: "white",marginTop:"5px" }}>
                 글쓰기
-            </Link>
             </WriteStyle>
+            </Link>
             {boards.map((board) => (    
             <BoardListStyle>
                 <div>글제목: {board.title}</div>

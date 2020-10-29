@@ -1,6 +1,45 @@
 import React, { useState, useEffect } from 'react';
+import { useQuill } from 'react-quilljs';
+import 'quill/dist/quill.snow.css';
+import styled from "styled-components";
+
+const BoardFormStyle = styled.div`
+display:grid;
+grid-template-rows: auto auto auto auto;
+justify-content:center;
+font-weight:600;
+`;
+
+const BoardInputStyle = styled.input`
+	height: 25px;
+    width: 100%;
+    color: rgb(100, 100, 100);
+    font-size: 12px;
+    border: 1px solid rgb(230, 230, 230);
+`;
+const WriteBtnStyle = styled.button`
+
+	background-color: black;
+	margin-left: 670px;
+	margin-top:50px;
+    color: white;
+    height: 25px;
+	width:100px;
+    font-size: 15px;
+    font-weight: 400;
+    border-radius: 6px;
+    border: 0;
+    cursor: pointer;
+    font-family: 'Cafe24Simplehae';
+`;
 
 const UpdateForm = (props) => {
+	
+	const { quill, quillRef } = useQuill();
+ 
+	console.log(quill);    // undefined > Quill Object
+	console.log(quillRef); // { current: undefined } > { current: Quill Editor Reference }
+	  
 
 	let boardNo = props.match.params.bno;
 
@@ -47,18 +86,25 @@ const UpdateForm = (props) => {
 			...board,
 			[e.target.name]: e.target.value
 		});
+		console.log(board.content)
 	}
 
 	return (
-
-		<div>
+		<BoardFormStyle>
 			<h1>글 수정하기</h1>
 			<div>
-				<input type="text" name="title" value={board.title} onChange={changeValue} />
-				<textarea name="content" value={board.content} onChange={changeValue}></textarea>
-				<button variant="primary" type="submit" onClick={UpdateBoard}>수정하기</button>
+			제목 <BoardInputStyle type="text" name="title" value={board.title} onChange={changeValue} />
 			</div>
-		</div>
+			<div>내용
+				<div name="content" value={board.content} onChange={changeValue} style={{ height: 300 }}>
+      				<div ref={quillRef} />
+				</div>
+			</div>
+			<div>
+			<WriteBtnStyle variant="primary" type="submit" onClick={UpdateBoard}>수정하기</WriteBtnStyle>
+			</div>
+		</BoardFormStyle>
+		
 	);
 };
 
