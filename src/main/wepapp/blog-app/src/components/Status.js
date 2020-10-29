@@ -5,7 +5,7 @@ import styled from "styled-components";
 const StatusStyle = styled.div`
     display: grid;
     position: relative;
-    width:200px;
+    width:240px;
   `;
 const SubStatusStyle = styled.div`
     position:fixed;

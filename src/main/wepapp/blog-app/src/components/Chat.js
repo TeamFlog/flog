@@ -2,9 +2,11 @@ import React from 'react';
 import Calendar from 'react-calendar';
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import 'react-calendar/dist/Calendar.css';
 
 const ChatStyle = styled.div`
     display:grid;
+    grid-template-rows: auto auto auto;
     position: relative;
     width:250px;
   `;
@@ -108,16 +110,20 @@ line-height: 150%;
 word-break: break-all; 
 `;
 
+const CalendarStyle = styled.div`
+background-color: #EAEAEA;
+`;
+
 const Chat = () => {
 
     const CalendarBox = () =>{
         
         var cb = document.querySelector("#cbcb");
         console.log(cb);
-        if(cb.style.display="none"){
-            cb.style.display="block";
-            cb.style.position="fixed";
-        }else if(cb.style.display="block"){
+        console.log(cb.style.display);
+        if(cb.style.display=="none"){
+            cb.style.display="inline-block";
+        }else if(cb.style.display=="inline-block"){
             cb.style.display="none";
             
         }else{
@@ -128,10 +134,10 @@ const Chat = () => {
 
   return (
       <div>
-      <ChatStyle>
-          <div id="cbcb" style={{display:"none"}}>
+           <CalendarStyle id="cbcb" style={{display:"none"}}>
           <Calendar />
-          </div>
+          </CalendarStyle>
+      <ChatStyle>
               <CalendarBoxStyle onClick={CalendarBox}><div>이 달의 일정</div><ScheduleText>
               <div>10/30 누구누구의 생일ㅇㅇ</div>
               </ScheduleText></CalendarBoxStyle>

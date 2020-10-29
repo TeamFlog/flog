@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Status from "../../components/Status";
 import Chat from "../../components/Chat";
-import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
+import FamilyMotto from '../../components/FamilyMotto';
 
 const BoardStyle = styled.div`
 display: grid;
@@ -23,7 +23,6 @@ const BoardListStyle = styled.div`
     padding: 20px 30px;
     box-shadow: 0 8px 8px 0 rgb(214, 214, 214);
     margin-bottom:30px;
-    
   `;
 const FlogimgStyle = styled.img`
 max-width:500px; //보드이미지최대너비
@@ -80,6 +79,7 @@ const BoardList = (props) => {
         <BoardStyle>
         <Status/>
         <div>
+            <FamilyMotto/>
             {boards.map((board) => (    
             <BoardListStyle>
                 <div>글제목: {board.title}</div>
