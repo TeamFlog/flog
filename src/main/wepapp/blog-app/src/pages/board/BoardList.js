@@ -47,10 +47,41 @@ max-width:500px; //보드이미지최대너비
 
 const BoardList = (props) => {
 
+    let boardNo = props.match.params.bno;
+
     const [boards, setBoards] = useState([]);
         // 페이징은 아직 안했음.
     
+    const [post, setPost] = useState({
+        bno:"",
+        title:"",
+        content:"",
+        reg_date:"",
+        member: {
+            mno:0
+        }
+    });
+    
+    /*
+    // 로그인해야 게시물 등록/수정/삭제 가능.
+    const isLogin = useSelector((store)=> store.isLogin);
+    
+    */
     useEffect(()=>{
+        /*
+		if(!isLogin){
+			alert('로그인 후 이용할 수 있습니다.');
+			props.history.push("/");  
+		}
+        */
+        fetch("http://localhost:8000/board/" + boardNo, {
+			method: "GET",
+			headers:{
+				"Authorization": localStorage.getItem("Authorization")
+			}
+		}).then(res=>res.json()).then(res=>{
+			setPost(res); 
+        });
         
         fetch("http://localhost:8000/boardList")
         .then((res)=>res.json())
@@ -58,26 +89,16 @@ const BoardList = (props) => {
             setBoards(res.content);
             }
         );
-
-        /*
-        fetch("http://localhost:8000/board/"+props.match.params.bno, {
-			method: "GET",
-			headers:{
-				"Authorization": localStorage.getItem("Authorization")
-			}
-		}).then(res=>res.json()).then(res=>{
-			setPost(res); 
-		});
-        */
+    
     },[]);
 
-    const deleteBoard =(bno) => {
+    const deleteBoard =(boardNo) => {
         
-        fetch("http://localhost:8000/board/"+ bno, {
+        fetch("http://localhost:8000/board/"+ boardNo, {
             method: "DELETE",
             headers: {
                "Authorization": localStorage.getItem("Authorization")
-            }
+            }, body: JSON.stringify(post)
         }).then(res=>res.text())
         .then(res => {
             if (res === "ok") {
@@ -86,7 +107,9 @@ const BoardList = (props) => {
             } else {
                 alert("삭제실패");
             }
-        });
+        }).catch((error) => {
+                console.log(error);
+            });
     }
 
     return (
@@ -103,7 +126,7 @@ const BoardList = (props) => {
             </Link>
             {boards.map((board) => (    
             <BoardListStyle>
-                <div>글제목: {board.title}</div>
+                <div>글제목: {board.title} </div>
                 <FlogimgStyle src="images/background.jpg"/>
                 <div>글내용: {board.content}</div>
                 <div>작성일: {board.reg_date}</div>
@@ -112,6 +135,7 @@ const BoardList = (props) => {
                 <button onClick={()=>deleteBoard(board.bno)}>삭제</button>
             </BoardListStyle>
             ))}
+        
         </div>
         <Chat/>
         </BoardStyle>

@@ -48,28 +48,32 @@ const UpdateForm = (props) => {
 		content: ""
 	});
 
-
 	const UpdateBoard = (e) => {
 		e.preventDefault();
-		fetch("http://localhost:8000/board/" + boardNo, {
+
+		fetch("http://localhost:8000/board/update/" + boardNo, {
 			method: "PUT",
 			headers: {
-				"Content-Type":"application/json; charset=utf-8",
-
+				"Content-Type":"application/json; charser=utf-8",
+				"Authorization":localStorage.getItem("Authorization")
 			}, body: JSON.stringify(board)
-		}).then(res=> {
-			return res.text();
-		}).then((res)=> {
-			if(res === "ok") {
-				alert("게시글 수정이 완료되었습니다!");
+		}).then(res => res.text())
+		.then(res => {
+			if(res === "ok"){
+				alert("게시글 수정 성공!");
 				props.history.push("/boardList");
 			} else {
-				alert("게시글 수정실패");
+				alert("수정 실패");
 			}
 		});
+		
 	}
-	
-	useEffect( () => {
+
+	const changeValue = (e)=> {
+		setBoard({ ...board, [e.target.name]: e.target.value });
+	}	
+
+	useEffect(() => {
 		fetch("http://localhost:8000/board/" + boardNo, {
 			method: "GET",
 			headers: {
@@ -80,6 +84,7 @@ const UpdateForm = (props) => {
 			setBoard(res);
 		});
 	}, []);
+<<<<<<< HEAD
 	
 	const changeValue = (e) => {
 		setBoard({
@@ -88,10 +93,14 @@ const UpdateForm = (props) => {
 		});
 		console.log(board.content)
 	}
+=======
+		
+>>>>>>> e3b1d241e368e4958dbcbd2a58a5350fde96fa0b
 
 	return (
 		<BoardFormStyle>
 			<h1>글 수정하기</h1>
+<<<<<<< HEAD
 			<div>
 			제목 <BoardInputStyle type="text" name="title" value={board.title} onChange={changeValue} />
 			</div>
@@ -105,6 +114,16 @@ const UpdateForm = (props) => {
 			</div>
 		</BoardFormStyle>
 		
+=======
+			<form>
+				<div>
+					<input type="text" name="title" value={board.title} onChange={changeValue} />
+					<textarea name="content" value={board.content} onChange={changeValue}></textarea>
+					<button variant="primary" type="submit" onClick={UpdateBoard}>수정하기</button>
+				</div>
+			</form>
+		</div>
+>>>>>>> e3b1d241e368e4958dbcbd2a58a5350fde96fa0b
 	);
 };
 

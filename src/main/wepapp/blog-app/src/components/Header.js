@@ -27,7 +27,6 @@ const NavStyle = styled.div`
     font-weight: 800;
     
   `;
-  
 
 const Header = () => {
 

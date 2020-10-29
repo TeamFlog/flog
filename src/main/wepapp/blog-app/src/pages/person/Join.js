@@ -58,7 +58,6 @@ const JoinInputStyle = styled.input`
   `;
   
 
-
 const Join = (props) => {
 
   const [member, setMember] = useState({

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
 import { Route } from "react-router-dom";
 import Header from "./components/Header";
@@ -11,9 +11,9 @@ import Login from "./pages/person/Login";
 import styled from "styled-components";
 
 import BoardForm from './pages/board/BoardForm';
-//import Status from "./components/Status";
+import Status from "./components/Status";
 import UpdateForm from './pages/board/UpdateForm';
-//import { useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 const AppFont = styled.div`
   font-family : 'Cafe24Simplehae';  
@@ -32,16 +32,18 @@ margin-top: 50px;
 `;
 
 function App() {
-/*
+
   const dispatch = useDispatch();
 
   useEffect(()=> {
     let jwtToken = localStorage.getItem("Authorization");
+    /*
     if (jwtToken !== null) {
       dispatch(login());
     }
+    */
   },[]);
-*/
+
   return (
     <AppFont>
     <Header/>

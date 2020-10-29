@@ -1,7 +1,7 @@
 import React, { useEffect,useState } from 'react';
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-  
+
 const FlogBoxStyle = styled.div`
 display: grid;
 grid-template-columns: 2fr 1fr;
@@ -79,32 +79,61 @@ const FlogList = (props) => {
 
   const [flogs, setFlogs] = useState([]);
   const [pages, setPages] = useState([]);
+  
 
   useEffect(()=>{
-    fetch("http://localhost:8000/flogList")
-    .then((res)=>res.json())
-    .then((res)=>
-    {setFlogs(res.content);
-      setPages(res.pageable);
-      console.log(res);
-      console.log(res.content);
-      console.log(res.pageable);
-    }
-    );
+      fetch("http://localhost:8000/flogList")
+      .then((res)=>res.json())
+      .then((res)=>
+      {setFlogs(res.content);
+        setPages(res.pageable);
+        console.log(res);
+        console.log(res.content);
+        console.log(res.pageable);
+      }
+      );
   },[]);
 
-      
   const CreateFlogBtn = () => {
     var createFlog = document.querySelector("#createFlog");
     var createBtn = document.querySelector("#createBtn");
     if(createFlog.style.display=="none"){
       createFlog.style.display="grid";
       createBtn.style.display="none";
+      
     }else if(createFlog.style.display=="grid"){
       createFlog.style.display="none";
       createBtn.style.display="inline";
     }else{}
   
+  }
+
+  const [flog, setFlog] = useState({
+    flog_name:"",
+    flog_motto:"",
+    flog_img:""
+  });
+
+  const FlogSaveBtn = (e) =>{
+    e.preventDefault();
+    fetch("http://localhost:8000/create_flog", {
+      method:"post",
+      body: JSON.stringify(flog),
+      headers: {
+        "Content-Type":"application/json; charset=utf-8"
+      }
+    }).then(res=> res.text())
+      .then(res=> {
+        if(res === "ok") {
+          alert("새로운 블로그가 생성되었습니다!");
+        } else{
+          alert("블로그 생성 실패");
+        }
+      });   
+  }
+
+  const ChangeValue = (e) => {
+    setFlog({ ...flog, [e.target.name]: e.target.value });
   }
 
   return (
@@ -121,18 +150,18 @@ const FlogList = (props) => {
     <FlogWriteStyle>
     <JoinButtonStyle id="createBtn" onClick={CreateFlogBtn}>블로그생성</JoinButtonStyle> 
     <div id="createFlog" style={{display:"none"}}>
-    <JoinStyle>
-    <JoinButtonStyle onClick={CreateFlogBtn}>닫기</JoinButtonStyle>
+      <JoinStyle>
+        <JoinButtonStyle onClick={CreateFlogBtn}>닫기</JoinButtonStyle>
             <JoinSubTitleStyle>블로그 이름</JoinSubTitleStyle>
-            <JoinInputStyle type="text" name="flog_name"/>
+            <JoinInputStyle type="text" name="flog_name" onChange={ChangeValue}/>
             <JoinSubTitleStyle>블로그 가훈</JoinSubTitleStyle>
-            <JoinInputStyle type="text" name="flog_motto"/>
+            <JoinInputStyle type="text" name="flog_motto"onChange={ChangeValue}/>
             <JoinSubTitleStyle>블로그 이미지</JoinSubTitleStyle>
-            <JoinInputStyle type="text" name="flog_img"/>
-            <JoinButtonStyle>블로그생성</JoinButtonStyle>
+            <JoinInputStyle type="text" name="flog_img" onChange={ChangeValue}/>
+            <JoinButtonStyle type="submit" onClick={FlogSaveBtn}>블로그생성</JoinButtonStyle>
             
         </JoinStyle>
-        </div>
+    </div>
       </FlogWriteStyle>
   
       </FlogBoxStyle>

@@ -125,8 +125,11 @@ const Chat = () => {
             cb.style.display="inline-block";
         }else if(cb.style.display=="inline-block"){
             cb.style.display="none";
-        }else{}
-        
+            
+        }else{
+            
+        }
+
     } 
 
   return (

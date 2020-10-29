@@ -28,7 +28,7 @@ public class FlogService {
 	
 	@Transactional
 	public void 블로그수정(int fno,Flog flog) {
-		Flog flogEntity = flogRepository.findByFno(fno);
+		Flog flogEntity = flogRepository.FindByFno(fno);
 		flogEntity.setFlog_name(flog.getFlog_name());
 		flogEntity.setFlog_motto(flog.getFlog_motto());
 	}
@@ -37,5 +37,20 @@ public class FlogService {
 	public void 블로그삭제(int fno) {
 		flogRepository.deleteByFno(fno);
 	}
-	
 }
+	/*
+	@Transactional
+	public List<FlogDto> searchFlog(String keyword) {
+		List<Flog> flogs = flogRepository.findByTitleContaining(keyword);
+		List<FlogDto> flogDtoList = new ArrayList<>();
+		
+		if(flogs.isEmpty()) return flogDtoList;
+		
+		for(Flog flog : flogs) {
+			flogDtoList.add(this.convertEntityToDto(flog));
+		}
+		
+		return flogDtoList;
+	}
+	*/
+

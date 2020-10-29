@@ -61,13 +61,13 @@ public class BoardController {
 		
 	}
 	
-	@PutMapping("/board/{bno}")
+	@PutMapping("/board/update/{bno}")
 	public String updateBoard(@PathVariable int bno, @RequestBody Board board) {
 		boardService.글수정하기(bno, board);
 		return "ok";
 	}
 	
-	@DeleteMapping("/board/{bno}")
+	@DeleteMapping("/board/delete/{bno}")
 	public String deleteBoard(@PathVariable int bno) {
 		boardService.글삭제하기(bno);
 		return "ok";
