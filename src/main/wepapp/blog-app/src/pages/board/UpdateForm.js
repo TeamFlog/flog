@@ -9,33 +9,30 @@ const UpdateForm = (props) => {
 		content: ""
 	});
 
-
 	const UpdateBoard = (e) => {
 		e.preventDefault();
-		fetch("http://localhost:8000/board/" + boardNo, {
+
+		fetch("http://localhost:8000/board/update/" + boardNo, {
 			method: "PUT",
 			headers: {
-				"Content-Type":"application/json; charset=utf-8",
-				"Authorization": localStorage.getItem("Authorization")
+				"Content-Type":"application/json; charser=utf-8",
+				"Authorization":localStorage.getItem("Authorization")
 			}, body: JSON.stringify(board)
-		}).then(res=> {
-			return res.text();
-		}).then((res)=> {
-			if(res === "ok") {
-				alert("게시글 수정이 완료되었습니다!");
+		}).then(res => res.text())
+		.then(res => {
+			if(res === "ok"){
+				alert("게시글 수정 성공!");
 				props.history.push("/boardList");
 			} else {
-				alert("게시글 수정실패");
+				alert("수정 실패");
 			}
 		});
+		
 	}
-	
-	const changeValue = (e) => {
-		setBoard({
-			...board,
-			[e.target.name]: e.target.value
-		});
-	}
+
+	const changeValue = (e)=> {
+		setBoard({ ...board, [e.target.name]: e.target.value });
+	}	
 
 	useEffect(() => {
 		fetch("http://localhost:8000/board/" + boardNo, {

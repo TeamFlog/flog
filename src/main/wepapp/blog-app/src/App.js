@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
 import { Route } from "react-router-dom";
 import Header from "./components/Header";
@@ -10,10 +10,10 @@ import FlogList from "./pages/flog/FlogList"
 import Login from "./pages/person/Login";
 import styled from "styled-components";
 
-
-//import Status from "./components/Status";
+import BoardForm from './pages/board/BoardForm';
+import Status from "./components/Status";
 import UpdateForm from './pages/board/UpdateForm';
-//import { useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 const AppFont = styled.div`
   font-family : 'Cafe24Simplehae';  
@@ -32,16 +32,18 @@ margin-top: 50px;
 `;
 
 function App() {
-/*
+
   const dispatch = useDispatch();
 
   useEffect(()=> {
     let jwtToken = localStorage.getItem("Authorization");
+    /*
     if (jwtToken !== null) {
       dispatch(login());
     }
+    */
   },[]);
-*/
+
   return (
     <AppFont>
     <Header/>
@@ -54,6 +56,7 @@ function App() {
     <Route path="/floglist" exact={true} component={FlogList}></Route>
     <Route path="/boardlist" exact={true} component={BoardList}></Route>
     <Route path="/updateForm/:bno" exact={true} component={UpdateForm}></Route>
+    <Route path="/boardForm" exact={true} component={BoardForm}></Route>
     </AppBodyStyle>
 
    <Footer/>

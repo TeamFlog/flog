@@ -3,8 +3,9 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Status from "../../components/Status";
 import Chat from "../../components/Chat";
-import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
+import FamilyMotto from '../../components/FamilyMotto';
+
 
 const BoardStyle = styled.div`
 display: grid;
@@ -23,8 +24,22 @@ const BoardListStyle = styled.div`
     padding: 20px 30px;
     box-shadow: 0 8px 8px 0 rgb(214, 214, 214);
     margin-bottom:30px;
-    
   `;
+
+const WriteStyle = styled.button`
+display:grid;
+grid-template-columns: auto;
+background-color: black;
+margin-left: 500px;
+    color: white;
+    height: 25px;
+    font-size: 15px;
+    font-weight: 400;
+    border-radius: 6px;
+    border: 0;
+    cursor: pointer;
+    font-family: 'Cafe24Simplehae';
+`;
 const FlogimgStyle = styled.img`
 max-width:500px; //보드이미지최대너비
 `;
@@ -32,13 +47,16 @@ max-width:500px; //보드이미지최대너비
 
 const BoardList = (props) => {
 
+    let boardNo = props.match.params.bno;
+
     const [boards, setBoards] = useState([]);
         // 페이징은 아직 안했음.
     
     const [post, setPost] = useState({
-        bno:'',
-        title:'',
-        content:'',
+        bno:"",
+        title:"",
+        content:"",
+        reg_date:"",
         member: {
             mno:0
         }
@@ -50,14 +68,13 @@ const BoardList = (props) => {
     
     */
     useEffect(()=>{
-
         /*
 		if(!isLogin){
 			alert('로그인 후 이용할 수 있습니다.');
 			props.history.push("/");  
 		}
         */
-        fetch("http://localhost:8000/board/"+props.match.params.bno, {
+        fetch("http://localhost:8000/board/" + boardNo, {
 			method: "GET",
 			headers:{
 				"Authorization": localStorage.getItem("Authorization")
@@ -101,9 +118,15 @@ const BoardList = (props) => {
         <BoardStyle>
         <Status/>
         <div>
+            <FamilyMotto/>
+            <WriteStyle>
+                <Link to={"/boardForm/"} style={{ textDecoration: "none", color: "white",marginTop:"5px" }}>
+                글쓰기
+            </Link>
+            </WriteStyle>
             {boards.map((board) => (    
             <BoardListStyle>
-                <div>글제목: {board.title}</div>
+                <div>글제목: {board.title} </div>
                 <FlogimgStyle src="images/background.jpg"/>
                 <div>글내용: {board.content}</div>
                 <div>작성일: {board.reg_date}</div>
