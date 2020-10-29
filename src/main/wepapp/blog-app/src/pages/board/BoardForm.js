@@ -1,11 +1,20 @@
 import React, {useState} from 'react';
+import { useQuill } from 'react-quilljs';
+import 'quill/dist/quill.snow.css';
 
 const BoardForm = (props) => {
+
+ const { quill, quillRef } = useQuill();
+ 
+  console.log(quill);    // undefined > Quill Object
+  console.log(quillRef); // { current: undefined } > { current: Quill Editor Reference }
+	
 
 	const [board, setBoard] = useState({
 		title: "",
 		content: ""
 	});
+	
 
 	const submitBoard = (e) => {
 		e.preventDefault();
@@ -33,11 +42,16 @@ const BoardForm = (props) => {
 	}
  
 	return (
+
 		<div>
 			<h1>글쓰기</h1>
 			<input type="text" name="title" placeholder="title 입력" onChange={changeValue} />
-			<textarea name="content" onChange={changeValue}></textarea>
+		
+			<div name="content" onChange={changeValue} style={{ width: 500, height: 300 }}>
+      <div ref={quillRef} />
+	
 			<button type="submit" onClick={submitBoard}>등록하기</button>
+		</div>
 		</div>
 	);
 };

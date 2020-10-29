@@ -125,10 +125,7 @@ const Chat = () => {
             cb.style.display="inline-block";
         }else if(cb.style.display=="inline-block"){
             cb.style.display="none";
-            
-        }else{
-            
-        }
+        }else{}
         
     } 
 
@@ -138,9 +135,11 @@ const Chat = () => {
           <Calendar />
           </CalendarStyle>
       <ChatStyle>
-              <CalendarBoxStyle onClick={CalendarBox}><div>이 달의 일정</div><ScheduleText>
+              <CalendarBoxStyle onClick={CalendarBox}><div>이 달의 일정</div>
+              <ScheduleText>
               <div>10/30 누구누구의 생일ㅇㅇ</div>
-              </ScheduleText></CalendarBoxStyle>
+              </ScheduleText>
+              </CalendarBoxStyle>
           <SubChatStyle>
 <UserChatStyle>
 <UserStyle>

@@ -10,7 +10,7 @@ import FlogList from "./pages/flog/FlogList"
 import Login from "./pages/person/Login";
 import styled from "styled-components";
 
-
+import BoardForm from './pages/board/BoardForm';
 //import Status from "./components/Status";
 import UpdateForm from './pages/board/UpdateForm';
 //import { useDispatch } from 'react-redux';
@@ -54,6 +54,7 @@ function App() {
     <Route path="/floglist" exact={true} component={FlogList}></Route>
     <Route path="/boardlist" exact={true} component={BoardList}></Route>
     <Route path="/updateForm/:bno" exact={true} component={UpdateForm}></Route>
+    <Route path="/boardForm" exact={true} component={BoardForm}></Route>
     </AppBodyStyle>
 
    <Footer/>

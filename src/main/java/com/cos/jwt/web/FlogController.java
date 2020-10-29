@@ -29,7 +29,7 @@ public class FlogController {
 	}
 	
 	@GetMapping("flogList") //블로그 목록
-	public Page<Flog> flogList(@PageableDefault(size=12,sort = "fno", direction = Direction.DESC) Pageable pageable){
+	public Page<Flog> flogList(@PageableDefault(size=15,sort = "fno", direction = Direction.DESC) Pageable pageable){
 		Page<Flog> flogs = flogService.블로그목록(pageable);
 		return flogs;
 	}

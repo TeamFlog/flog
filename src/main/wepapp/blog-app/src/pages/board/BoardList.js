@@ -6,6 +6,7 @@ import Chat from "../../components/Chat";
 import 'react-calendar/dist/Calendar.css';
 import FamilyMotto from '../../components/FamilyMotto';
 
+
 const BoardStyle = styled.div`
 display: grid;
 grid-template-columns: auto auto auto;
@@ -24,6 +25,21 @@ const BoardListStyle = styled.div`
     box-shadow: 0 8px 8px 0 rgb(214, 214, 214);
     margin-bottom:30px;
   `;
+
+const WriteStyle = styled.button`
+display:grid;
+grid-template-columns: auto;
+background-color: black;
+margin-left: 500px;
+    color: white;
+    height: 25px;
+    font-size: 15px;
+    font-weight: 400;
+    border-radius: 6px;
+    border: 0;
+    cursor: pointer;
+    font-family: 'Cafe24Simplehae';
+`;
 const FlogimgStyle = styled.img`
 max-width:500px; //보드이미지최대너비
 `;
@@ -80,6 +96,11 @@ const BoardList = (props) => {
         <Status/>
         <div>
             <FamilyMotto/>
+            <WriteStyle>
+                <Link to={"/boardForm/"} style={{ textDecoration: "none", color: "white",marginTop:"5px" }}>
+                글쓰기
+            </Link>
+            </WriteStyle>
             {boards.map((board) => (    
             <BoardListStyle>
                 <div>글제목: {board.title}</div>
