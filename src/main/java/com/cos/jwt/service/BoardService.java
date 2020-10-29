@@ -33,6 +33,11 @@ public class BoardService {
 		return boardRepository.findAll(pageable);
 	}
 	
+	@Transactional(readOnly = true)
+	public Board 글상세보기(Pageable pageable,int bno){
+		return boardRepository.findById(bno).get();
+	}
+	
 	@Transactional
 	public void 글수정하기(int bno, Board board) {
 		Board boardEntity = boardRepository.FindByBno(bno);
@@ -43,6 +48,5 @@ public class BoardService {
 	@Transactional
 	public void 글삭제하기(int bno) {
 		boardRepository.DeleteByBno(bno);
-		
 	}
 }

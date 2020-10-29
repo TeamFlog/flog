@@ -10,7 +10,6 @@ z-index:1;
 top:0;
 background-color: white;
 border-bottom: solid 1px;
-width: 100%;
 `;
 
 const NavStyle = styled.div`
@@ -28,10 +27,8 @@ const NavStyle = styled.div`
     font-weight: 800;
     
   `;
-  
 
 const Header = () => {
-
 
   const isLogin = useSelector((store) => store.isLogin);
   const dispatch = useDispatch();
@@ -39,8 +36,6 @@ const Header = () => {
   const logoutProc = () => {
     localStorage.removeItem("Authorization");
     dispatch(logout());
-    window.location.href="/";
-    alert("로그아웃되었습니다!");
   }
 
   return (
@@ -49,9 +44,12 @@ const Header = () => {
       <MenuStyle>
       {isLogin ? 
         (
-        <>    
+        <>
           <li>
-            <Link onClick={logoutProc}>로그아웃</Link>  
+             
+          </li>        
+          <li>
+            <Link onClick={logoutProc} style={{ textDecoration: "none", color: "black" }}>로그아웃</Link>  
           </li>
         </>
         )
@@ -61,6 +59,7 @@ const Header = () => {
             <li>
               <Link to="/join" style={{ textDecoration: "none", color: "black" }}>회원가입</Link>
             </li>
+
             <li>
                 <Link to="/login" style={{ textDecoration: "none", color: "black" }}>로그인</Link>
             </li>                   
