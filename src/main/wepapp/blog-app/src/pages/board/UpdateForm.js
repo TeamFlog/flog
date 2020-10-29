@@ -9,6 +9,7 @@ const UpdateForm = (props) => {
 		content: ""
 	});
 
+	
 	const UpdateBoard = (e) => {
 		e.preventDefault();
 		fetch("http://localhost:8000/board/" + bno, {
