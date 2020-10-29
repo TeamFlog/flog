@@ -16,7 +16,7 @@ const UpdateForm = (props) => {
 			method: "PUT",
 			headers: {
 				"Content-Type":"application/json; charset=utf-8",
-
+				"Authorization": localStorage.getItem("Authorization")
 			}, body: JSON.stringify(board)
 		}).then(res=> {
 			return res.text();
@@ -30,7 +30,14 @@ const UpdateForm = (props) => {
 		});
 	}
 	
-	useEffect( () => {
+	const changeValue = (e) => {
+		setBoard({
+			...board,
+			[e.target.name]: e.target.value
+		});
+	}
+
+	useEffect(() => {
 		fetch("http://localhost:8000/board/" + boardNo, {
 			method: "GET",
 			headers: {
@@ -41,23 +48,19 @@ const UpdateForm = (props) => {
 			setBoard(res);
 		});
 	}, []);
-	
-	const changeValue = (e) => {
-		setBoard({
-			...board,
-			[e.target.name]: e.target.value
-		});
-	}
+		
 
 	return (
 
 		<div>
 			<h1>글 수정하기</h1>
-			<div>
-				<input type="text" name="title" value={board.title} onChange={changeValue} />
-				<textarea name="content" value={board.content} onChange={changeValue}></textarea>
-				<button variant="primary" type="submit" onClick={UpdateBoard}>수정하기</button>
-			</div>
+			<form>
+				<div>
+					<input type="text" name="title" value={board.title} onChange={changeValue} />
+					<textarea name="content" value={board.content} onChange={changeValue}></textarea>
+					<button variant="primary" type="submit" onClick={UpdateBoard}>수정하기</button>
+				</div>
+			</form>
 		</div>
 	);
 };

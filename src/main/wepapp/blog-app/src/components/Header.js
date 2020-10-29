@@ -28,10 +28,8 @@ const NavStyle = styled.div`
     font-weight: 800;
     
   `;
-  
 
 const Header = () => {
-
 
   const isLogin = useSelector((store) => store.isLogin);
   const dispatch = useDispatch();

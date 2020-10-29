@@ -48,9 +48,12 @@ const FlogList = (props) => {
     );
   },[]);
 
-
   return (
     <div>
+    
+    {/* <input type="text" name="keyword" placeholder="검색할 블로그를 입력하세요." /> 
+    <button onClick={SearchBtn}>검색</button> */}
+
     <FlogWriteStyle><button>블로그 생성</button></FlogWriteStyle>
     <FloglistStyle>
       {flogs.map((flog)=>(

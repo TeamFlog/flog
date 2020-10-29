@@ -35,16 +35,28 @@ const BoardList = (props) => {
     const [boards, setBoards] = useState([]);
         // 페이징은 아직 안했음.
     
+    const [post, setPost] = useState({
+        bno:'',
+        title:'',
+        content:'',
+        member: {
+            mno:0
+        }
+    });
+    
+    /*
+    // 로그인해야 게시물 등록/수정/삭제 가능.
+    const isLogin = useSelector((store)=> store.isLogin);
+    
+    */
     useEffect(()=>{
-        
-        fetch("http://localhost:8000/boardList")
-        .then((res)=>res.json())
-        .then((res)=>{
-            setBoards(res.content);
-            }
-        );
 
         /*
+		if(!isLogin){
+			alert('로그인 후 이용할 수 있습니다.');
+			props.history.push("/");  
+		}
+        */
         fetch("http://localhost:8000/board/"+props.match.params.bno, {
 			method: "GET",
 			headers:{
@@ -52,17 +64,24 @@ const BoardList = (props) => {
 			}
 		}).then(res=>res.json()).then(res=>{
 			setPost(res); 
-		});
-        */
+        });
+        
+        fetch("http://localhost:8000/boardList")
+        .then((res)=>res.json())
+        .then((res)=>{
+            setBoards(res.content);
+            }
+        );
+    
     },[]);
 
-    const deleteBoard =(bno) => {
+    const deleteBoard =(boardNo) => {
         
-        fetch("http://localhost:8000/board/"+ bno, {
+        fetch("http://localhost:8000/board/"+ boardNo, {
             method: "DELETE",
             headers: {
                "Authorization": localStorage.getItem("Authorization")
-            }
+            }, body: JSON.stringify(post)
         }).then(res=>res.text())
         .then(res => {
             if (res === "ok") {
@@ -71,7 +90,9 @@ const BoardList = (props) => {
             } else {
                 alert("삭제실패");
             }
-        });
+        }).catch((error) => {
+                console.log(error);
+            });
     }
 
     return (
@@ -91,6 +112,7 @@ const BoardList = (props) => {
                 <button onClick={()=>deleteBoard(board.bno)}>삭제</button>
             </BoardListStyle>
             ))}
+        
         </div>
         <Chat/>
         </BoardStyle>

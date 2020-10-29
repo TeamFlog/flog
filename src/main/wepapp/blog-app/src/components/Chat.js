@@ -123,7 +123,6 @@ const Chat = () => {
         }else{
             
         }
-        
     } 
 
   return (
