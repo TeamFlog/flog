@@ -20,6 +20,7 @@ public class CorsFilter implements Filter{
 		HttpServletResponse resp = (HttpServletResponse) response;
 		resp.setHeader("Access-Control-Allow-Origin", "*");
 		resp.setHeader("Access-Control-Allow-Headers","*");
+		resp.setHeader("Access-Control-Allow-Methods", "*");
 		//해당 헤더가 없으면 아래 7가지의 header 값만 응답할 수 있다.
 		resp.setHeader("Access-Control-Expose-Headers","*");
 		chain.doFilter(request, response);

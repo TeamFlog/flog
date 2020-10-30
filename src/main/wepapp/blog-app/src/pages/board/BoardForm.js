@@ -41,25 +41,19 @@ const BoardForm = (props) => {
   //console.log(quillRef); // { current: undefined } > { current: Quill Editor Reference }
 
   
+  
 
   const [board, setBoard] = useState({
 	  title: "",
 	  content:""
 	});
 
-	
 
 	const submitBoard = (e) => {
 		e.preventDefault();
-		let title = document.querySelector("#title").value;
-		let content = document.querySelector(".ql-editor").innerHTML;
 
-		setBoard({
-			...board,
-			title : title,
-			content : content
-		})
-
+		changeValue(e);
+	
 		fetch("http://localhost:8000/write", {
 			method: "post",
 			headers: {
@@ -78,25 +72,27 @@ const BoardForm = (props) => {
 		});
 	}
 
-	// const changeValue = (e) => {
-	// 	document.querySelector(".ql-editor").setAttribute('name','content');
-	// 	board.content= quill.root.innerHTML;
-	// 	//console.log(board.title);
-	// 	console.log(board.content);
-	// 	console.log({...board, 
-	// 		[e.target.name]: e.target.value });
-	// 	setBoard({...board, 
-	// 		[e.target.name]: e.target.value });
-	// 		//console.log(document.querySelector(".ql-editor").innerHTML);
-	// } 
+	 const changeValue = (e) => {
+		 document.querySelector(".ql-editor").setAttribute('name','content');
+		
+		board.content= quill.root.innerHTML;
+		
+	 	//console.log(board.title);
+	 	//console.log(board.content);
+	 	console.log({...board, 
+	 		[e.target.name]: e.target.value });
+	 	setBoard({...board, 
+	 		[e.target.name]: e.target.value });
+	 		//console.log(document.querySelector(".ql-editor").innerHTML);
+	 } 
  
 	return (
 
 		<BoardFormStyle>
 			<h1>글쓰기</h1>
-<<<<<<< HEAD
+
 			<div>
-			제목 <BoardInputStyle type="text" id="title"  />
+			제목 <BoardInputStyle type="text" name="title" id="title" onChange={changeValue}  />
 			</div>
 			<div>내용
 				<div  style={{ height: 300 }}>
@@ -107,17 +103,7 @@ const BoardForm = (props) => {
 			<WriteBtnStyle type="submit" onClick={submitBoard}>등록하기</WriteBtnStyle>
 			</div>
 		</BoardFormStyle>
-=======
-			<input type="text" name="title" placeholder="title 입력" onChange={changeValue} />
-		
-			<div style={{ width: 500, height: 300 }}>
-      			<input type="quill" name="content" onChange={changeValue} ref={quillRef} style={{ width: 500, height: 300 }}/>
-	
 
-			<button type="submit" onClick={submitBoard}>등록하기</button>
-			</div>
-		</div>
->>>>>>> e3b1d241e368e4958dbcbd2a58a5350fde96fa0b
 	);
 };
 

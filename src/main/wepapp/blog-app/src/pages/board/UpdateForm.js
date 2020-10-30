@@ -34,12 +34,7 @@ const WriteBtnStyle = styled.button`
 `;
 
 const UpdateForm = (props) => {
-	
 	const { quill, quillRef } = useQuill();
- 
-	console.log(quill);    // undefined > Quill Object
-	console.log(quillRef); // { current: undefined } > { current: Quill Editor Reference }
-	  
 
 	let boardNo = props.match.params.bno;
 
@@ -50,6 +45,7 @@ const UpdateForm = (props) => {
 
 	const UpdateBoard = (e) => {
 		e.preventDefault();
+		changeValue(e);
 
 		fetch("http://localhost:8000/board/update/" + boardNo, {
 			method: "PUT",
@@ -82,30 +78,20 @@ const UpdateForm = (props) => {
 		}).then(res=>res.json())
 		.then(res => {
 			setBoard(res);
+			board.content = 
+
 		});
 	}, []);
-<<<<<<< HEAD
 	
-	const changeValue = (e) => {
-		setBoard({
-			...board,
-			[e.target.name]: e.target.value
-		});
-		console.log(board.content)
-	}
-=======
-		
->>>>>>> e3b1d241e368e4958dbcbd2a58a5350fde96fa0b
-
 	return (
 		<BoardFormStyle>
 			<h1>글 수정하기</h1>
-<<<<<<< HEAD
+
 			<div>
 			제목 <BoardInputStyle type="text" name="title" value={board.title} onChange={changeValue} />
 			</div>
 			<div>내용
-				<div name="content" value={board.content} onChange={changeValue} style={{ height: 300 }}>
+			<div  style={{ height: 300 }}>
       				<div ref={quillRef} />
 				</div>
 			</div>
@@ -113,17 +99,6 @@ const UpdateForm = (props) => {
 			<WriteBtnStyle variant="primary" type="submit" onClick={UpdateBoard}>수정하기</WriteBtnStyle>
 			</div>
 		</BoardFormStyle>
-		
-=======
-			<form>
-				<div>
-					<input type="text" name="title" value={board.title} onChange={changeValue} />
-					<textarea name="content" value={board.content} onChange={changeValue}></textarea>
-					<button variant="primary" type="submit" onClick={UpdateBoard}>수정하기</button>
-				</div>
-			</form>
-		</div>
->>>>>>> e3b1d241e368e4958dbcbd2a58a5350fde96fa0b
 	);
 };
 
