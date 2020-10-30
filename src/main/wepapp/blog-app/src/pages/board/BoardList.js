@@ -128,7 +128,7 @@ const BoardList = (props) => {
             <BoardListStyle>
                 <div>글제목: {board.title} </div>
                 <FlogimgStyle src="images/background.jpg"/>
-                <div>글내용: {board.content}</div>
+                <div dangerouslySetInnerHTML={ {__html: board.content} }></div>
                 <div>작성일: {board.reg_date}</div>
                 <div>작성자: 마스터</div>
                 <Link to={"/updateForm/"+board.bno} style={{ textDecoration: "none", color: "black" }}>수정</Link>

@@ -54,9 +54,12 @@ public class BoardController {
 		
 	}
 	
+	
+	
 	@GetMapping("/board/{bno}") //글상세보기 (글수정 시 정보 들고옴)
 	public Board boardDetail(@PageableDefault(size = 5, sort = "bno", direction = Direction.DESC) Pageable pageable,@PathVariable int bno){
 		Board board = boardService.글상세보기(pageable, bno);
+		
 		return board;
 		
 	}
