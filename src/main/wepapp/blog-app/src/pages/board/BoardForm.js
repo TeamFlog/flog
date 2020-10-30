@@ -94,7 +94,6 @@ const BoardForm = (props) => {
 
 		<BoardFormStyle>
 			<h1>글쓰기</h1>
-<<<<<<< HEAD
 			<div>
 			제목 <BoardInputStyle type="text" id="title"  />
 			</div>
@@ -107,7 +106,7 @@ const BoardForm = (props) => {
 			<WriteBtnStyle type="submit" onClick={submitBoard}>등록하기</WriteBtnStyle>
 			</div>
 		</BoardFormStyle>
-=======
+		/*
 			<input type="text" name="title" placeholder="title 입력" onChange={changeValue} />
 		
 			<div style={{ width: 500, height: 300 }}>
@@ -116,8 +115,7 @@ const BoardForm = (props) => {
 
 			<button type="submit" onClick={submitBoard}>등록하기</button>
 			</div>
-		</div>
->>>>>>> e3b1d241e368e4958dbcbd2a58a5350fde96fa0b
+		*/
 	);
 };
 

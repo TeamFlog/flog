@@ -56,7 +56,7 @@ const UpdateForm = (props) => {
 			method: "PUT",
 			headers: {
 				"Content-Type":"application/json; charser=utf-8",
-				"Authorization":localStorage.getItem("Authorization")
+				//"Authorization":localStorage.getItem("Authorization")
 			}, body: JSON.stringify(board)
 		}).then(res => res.text())
 		.then(res => {
@@ -69,11 +69,11 @@ const UpdateForm = (props) => {
 		});
 		
 	}
-
+/*
 	const changeValue = (e)=> {
 		setBoard({ ...board, [e.target.name]: e.target.value });
 	}	
-
+*/
 	useEffect(() => {
 		fetch("http://localhost:8000/board/" + boardNo, {
 			method: "GET",
@@ -85,7 +85,6 @@ const UpdateForm = (props) => {
 			setBoard(res);
 		});
 	}, []);
-<<<<<<< HEAD
 	
 	const changeValue = (e) => {
 		setBoard({
@@ -94,28 +93,24 @@ const UpdateForm = (props) => {
 		});
 		console.log(board.content)
 	}
-=======
 		
->>>>>>> e3b1d241e368e4958dbcbd2a58a5350fde96fa0b
 
 	return (
 		<BoardFormStyle>
 			<h1>글 수정하기</h1>
-<<<<<<< HEAD
 			<div>
 			제목 <BoardInputStyle type="text" name="title" value={board.title} onChange={changeValue} />
 			</div>
 			<div>내용
-				<div name="content" value={board.content} onChange={changeValue} style={{ height: 300 }}>
-      				<div ref={quillRef} />
+				<div name="content"value={board.content} onChange={changeValue} style={{ height: 300 }}>
+      				<div ref={quillRef}/>
 				</div>
 			</div>
 			<div>
 			<WriteBtnStyle variant="primary" type="submit" onClick={UpdateBoard}>수정하기</WriteBtnStyle>
 			</div>
 		</BoardFormStyle>
-		
-=======
+		/*
 			<form>
 				<div>
 					<input type="text" name="title" value={board.title} onChange={changeValue} />
@@ -123,9 +118,9 @@ const UpdateForm = (props) => {
 					<button variant="primary" type="submit" onClick={UpdateBoard}>수정하기</button>
 				</div>
 			</form>
-		</div>
->>>>>>> e3b1d241e368e4958dbcbd2a58a5350fde96fa0b
+		*/
 	);
+
 };
 
 export default UpdateForm;

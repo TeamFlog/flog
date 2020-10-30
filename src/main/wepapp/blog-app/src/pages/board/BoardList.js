@@ -73,28 +73,25 @@ const BoardList = (props) => {
 			alert('로그인 후 이용할 수 있습니다.');
 			props.history.push("/");  
 		}
+        
         */
-        fetch("http://localhost:8000/board/" + boardNo, {
-			method: "GET",
+        fetch("http://localhost:8000/boardList", {
+            method: "GET",
 			headers:{
 				"Authorization": localStorage.getItem("Authorization")
 			}
-		}).then(res=>res.json()).then(res=>{
-			setPost(res); 
-        });
-        
-        fetch("http://localhost:8000/boardList")
+        })
         .then((res)=>res.json())
         .then((res)=>{
             setBoards(res.content);
+            setPost(res);
             }
         );
     
     },[]);
 
     const deleteBoard =(boardNo) => {
-        
-        fetch("http://localhost:8000/board/"+ boardNo, {
+        fetch("http://localhost:8000/board/delete/"+ boardNo, {
             method: "DELETE",
             headers: {
                "Authorization": localStorage.getItem("Authorization")
