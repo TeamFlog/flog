@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cos.jwt.domain.access.Access;
 import com.cos.jwt.domain.flog.Flog;
-import com.cos.jwt.domain.flog.FlogDto;
 import com.cos.jwt.domain.flog.FlogRepository;
 import com.cos.jwt.service.FlogService;
 
@@ -69,4 +69,5 @@ public class FlogController {
 	    return "ok";
 	}
 	*/
+	
 }

@@ -75,7 +75,7 @@ const JoinInputStyle = styled.input`
  box-shadow: 0 8px 8px 0 rgb(214, 214, 214);
 `;
 
-const FlogList = (props) => {
+const FlogList = () => {
 
   const [flogs, setFlogs] = useState([]);
   const [pages, setPages] = useState([]);
@@ -109,6 +109,7 @@ const FlogList = (props) => {
   }
 
   const [flog, setFlog] = useState({
+    fno:"",
     flog_name:"",
     flog_motto:"",
     flog_img:""
@@ -135,7 +136,12 @@ const FlogList = (props) => {
   const ChangeValue = (e) => {
     setFlog({ ...flog, [e.target.name]: e.target.value });
   }
+/*
+  const flogSign =()=> { 
 
+  }
+  onClick={()=>flogSign(frog.fno)}
+*/
   return (
     <FlogBoxStyle>
     <FloglistStyle>

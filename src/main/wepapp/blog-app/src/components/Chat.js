@@ -114,8 +114,11 @@ const CalendarStyle = styled.div`
 background-color: #EAEAEA;
 `;
 
-const Chat = () => {
-
+const Chat = (props) => {
+/*
+    super(props);
+    this.state = {date: new Date()};
+*/
     const CalendarBox = () =>{
         
         var cb = document.querySelector("#cbcb");
@@ -131,12 +134,30 @@ const Chat = () => {
         }
 
     } 
+/*
+    state ={
+        date: new Date(),
+    }
 
+    onChange = date => this.setState({date})
+*
+    changeSelectedDate = (event) => {
+        const day = event.target.dataset.day
+        const selectedDate = moment(day, 'YYYY-MM-DD').toDate()
+        this.props.changeSelectedDate(selectedDate)
+    }
+
+    className="click-event-day"
+            onClick={this.props.changeSelectedDate}
+            data-day={formatedDate} 
+            value={this.state.date}
+*/
   return (
       <div>
-           <CalendarStyle id="cbcb" style={{display:"none"}}>
-          <Calendar />
-          </CalendarStyle>
+            <CalendarStyle id="cbcb" style={{display:"none"}}>
+            <Calendar />
+
+            </CalendarStyle>
       <ChatStyle>
               <CalendarBoxStyle onClick={CalendarBox}><div>이 달의 일정</div>
               <ScheduleText>

@@ -93,12 +93,11 @@ const BoardList = (props) => {
     },[]);
 
     const deleteBoard =(boardNo) => {
-        
         fetch("http://localhost:8000/board/"+ boardNo, {
             method: "DELETE",
             headers: {
                "Authorization": localStorage.getItem("Authorization")
-            }, body: JSON.stringify(post)
+            }
         }).then(res=>res.text())
         .then(res => {
             if (res === "ok") {

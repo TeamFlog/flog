@@ -6,6 +6,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.cos.jwt.domain.access.Access;
+import com.cos.jwt.domain.access.AccessRepository;
 import com.cos.jwt.domain.flog.Flog;
 import com.cos.jwt.domain.flog.FlogRepository;
 
@@ -15,6 +17,7 @@ public class FlogService {
 
 	@Autowired
 	private FlogRepository flogRepository;
+	private AccessRepository accessRepository;
 	
 	@Transactional
 	public void 블로그생성(Flog flog) {
@@ -37,6 +40,7 @@ public class FlogService {
 	public void 블로그삭제(int fno) {
 		flogRepository.deleteByFno(fno);
 	}
+
 }
 	/*
 	@Transactional
