@@ -67,6 +67,7 @@ const UpdateForm = (props) => {
 
 	const changeValue = (e)=> {
 		setBoard({ ...board, [e.target.name]: e.target.value });
+		board.content= quill.root.innerHTML;
 	}	
 
 	useEffect(() => {
@@ -78,7 +79,12 @@ const UpdateForm = (props) => {
 		}).then(res=>res.json())
 		.then(res => {
 			setBoard(res);
-			board.content = 
+			var changeContent = res.content.replace(/(<([^>]+)>)/ig,"");  //자바스크립트 정규식으로 태그제거
+			
+			var boardC = document.createTextNode(changeContent);
+         var qlEditor = document.querySelector(".ql-editor");
+         console.log(boardC);
+         qlEditor.appendChild(boardC);
 
 		});
 	}, []);
@@ -92,7 +98,7 @@ const UpdateForm = (props) => {
 			</div>
 			<div>내용
 			<div  style={{ height: 300 }}>
-      				<div ref={quillRef} />
+      				<div ref={quillRef}/>
 				</div>
 			</div>
 			<div>
