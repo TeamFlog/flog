@@ -11,6 +11,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.cos.jwt.domain.Calender.Calender;
+import com.cos.jwt.domain.Calender.CalenderRepository;
 import com.cos.jwt.domain.post.Board;
 import com.cos.jwt.domain.post.BoardRepository;
 
@@ -23,6 +25,9 @@ public class BoardService {
 
 	@Autowired
 	private BoardRepository boardRepository;
+	
+	@Autowired
+	private CalenderRepository calenderRepository;
 	
 	@Transactional
 	public void 글쓰기(Board board) {
@@ -47,28 +52,15 @@ public class BoardService {
 		return boards;
 	}
 	
-	@Transactional(readOnly = true)
-	public ArrayList<String> 글내용바꾸기() {
-		
-		ArrayList<String> contents = new ArrayList<>();
-			
-		String content;
-		List<Board> boards = boardRepository.findAll();
-		for(Board board : boards) {
-			
-			content = board.getContent();
-			if(content != null)
-			content.replaceAll("<(/)?([a-zA-Z]*)(\\s[a-zA-Z]*=[^>]*)?(\\s)*(/)?>", "");
-			contents.add(content);
-		}
-		
-		 return contents;
-	}
+
 	
 	@Transactional(readOnly = true)
 	public Board 글상세보기(Pageable pageable,int bno){
 		return boardRepository.findById(bno).get();
 	}
+	
+	
+	//글 수정시 태그 삭제하려했으나 리액트와 연동시 replaceAll이 작동하지 않아서 리액트의 자바스크립트 정규식을 사용해 태그삭제함.
 	
 //	@Transactional
 //	public Board 글상세보기2(Pageable pageable,int bno){  //replaceAll이 작동하지 않음.
@@ -96,4 +88,16 @@ public class BoardService {
 	public void 글삭제하기(int bno) {
 		boardRepository.DeleteByBno(bno);
 	}
+	
+	//캘린더관련
+	@Transactional
+	public List<Calender> 일정보기(String s_date) {
+		return calenderRepository.FindBySDate(s_date);
+	}
+	@Transactional
+	public void 일정추가(Calender calender) {
+		
+		calenderRepository.save(calender);
+	}
+	
 }

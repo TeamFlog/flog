@@ -35,5 +35,7 @@ public class MemberController {
 		session.invalidate();
 		return new ResponseEntity<String>("ok", HttpStatus.OK);
 	}
+	
+	
 
 }
