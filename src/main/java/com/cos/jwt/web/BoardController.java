@@ -1,5 +1,6 @@
 package com.cos.jwt.web;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cos.jwt.domain.Calender.Calender;
 import com.cos.jwt.domain.person.Member;
 import com.cos.jwt.domain.post.Board;
 import com.cos.jwt.service.BoardService;
@@ -73,6 +75,21 @@ public class BoardController {
 	@DeleteMapping("/board/delete/{bno}")
 	public String deleteBoard(@PathVariable int bno) {
 		boardService.글삭제하기(bno);
+		return "ok";
+	}
+	
+	@GetMapping("/board/schedule/{s_date}")
+	public List<Calender> scheduleList(@PathVariable String s_date){
+		System.out.println(s_date);
+		
+		List<Calender> calenders = boardService.일정보기(s_date);
+		System.out.println(calenders);
+		return calenders;
+	}
+	
+	@PostMapping("/boardlist/addschedule")
+	public String addSchedule(@RequestBody Calender calender) {
+		boardService.일정추가(calender);
 		return "ok";
 	}
 
