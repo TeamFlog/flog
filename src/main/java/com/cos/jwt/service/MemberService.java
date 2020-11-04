@@ -1,6 +1,6 @@
 package com.cos.jwt.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +19,9 @@ public class MemberService {
 	public void 회원가입(Member member) {
 		memberRepository.save(member);
 	}
-
+	@Transactional(readOnly = true)
+	public Member 회원정보(String username){
+		return memberRepository.findByUsername(username);
+	}
 	
 }
