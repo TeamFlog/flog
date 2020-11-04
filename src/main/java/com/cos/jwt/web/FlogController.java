@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cos.jwt.domain.access.Access;
 import com.cos.jwt.domain.flog.Flog;
 import com.cos.jwt.domain.flog.FlogRepository;
+import com.cos.jwt.domain.flog.PagingDto;
 import com.cos.jwt.service.FlogService;
 
 import lombok.RequiredArgsConstructor;
@@ -41,8 +42,21 @@ public class FlogController {
 		return flogs;
 	}
 	
+	@GetMapping("/flog/page")
+	public Page<PagingDto> pages(Pageable pageRequest) {
+		Page<PagingDto> pages = flogService.paging(pageRequest);
+		return pages;
+	}
+	
+	@GetMapping("/flog/page/search")
+	public Page<PagingDto> searchPage(Pageable pageRequest, @PathVariable String flog_name) {
+		Page<PagingDto> pages = flogService.searchPaging(flog_name,pageRequest);
+		return pages;	
+	}
+	
 	@PostMapping("create_flog") // 블로그 생성
 	public String createFlog(@RequestBody Flog flog) {
+		
 		flogService.블로그생성(flog);
 		return "ok";
 	}
@@ -60,12 +74,14 @@ public class FlogController {
 		flogService.블로그수정(fno,flog);
 		return "ok";
 	}
+	
+
+	
 	/*
 	@GetMapping("/flogList/search")
 	public String search(@RequestParam(value="keyword") String keyword, Model model) {
 	    List<FlogDto> flogDtoList = flogService.searchFlog(keyword);
 	    model.addAttribute("flogList", flogDtoList);
-	    
 	    return "ok";
 	}
 	*/

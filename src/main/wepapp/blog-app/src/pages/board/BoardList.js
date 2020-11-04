@@ -27,13 +27,13 @@ const BoardListStyle = styled.div`
   `;
 
 const WriteStyle = styled.button`
-display:grid;
-grid-template-columns: auto;
-background-color: black;
-margin-left: 500px;
+    display:inline-block;
+    margin-left: 500px;
+    background-color: black;
     color: white;
     height: 25px;
-    font-size: 15px;
+    width:70px;
+    padding:5px 15px;
     font-weight: 400;
     border-radius: 6px;
     border: 0;
@@ -60,6 +60,10 @@ const BoardList = (props) => {
         member: {
             mno:0
         }
+    });
+
+    const [reply, setReply] = useState({
+        content:"",
     });
     
     /*
@@ -111,6 +115,32 @@ const BoardList = (props) => {
             });
     }
 
+    const replySave = (boardNo) => {
+        fetch("http://localhost:8000/board/"+boardNo+"/reply", {
+            method: "post",
+            headers: {
+                'Content-Type':"application/json; charset=utf-8",
+				"Authorization": localStorage.getItem("Authorization")
+            },
+            body: JSON.stringify(reply)
+        })
+        .then(res => res.text())
+        .then(res => {
+            if(res === "ok") {
+                alert("댓글등록 성공!");
+                props.history.push("/boardList");
+            } else {
+                alert("댓글등록 실패");
+            }
+        });
+    }
+
+
+    const changeValue = (e)=> {
+        setReply({...reply, 
+	 		[e.target.name]: e.target.value });
+    }
+
     return (
 
         <div>
@@ -118,23 +148,25 @@ const BoardList = (props) => {
         <Status/>
         <div>
             <FamilyMotto/>
+                <Link to={"/boardForm/"} style={{ textDecoration: "none", color: "white"}}>
             <WriteStyle>
-                <Link to={"/boardForm/"} style={{ textDecoration: "none", color: "white",marginTop:"5px" }}>
                 글쓰기
-            </Link>
             </WriteStyle>
+            </Link>
             {boards.map((board) => (    
             <BoardListStyle>
                 <div>글제목: {board.title} </div>
                 <FlogimgStyle src="images/background.jpg"/>
-                <div>글내용: {board.content}</div>
+                <div dangerouslySetInnerHTML={ {__html: board.content} }></div>
                 <div>작성일: {board.reg_date}</div>
                 <div>작성자: 마스터</div>
                 <Link to={"/updateForm/"+board.bno} style={{ textDecoration: "none", color: "black" }}>수정</Link>
                 <button onClick={()=>deleteBoard(board.bno)}>삭제</button>
+                <textarea name="content" placeholder="댓글입력" onChange={changeValue}></textarea>
+                <button onClick={()=>replySave(board.bno)}>등록</button>
             </BoardListStyle>
             ))}
-        
+
         </div>
         <Chat/>
         </BoardStyle>

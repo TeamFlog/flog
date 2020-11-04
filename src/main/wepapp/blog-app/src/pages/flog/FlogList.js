@@ -136,12 +136,18 @@ const FlogList = () => {
   const ChangeValue = (e) => {
     setFlog({ ...flog, [e.target.name]: e.target.value });
   }
+  
 /*
   const flogSign =()=> { 
 
   }
   onClick={()=>flogSign(frog.fno)}
 */
+
+  const searchBtn=()=>{
+
+  }
+
   return (
     <FlogBoxStyle>
     <FloglistStyle>
@@ -154,6 +160,8 @@ const FlogList = () => {
       
       </FloglistStyle>
     <FlogWriteStyle>
+    <input type="text" name="keyword"/>
+    <button onClick={searchBtn}>검색</button>
     <JoinButtonStyle id="createBtn" onClick={CreateFlogBtn}>블로그생성</JoinButtonStyle> 
     <div id="createFlog" style={{display:"none"}}>
       <JoinStyle>

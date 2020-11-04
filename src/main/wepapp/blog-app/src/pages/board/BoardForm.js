@@ -1,23 +1,59 @@
 import React, {useState} from 'react';
 import { useQuill } from 'react-quilljs';
 import 'quill/dist/quill.snow.css';
+import styled from "styled-components";
+
+const BoardFormStyle = styled.div`
+display:grid;
+grid-template-rows: auto auto auto auto;
+justify-content:center;
+font-weight:600;
+`;
+
+const BoardInputStyle = styled.input`
+	height: 25px;
+    width: 100%;
+    color: rgb(100, 100, 100);
+    font-size: 12px;
+    border: 1px solid rgb(230, 230, 230);
+`;
+const WriteBtnStyle = styled.button`
+
+	background-color: black;
+	margin-left: 670px;
+	margin-top:50px;
+    color: white;
+    height: 25px;
+	width:100px;
+    font-size: 15px;
+    font-weight: 400;
+    border-radius: 6px;
+    border: 0;
+    cursor: pointer;
+    font-family: 'Cafe24Simplehae';
+`;
 
 const BoardForm = (props) => {
 
  const { quill, quillRef } = useQuill();
  
-  console.log(quill);    // undefined > Quill Object
-  console.log(quillRef); // { current: undefined } > { current: Quill Editor Reference }
-	
+  //console.log(quill);    // undefined > Quill Object
+  //console.log(quillRef); // { current: undefined } > { current: Quill Editor Reference }
 
-	const [board, setBoard] = useState({
-		title: "",
-		content: ""
+  
+  
+
+  const [board, setBoard] = useState({
+	  title: "",
+	  content:""
 	});
-	
+
 
 	const submitBoard = (e) => {
 		e.preventDefault();
+
+		changeValue(e);
+	
 		fetch("http://localhost:8000/write", {
 			method: "post",
 			headers: {
@@ -36,24 +72,38 @@ const BoardForm = (props) => {
 		});
 	}
 
-	const changeValue = (e) => {
-		setBoard({...board, 
-			[e.target.name]: e.target.value });
-	}
+	 const changeValue = (e) => {
+		 document.querySelector(".ql-editor").setAttribute('name','content');
+		
+		board.content= quill.root.innerHTML;
+		
+	 	//console.log(board.title);
+	 	//console.log(board.content);
+	 	console.log({...board, 
+	 		[e.target.name]: e.target.value });
+	 	setBoard({...board, 
+	 		[e.target.name]: e.target.value });
+	 		//console.log(document.querySelector(".ql-editor").innerHTML);
+	 } 
  
 	return (
 
-		<div>
+		<BoardFormStyle>
 			<h1>글쓰기</h1>
-			<input type="text" name="title" placeholder="title 입력" onChange={changeValue} />
-		
-			<div style={{ width: 500, height: 300 }}>
-      			<input type="quill" name="content" onChange={changeValue} ref={quillRef} style={{ width: 500, height: 300 }}/>
-	
 
-			<button type="submit" onClick={submitBoard}>등록하기</button>
+			<div>
+			제목 <BoardInputStyle type="text" name="title" id="title" onChange={changeValue}  />
 			</div>
-		</div>
+			<div>내용
+				<div  style={{ height: 300 }}>
+      				<div ref={quillRef} />
+				</div>
+			</div>
+			<div>
+			<WriteBtnStyle type="submit" onClick={submitBoard}>등록하기</WriteBtnStyle>
+			</div>
+		</BoardFormStyle>
+
 	);
 };
 

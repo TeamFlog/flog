@@ -13,7 +13,6 @@ import Status from "./components/Status";
 import UpdateForm from './pages/board/UpdateForm';
 import { useDispatch } from 'react-redux';
 import {login} from './store';
-import Mypage from './pages/person/Mypage';
 
 const AppFont = styled.div`
   font-family : 'Cafe24Simplehae';  
@@ -53,7 +52,6 @@ function App() {
     </AppTitleStyle>
     <Route path="/join" exact={true} component={Join}></Route>
     <Route path="/login" exact={true} component={Login}></Route>
-    <Route path="/mypage" exact={true} component={Mypage}></Route> 
     <Route path="/floglist" exact={true} component={FlogList}></Route>
     <Route path="/boardlist" exact={true} component={BoardList}></Route>
     <Route path="/updateForm/:bno" exact={true} component={UpdateForm}></Route>

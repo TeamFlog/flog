@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
@@ -40,12 +40,12 @@ const FamilyMotto = () => {
 
 	return (
         <MottoBoxStyle>
-		<MottoStyle>
+        <MottoStyle>
 			<TitleStyle>우리🐸집 가훈</TitleStyle>
             <StatusText>
             한 우물을 파야 결실이 있다.ㄴㅁㅇㅁㄴㅇㄴㅇ
             </StatusText>
-		</MottoStyle>
+        </MottoStyle>
         </MottoBoxStyle>
 	);
 };

@@ -3,6 +3,7 @@ import Calendar from 'react-calendar';
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import 'react-calendar/dist/Calendar.css';
+import DateModal from './DateModal';
 
 const ChatStyle = styled.div`
     display:grid;
@@ -112,6 +113,9 @@ word-break: break-all;
 
 const CalendarStyle = styled.div`
 background-color: #EAEAEA;
+position: fixed;
+padding: 5px 10px;
+margin: 400px 20px 0px 0px;
 `;
 
 const Chat = (props) => {
@@ -152,12 +156,18 @@ const Chat = (props) => {
             data-day={formatedDate} 
             value={this.state.date}
 */
+    const ClickDay = (v,e) =>{
+        alert('하하');
+       return <DateModal visible={true}>Hello</DateModal>
+    }
+
   return (
       <div>
-            <CalendarStyle id="cbcb" style={{display:"none"}}>
-            <Calendar />
+    
+           <CalendarStyle id="cbcb" style={{display:"none"}}>
+          <Calendar onClickDay={(v,e)=>ClickDay(v,e)} />
 
-            </CalendarStyle>
+          </CalendarStyle>
       <ChatStyle>
               <CalendarBoxStyle onClick={CalendarBox}><div>이 달의 일정</div>
               <ScheduleText>
