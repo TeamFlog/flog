@@ -41,6 +41,9 @@ const UserStyle = styled.div`
     border-radius: 6px;
     margin-bottom: 10px;
     padding: 5px 0 5px 0;
+    &:hover {
+      background-color: white;
+    }
 `;
 const UserTextStyle = styled.div`
 display : grid;
@@ -95,9 +98,9 @@ const CalendarBoxStyle = styled.div`
  position: fixed;
  background-color:#EAEAEA;
  border-radius: 6px;
- padding: 5px 10px;
+ padding: 5px 10px 0px 0px;
  box-shadow: 0 8px 8px 0 rgb(214, 214, 214);
- margin: 0 110px;
+ margin: 400px 110px;
  font-weight: 800;
  cursor:pointer;
  
@@ -117,7 +120,8 @@ const CalendarStyle = styled.div`
 background-color: #EAEAEA;
 position: fixed;
 padding: 5px 10px;
-margin: 400px 20px 0px 0px;
+margin: 400px 1000px 0px 0px;
+z-index:2;
 `;
 
 <<<<<<< HEAD
@@ -167,7 +171,19 @@ const Chat = () => {
             console.log(res);
 			setSList(res);
         });
-        setToday.month(setToday.date.getMonth());
+        var month = new Date().getMonth()+1;
+       console.log('month:',month);
+        fetch("http://localhost:8000/board/monthschedule/" + month.toString(), {
+			method: "GET",
+			headers:{
+				"Authorization": localStorage.getItem("Authorization")
+			}
+		}).then(res=>res.json()).then(res=>{
+            console.log(res);
+			setMonthschedule(res);
+        });
+
+
     },[])
 
 >>>>>>> 7aabc3c2bd7ddf1c6b009d0de2bacb56b2d007bc
@@ -232,6 +248,9 @@ const Chat = () => {
         date: new Date(),
         month: "",
     })
+
+    //이달의 일정
+    const [monthschedule,setMonthschedule] = useState([]);
     //모달 열거나 열고난 뒤, 닫을때
     const openModal = () => {
         
@@ -253,6 +272,7 @@ const Chat = () => {
     const [sList,setSList] = useState([]); //일정리스트
 
     
+
     
     //일정리스트 불러오기
     const loadScheduleList = () => {
@@ -340,7 +360,9 @@ const Chat = () => {
       <ChatStyle>
               <CalendarBoxStyle onClick={CalendarBox}><div>이 달의 일정</div>
               <ScheduleText>
-              <div>10/30 누구누구의 생일ㅇㅇ</div>
+              {monthschedule.map((s)=>(
+                  <div>{s.s_date} {s.s_name}</div>
+              ))}
               </ScheduleText>
               </CalendarBoxStyle>
           <SubChatStyle>

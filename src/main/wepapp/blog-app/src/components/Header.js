@@ -35,6 +35,7 @@ const Header = () => {
 
   const logoutProc = () => {
     localStorage.removeItem("Authorization");
+    localStorage.removeItem("user");
     dispatch(logout());
   }
 

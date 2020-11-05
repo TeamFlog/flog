@@ -14,4 +14,8 @@ public interface CalenderRepository extends JpaRepository<Calender, Integer> {
 	
 	@Query(value = "SELECT * FROM calender WHERE s_date = :s_date",nativeQuery = true)
 	List<Calender> FindBySDate(String s_date);
+	
+	@Query(value = "SELECT * FROM calender where month(s_date)= :month",nativeQuery = true)
+	List<Calender> FindByMonth(String month);
+	
 }

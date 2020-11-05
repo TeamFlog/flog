@@ -19,7 +19,44 @@ const MottoStyle = styled.div`
     max-width: 700px;
     padding:10px;
 `;
+const JoinButtonStyle = styled.button`
+background-color: black;
+color: white;
+width: 100%;
+height: 25px;
+font-size: 15px;
+font-weight: 700;
+border-radius: 6px;
+border: 0;
+cursor: pointer;
+font-family: 'Cafe24Simplehae';
 
+`;
+
+const JoinSubTitleStyle = styled.td`
+    padding: 10px 0;
+    font-size: 15px;
+    font-weight: 600;
+  `;
+const JoinInputStyle = styled.input`
+    height: 25px;
+    width: 100%;
+    color: rgb(100, 100, 100);
+    font-size: 12px;
+    border: 1px solid rgb(230, 230, 230);
+  `;
+ const JoinStyle = styled.div`
+ display: grid;
+ grid-template-columns: auto;
+ justify-content: end;
+ width: 200px;
+ display: inline-block;
+ background-color: white;
+ position: relative;
+ border-radius: 6px;
+ padding: 20px 30px;
+ box-shadow: 0 8px 8px 0 rgb(214, 214, 214);
+`;
 const TitleStyle = styled.div`
 font-size:30px;
 `;
@@ -35,18 +72,72 @@ border-radius: 5px;
 line-height: 150%;
 word-break: break-all;
 `;
+const JoinButton2Style = styled.button`
+    background-color: black;
+    color: white;
+    height: 25px;
+    font-size: 15px;
+    font-weight: 700;
+    border-radius: 6px;
+    border: 0;
+    cursor: pointer;
+    font-family: 'Cafe24Simplehae';
+  `;
 
 const FamilyMotto = () => {
+    const CreateFlogBtn = () => {
+        var createFlog = document.querySelector("#createFlog");
+        var createBtn = document.querySelector("#createBtn");
+        var statustext = document.querySelector("#statustext");
+        if(createFlog.style.display=="none"){
+          createFlog.style.display="grid";
+          createBtn.style.display="none";
+          statustext.style.display="none";
+        }else if(createFlog.style.display=="grid"){
+          createFlog.style.display="none";
+          createBtn.style.display="inline";
+          statustext.style.display="inline-block";
+        }else{}
+      
+      }
 
 	return (
+
         <MottoBoxStyle>
         <MottoStyle>
+
+     
+    <MottoBoxStyle>
+       
+		<MottoStyle>
+
 			<TitleStyle>우리🐸집 가훈</TitleStyle>
-            <StatusText>
-            한 우물을 파야 결실이 있다.ㄴㅁㅇㅁㄴㅇㄴㅇ
+            <div id="createFlog" style={{display:"none"}}>
+                <JoinStyle>
+                <JoinButtonStyle onClick={CreateFlogBtn}>닫기</JoinButtonStyle>
+                <form id="form" >
+                <JoinSubTitleStyle>블로그 이름</JoinSubTitleStyle>
+                <JoinInputStyle type="text" name="flog_name" />
+                <JoinSubTitleStyle>블로그 가훈</JoinSubTitleStyle>
+                <JoinInputStyle type="text" name="flog_motto"/>
+                <JoinSubTitleStyle>블로그 이미지</JoinSubTitleStyle>
+                <JoinInputStyle type="file" name="flog_img" />
+                </form>
+                <JoinButtonStyle type="submit" >블로그수정</JoinButtonStyle>
+                </JoinStyle>
+        </div>
+            <StatusText id="statustext">아아아아아아ㅏ아아아아아ㄴㅇㅁㄹㄴㅇㄹㅁㄴㄹㅁㄴㄹㄴㅇ
+                 <JoinButton2Style id="createBtn" onClick={CreateFlogBtn}>수정</JoinButton2Style>
             </StatusText>
+
         </MottoStyle>
         </MottoBoxStyle>
+
+		</MottoStyle>
+    </MottoBoxStyle>
+
+       
+
 	);
 };
 

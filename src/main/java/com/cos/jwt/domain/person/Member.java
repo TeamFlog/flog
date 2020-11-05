@@ -40,7 +40,7 @@ public class Member {
 
 
 	@JoinColumn(name="fno")
-	@ManyToOne //foreign key 설정
+	@ManyToOne() //foreign key 설정
 	private Flog flog;
 
 }
