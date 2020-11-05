@@ -64,6 +64,7 @@ const Join = (props) => {
     username: "",
     password: "",
     nickname: "",
+    profile_image:"notfoundimage.jpg"
   });
 
   function createMember(e){
