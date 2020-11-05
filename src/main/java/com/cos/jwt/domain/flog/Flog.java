@@ -1,11 +1,17 @@
 package com.cos.jwt.domain.flog;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import com.cos.jwt.domain.person.Member;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,4 +30,8 @@ public class Flog {
 	private String flog_name;
 	private String flog_motto;
 	private String flog_img;
+	
+	@JsonIgnoreProperties("flog")
+	@OneToMany(mappedBy = "flog") //foreign key 설정
+	private List<Member> member;
 }

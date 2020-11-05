@@ -2,6 +2,7 @@ package com.cos.jwt.domain.post;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,9 +11,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.cos.jwt.domain.image.Image;
 import com.cos.jwt.domain.person.Member;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -37,10 +40,14 @@ public class Board {
 	private Timestamp reg_date;
 	
 	
-	@JsonIgnoreProperties({"Boards"})
+
 	@JoinColumn(name="mno")
 	@ManyToOne //foreign key 설정
 	private Member member;
+	
+	//@JoinColumn(name="ino")
+	//@OneToMany(mappedBy = "board") //foreign key 설정
+	//private List<Image> image;
 	
 	
 	public String  getReg_date() {

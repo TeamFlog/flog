@@ -1,13 +1,23 @@
 package com.cos.jwt.service;
 
+import java.io.File;
+import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.cos.jwt.domain.flog.Flog;
 import com.cos.jwt.domain.flog.FlogRepository;
+
 
 //Flog 가족 블로그 관련된 기능
 @Service
@@ -17,8 +27,20 @@ public class FlogService {
 	private FlogRepository flogRepository;
 	
 	@Transactional
-	public void 블로그생성(Flog flog) {
-		flogRepository.save(flog);
+	public void 블로그생성(HttpServletRequest request, MultipartFile  flog_img,@RequestParam("flog_name")String flog_name,
+			@RequestParam("flog_motto")String flog_motto) {
+		try {
+			UUID uuid = UUID.randomUUID(); 
+	        String flog_imgname = flog_img.getOriginalFilename();
+	        String uploadFilename = uuid.toString() + "_" + flog_imgname; 
+			File dest = new File("C:\\Users\\admin\\git\\flog\\src\\main\\wepapp\\blog-app\\public\\images\\flogimages\\" + uploadFilename);
+			flog_img.transferTo(dest);
+			// TODO		
+			Flog flog = Flog.builder().flog_name(flog_name).flog_motto(flog_motto).flog_img(uploadFilename).build();
+			flogRepository.save(flog);
+		}catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 	
 	@Transactional(readOnly = true)

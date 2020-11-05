@@ -2,6 +2,8 @@ package com.cos.jwt.web;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
@@ -15,7 +17,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.cos.jwt.domain.flog.Flog;
 import com.cos.jwt.domain.flog.FlogDto;
@@ -42,8 +46,9 @@ public class FlogController {
 	}
 	
 	@PostMapping("create_flog") // 블로그 생성
-	public String createFlog(@RequestBody Flog flog) {
-		flogService.블로그생성(flog);
+	public String createFlog(HttpServletRequest request, MultipartFile  flog_img,@RequestParam("flog_name")String flog_name,
+			@RequestParam("flog_motto")String flog_motto) {
+		flogService.블로그생성(request, flog_img, flog_name, flog_motto);
 		return "ok";
 	}
 	
