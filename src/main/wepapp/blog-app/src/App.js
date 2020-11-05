@@ -5,15 +5,14 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Join from "./pages/person/Join";
 import BoardList from "./pages/board/BoardList";
-
 import FlogList from "./pages/flog/FlogList"
 import Login from "./pages/person/Login";
 import styled from "styled-components";
-
 import BoardForm from './pages/board/BoardForm';
 import Status from "./components/Status";
 import UpdateForm from './pages/board/UpdateForm';
 import { useDispatch } from 'react-redux';
+import {login} from './store';
 
 const AppFont = styled.div`
   font-family : 'Cafe24Simplehae';  
@@ -37,11 +36,11 @@ function App() {
 
   useEffect(()=> {
     let jwtToken = localStorage.getItem("Authorization");
-    /*
+    
     if (jwtToken !== null) {
       dispatch(login());
     }
-    */
+    
   },[]);
 
   return (

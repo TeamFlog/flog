@@ -124,6 +124,13 @@ margin: 400px 1000px 0px 0px;
 z-index:2;
 `;
 
+<<<<<<< HEAD
+const Chat = (props) => {
+/*
+    super(props);
+    this.state = {date: new Date()};
+*/
+=======
 const modalStyles = {
     content : {
         top                   : '50%',
@@ -179,6 +186,7 @@ const Chat = () => {
 
     },[])
 
+>>>>>>> 7aabc3c2bd7ddf1c6b009d0de2bacb56b2d007bc
     const CalendarBox = () =>{
         
         var cb = document.querySelector("#cbcb");
@@ -194,7 +202,28 @@ const Chat = () => {
         }
 
     } 
+<<<<<<< HEAD
+/*
+    state ={
+        date: new Date(),
+    }
+
+    onChange = date => this.setState({date})
+*
+    changeSelectedDate = (event) => {
+        const day = event.target.dataset.day
+        const selectedDate = moment(day, 'YYYY-MM-DD').toDate()
+        this.props.changeSelectedDate(selectedDate)
+    }
+
+    className="click-event-day"
+            onClick={this.props.changeSelectedDate}
+            data-day={formatedDate} 
+            value={this.state.date}
+*/
+=======
     //달력에서 날 선택시 실행, tempdate값 설정 및 포맷 변경하고 일정모달 오픈함.
+>>>>>>> 7aabc3c2bd7ddf1c6b009d0de2bacb56b2d007bc
     const ClickDay = (v,e) =>{
         setTempDate({date:v});
         formatDate(v);
@@ -258,6 +287,12 @@ const Chat = () => {
         });
         console.log('불러오기=',tempdate.date.toString());
     }
+<<<<<<< HEAD
+
+  return (
+      <div>
+    
+=======
     //일정추가
     const submitSchedule = (e) => {
 		e.preventDefault();
@@ -317,6 +352,7 @@ const Chat = () => {
                 <div>date : {tempdate.date.toString()}</div>
                 <button onClick={closeModal}>close</button>
             </Modal>
+>>>>>>> 7aabc3c2bd7ddf1c6b009d0de2bacb56b2d007bc
            <CalendarStyle id="cbcb" style={{display:"none"}}>
           <Calendar  onChange={formatDate} onClickDay={(v,e)=>ClickDay(v,e)}/>
 
