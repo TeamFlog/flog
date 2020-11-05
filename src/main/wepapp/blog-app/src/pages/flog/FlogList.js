@@ -152,14 +152,15 @@ const FlogList = (props) => {
     <div id="createFlog" style={{display:"none"}}>
       <JoinStyle>
         <JoinButtonStyle onClick={CreateFlogBtn}>닫기</JoinButtonStyle>
+        <form enctype="multipart/form-data">
             <JoinSubTitleStyle>블로그 이름</JoinSubTitleStyle>
             <JoinInputStyle type="text" name="flog_name" onChange={ChangeValue}/>
             <JoinSubTitleStyle>블로그 가훈</JoinSubTitleStyle>
             <JoinInputStyle type="text" name="flog_motto"onChange={ChangeValue}/>
             <JoinSubTitleStyle>블로그 이미지</JoinSubTitleStyle>
-            <JoinInputStyle type="text" name="flog_img" onChange={ChangeValue}/>
+            <JoinInputStyle type="file" name="flog_img" onChange={ChangeValue}/>
             <JoinButtonStyle type="submit" onClick={FlogSaveBtn}>블로그생성</JoinButtonStyle>
-            
+        </form>
         </JoinStyle>
     </div>
       </FlogWriteStyle>
@@ -169,3 +170,18 @@ const FlogList = (props) => {
 };
 
 export default FlogList;
+
+/*
+  //블로그명 검색하기.
+  const flogSearch=(keyword)=> {
+    fetch("http://localhost:8000/flogList/search"+keyword, {
+      method: "GET",
+      headers: {
+        "Content-Type":"application/json; charset=utf-8"
+      }
+    }).then(res=> res.json())
+    .then(res => {
+      setSearch(res);
+    })
+  }
+*/

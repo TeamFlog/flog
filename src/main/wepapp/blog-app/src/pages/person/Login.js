@@ -85,7 +85,7 @@ const Login = (props) => {
           dispatch(login());
           props.history.push("/floglist"); //라우터에서 역사를 찾아서 푸쉬를 하면 URL 이동가능
           //push는 이전페이지를 기억하고  replace는 초기값으로 되돌림.
-        } else {
+        }else {
           alert("아이디 혹은 비밀번호가 틀렸습니다!");
         }
       });

@@ -18,8 +18,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.cos.jwt.domain.person.Member;
 import com.cos.jwt.domain.post.Board;
@@ -40,7 +42,7 @@ public class BoardController {
 	public String boardForm() {
 		return "boardForm";
 	}
-	
+
 	@PostMapping("write") //글쓰기
 	public String writeBoard(@RequestBody Board board) {
 		boardService.글쓰기(board);
@@ -54,9 +56,11 @@ public class BoardController {
 		
 	}
 	
+	
 	@GetMapping("/board/{bno}") //글상세보기 (글수정 시 정보 들고옴)
 	public Board boardDetail(@PageableDefault(size = 5, sort = "bno", direction = Direction.DESC) Pageable pageable,@PathVariable int bno){
 		Board board = boardService.글상세보기(pageable, bno);
+		
 		return board;
 		
 	}

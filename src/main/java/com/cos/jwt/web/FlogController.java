@@ -7,19 +7,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cos.jwt.domain.flog.Flog;
-import com.cos.jwt.domain.flog.FlogDto;
-import com.cos.jwt.domain.flog.FlogRepository;
 import com.cos.jwt.service.FlogService;
 
 import lombok.RequiredArgsConstructor;
@@ -60,12 +56,44 @@ public class FlogController {
 		flogService.블로그수정(fno,flog);
 		return "ok";
 	}
+	
 	/*
+	@CrossOrigin(origins = "*", allowedHeaders = "*")
+	@GetMapping("/flog/page")
+	public Page<PagingDto> paging(@PageableDefault(size=5, sort="fno") Pageable pageRequest) {
+		Page<Flog> flogList = flogRepository.findAll(pageRequest);
+		
+		Page<PagingDto> pagingList = flogList.map(
+				flog -> new PagingDto(
+							flog.getFno(), flog.getFlog_name(),
+							flog.getFlog_motto(), flog.getFlog_img()
+						));
+		
+		return pagingList;
+	}
+	
+	@CrossOrigin(origins="*", allowedHeaders = "*") 
+	@GetMapping("/flog/page/search")
+	public Page<PagingDto> searchPaging(
+		@RequestParam String flog_name,
+		@PageableDefault(size=5, sort="fno") Pageable pageRequest) {
+		
+		Page<Flog> flogList = flogRepository.findAllSearch(flog_name, pageRequest);
+		
+		Page<PagingDto> pagingList = flogList.map(
+					flog -> new PagingDto(
+							flog.getFno(), flog.getFlog_name(),
+							flog.getFlog_motto(), flog.getFlog_img()
+					));
+				
+		return pagingList;
+	}
+	
+	-------------------------------------------
 	@GetMapping("/flogList/search")
 	public String search(@RequestParam(value="keyword") String keyword, Model model) {
 	    List<FlogDto> flogDtoList = flogService.searchFlog(keyword);
-	    model.addAttribute("flogList", flogDtoList);
-	    
+	    model.addAttribute("flogList", flogDtoList);    
 	    return "ok";
 	}
 	*/

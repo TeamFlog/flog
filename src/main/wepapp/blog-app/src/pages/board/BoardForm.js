@@ -41,25 +41,19 @@ const BoardForm = (props) => {
   //console.log(quillRef); // { current: undefined } > { current: Quill Editor Reference }
 
   
+  
 
   const [board, setBoard] = useState({
 	  title: "",
 	  content:""
 	});
 
-	
 
 	const submitBoard = (e) => {
 		e.preventDefault();
-		let title = document.querySelector("#title").value;
-		let content = document.querySelector(".ql-editor").innerHTML;
 
-		setBoard({
-			...board,
-			title : title,
-			content : content
-		})
-
+		changeValue(e);
+	
 		fetch("http://localhost:8000/write", {
 			method: "post",
 			headers: {
@@ -78,24 +72,27 @@ const BoardForm = (props) => {
 		});
 	}
 
-	// const changeValue = (e) => {
-	// 	document.querySelector(".ql-editor").setAttribute('name','content');
-	// 	board.content= quill.root.innerHTML;
-	// 	//console.log(board.title);
-	// 	console.log(board.content);
-	// 	console.log({...board, 
-	// 		[e.target.name]: e.target.value });
-	// 	setBoard({...board, 
-	// 		[e.target.name]: e.target.value });
-	// 		//console.log(document.querySelector(".ql-editor").innerHTML);
-	// } 
+	 const changeValue = (e) => {
+		 document.querySelector(".ql-editor").setAttribute('name','content');
+		
+		board.content= quill.root.innerHTML;
+		
+	 	//console.log(board.title);
+	 	//console.log(board.content);
+	 	console.log({...board, 
+	 		[e.target.name]: e.target.value });
+	 	setBoard({...board, 
+	 		[e.target.name]: e.target.value });
+	 		//console.log(document.querySelector(".ql-editor").innerHTML);
+	 } 
  
 	return (
 
 		<BoardFormStyle>
 			<h1>글쓰기</h1>
+
 			<div>
-			제목 <BoardInputStyle type="text" id="title"  />
+			제목 <BoardInputStyle type="text" name="title" id="title" onChange={changeValue}  />
 			</div>
 			<div>내용
 				<div  style={{ height: 300 }}>
@@ -116,6 +113,7 @@ const BoardForm = (props) => {
 			<button type="submit" onClick={submitBoard}>등록하기</button>
 			</div>
 		*/
+
 	);
 };
 

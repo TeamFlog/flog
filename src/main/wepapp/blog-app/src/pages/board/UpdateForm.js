@@ -34,12 +34,7 @@ const WriteBtnStyle = styled.button`
 `;
 
 const UpdateForm = (props) => {
-	
 	const { quill, quillRef } = useQuill();
- 
-	console.log(quill);    // undefined > Quill Object
-	console.log(quillRef); // { current: undefined } > { current: Quill Editor Reference }
-	  
 
 	let boardNo = props.match.params.bno;
 
@@ -51,6 +46,7 @@ const UpdateForm = (props) => {
 	
 	const UpdateBoard = (e) => {
 		e.preventDefault();
+		changeValue(e);
 
 		fetch("http://localhost:8000/board/update/" + boardNo, {
 			method: "PUT",
@@ -72,6 +68,7 @@ const UpdateForm = (props) => {
 /*
 	const changeValue = (e)=> {
 		setBoard({ ...board, [e.target.name]: e.target.value });
+		board.content= quill.root.innerHTML;
 	}	
 */
 	useEffect(() => {
@@ -83,6 +80,13 @@ const UpdateForm = (props) => {
 		}).then(res=>res.json())
 		.then(res => {
 			setBoard(res);
+			var changeContent = res.content.replace(/(<([^>]+)>)/ig,"");  //자바스크립트 정규식으로 태그제거
+			
+			var boardC = document.createTextNode(changeContent);
+         var qlEditor = document.querySelector(".ql-editor");
+         console.log(boardC);
+         qlEditor.appendChild(boardC);
+
 		});
 	}, []);
 	
@@ -98,27 +102,21 @@ const UpdateForm = (props) => {
 	return (
 		<BoardFormStyle>
 			<h1>글 수정하기</h1>
+
 			<div>
 			제목 <BoardInputStyle type="text" name="title" value={board.title} onChange={changeValue} />
 			</div>
 			<div>내용
 				<div name="content"value={board.content} onChange={changeValue} style={{ height: 300 }}>
+					<div  style={{ height: 300 }}>
       				<div ref={quillRef}/>
 				</div>
 			</div>
 			<div>
 			<WriteBtnStyle variant="primary" type="submit" onClick={UpdateBoard}>수정하기</WriteBtnStyle>
 			</div>
+			</div>
 		</BoardFormStyle>
-		/*
-			<form>
-				<div>
-					<input type="text" name="title" value={board.title} onChange={changeValue} />
-					<textarea name="content" value={board.content} onChange={changeValue}></textarea>
-					<button variant="primary" type="submit" onClick={UpdateBoard}>수정하기</button>
-				</div>
-			</form>
-		*/
 	);
 
 };
