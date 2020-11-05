@@ -47,11 +47,11 @@ public class FlogController {
 		Page<PagingDto> pages = flogService.paging(pageRequest);
 		return pages;
 	}
-	
+
 	@GetMapping("/flog/page/search")
-	public Page<PagingDto> searchPage(Pageable pageRequest, @PathVariable String flog_name) {
-		Page<PagingDto> pages = flogService.searchPaging(flog_name,pageRequest);
-		return pages;	
+	public Page<PagingDto> searchPage(@PathVariable String flog_name, Pageable pageRequest) {
+		Page<PagingDto> pages = flogService.searchPaging(flog_name, pageRequest);
+		return pages;
 	}
 	
 	@PostMapping("create_flog") // 블로그 생성
@@ -60,7 +60,6 @@ public class FlogController {
 		flogService.블로그생성(flog);
 		return "ok";
 	}
-	
 	
 	@DeleteMapping("/flog/{fno}")
 	public String deleteFlog(@PathVariable int fno) {
@@ -74,7 +73,6 @@ public class FlogController {
 		flogService.블로그수정(fno,flog);
 		return "ok";
 	}
-	
 
 	
 	/*
