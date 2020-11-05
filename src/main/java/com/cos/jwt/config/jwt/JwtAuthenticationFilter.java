@@ -53,7 +53,9 @@ public class JwtAuthenticationFilter implements Filter{
 				// 1번 username, password를 DB에 던짐
 				Member personEntity = 
 				personRepository.findByUsernameAndPassword(person.getUsername(), person.getPassword());
+			
 				// 2번 값이 있으면 있다?. 없다?
+				
 				if(personEntity == null) {
 					System.out.println("유저네임 혹은 패스워드가 틀렸습니다.");	
 					out.print("fail");

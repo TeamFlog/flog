@@ -17,6 +17,7 @@ public class FilterConfig {
 	
 	private final MemberRepository memberRepository;
 	
+	
 	@Bean
 	public FilterRegistrationBean<CorsFilter> corsFilter(){
 		System.out.println("CORS 필터 등록");

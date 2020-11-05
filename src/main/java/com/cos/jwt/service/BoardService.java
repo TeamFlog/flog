@@ -90,14 +90,24 @@ public class BoardService {
 	}
 	
 	//캘린더관련
+	
+	//그 날의 일정보기
 	@Transactional
 	public List<Calender> 일정보기(String s_date) {
 		return calenderRepository.FindBySDate(s_date);
+	}
+	//이 달의 일정보기
+	@Transactional
+	public List<Calender> 이달의일정(String month) {
+//		String month = s_date.substring(5, 6);
+//		System.out.println("month:"+month);
+		return calenderRepository.FindByMonth(month);
 	}
 	@Transactional
 	public void 일정추가(Calender calender) {
 		
 		calenderRepository.save(calender);
 	}
+	
 	
 }
