@@ -78,6 +78,9 @@ public class BoardController {
 		return "ok";
 	}
 	
+	//캘린더
+	
+	//선택한 날에 등록된 일정리스트 보기
 	@GetMapping("/board/schedule/{s_date}")
 	public List<Calender> scheduleList(@PathVariable String s_date){
 		System.out.println(s_date);
@@ -87,6 +90,17 @@ public class BoardController {
 		return calenders;
 	}
 	
+	//이달의 일정 보기
+	@GetMapping("/board/monthschedule/{month}")
+	public List<Calender> scheduleMonthList(@PathVariable String month){
+		System.out.println(month);
+		
+		List<Calender> calenders = boardService.이달의일정(month);
+		System.out.println(calenders);
+		return calenders;
+	}
+	
+	//일정추가하기
 	@PostMapping("/boardlist/addschedule")
 	public String addSchedule(@RequestBody Calender calender) {
 		boardService.일정추가(calender);

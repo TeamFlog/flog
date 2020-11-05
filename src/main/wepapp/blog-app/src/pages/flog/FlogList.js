@@ -1,6 +1,8 @@
 import React, { useEffect,useState } from 'react';
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import Modal from 'react-modal';
+
 
 const FlogBoxStyle = styled.div`
 display: grid;
@@ -51,6 +53,34 @@ cursor: pointer;
 font-family: 'Cafe24Simplehae';
 
 `;
+const YesBtnStyle = styled.button`
+
+	background-color: green;
+    color: white;
+    height: 25px;
+  width:100px;
+  margin-right:100px;
+    font-size: 15px;
+    font-weight: 400;
+    border-radius: 6px;
+    border: 0;
+    cursor: pointer;
+    font-family: 'Cafe24Simplehae';
+`;
+const NoBtnStyle = styled.button`
+
+	background-color: red;
+
+    color: white;
+    height: 25px;
+	width:100px;
+    font-size: 15px;
+    font-weight: 400;
+    border-radius: 6px;
+    border: 0;
+    cursor: pointer;
+    font-family: 'Cafe24Simplehae';
+`;
 
 const JoinSubTitleStyle = styled.td`
     padding: 10px 0;
@@ -76,6 +106,16 @@ const JoinInputStyle = styled.input`
  padding: 20px 30px;
  box-shadow: 0 8px 8px 0 rgb(214, 214, 214);
 `;
+const modalStyles = {
+  content : {
+      top                   : '50%',
+      left                  : '50%',
+      right                 : 'auto',
+      bottom                : 'auto',
+      marginRight           : '-50%',
+      transform             : 'translate(-50%, -50%)'
+  }
+};
 
 const FlogList = (props) => {
 
@@ -94,6 +134,11 @@ const FlogList = (props) => {
         console.log(res.pageable);
       }
       );
+      //console.log('user정보 가져와지는지 확인:',JSON.parse(localStorage.getItem("user")));
+      
+
+      setUser({...user,mno:JSON.parse(localStorage.getItem("user")).mno});
+      
   },[]);
 
   const CreateFlogBtn = () => {
@@ -115,6 +160,80 @@ const FlogList = (props) => {
     flog_motto:"",
     flog_img:""
   });
+  const [user,setUser]= useState({
+   mno:null,
+  });
+  const [access,setAccess] = useState({
+    mno:null,
+    fno:null
+  });
+ 
+ 
+  
+
+  //가입신청함수
+  const joinApplyFlog = (fno) =>{
+    
+    setAccess({...access,
+      fno:fno, 
+      mno:user.mno
+    });
+   
+    // setTimeout(()=>{
+    //   setAccess({...access,
+    //     fno:fno,
+    //     mno:user.mno
+    //   });
+    // },50000);
+    // setStateAsync({...access,
+    //   fno:fno,
+    //   mno:user.mno
+    // });
+    // test();
+    console.log('fno정보:',fno);
+    console.log('access정보:',access);
+    console.log('user정보:',user.mno);
+    openModal();
+   
+    
+  }
+//모달 열려있는지 닫혀있는지 상태
+const [modalIsOpen,setIsOpen] = useState(false);
+  const openModal = () => {
+    
+    setIsOpen(true);
+}
+const afterOpenModal = () => {
+    
+}
+const closeModal = () => {
+    setIsOpen(false);
+}
+
+ 
+
+  const joinFetch = () => {
+
+    console.log('access정보:',access);
+    fetch("http://localhost:8000/join_flog",{
+      method:"post",
+      headers: {
+				'Content-Type':"application/json; charset=utf-8",
+				"Authorization": localStorage.getItem("Authorization")
+			},
+      body: JSON.stringify(access)
+    }).then(res => res.text())
+    .then(res => {
+      if(res==="ok"){
+        alert("블로그 신청이 완료되었습니다.");
+      }else{
+        alert("블로그 신청 실패");
+      }
+    })
+    
+    closeModal();
+
+  }
 
   const FlogSaveBtn = (e) =>{
     e.preventDefault();
@@ -140,12 +259,27 @@ const FlogList = (props) => {
   }
 
   return (
+    
+
+
     <FlogBoxStyle>
+      <Modal
+            isOpen={modalIsOpen}
+            onAfterOpen={afterOpenModal}
+            onRequestClose={closeModal}
+            style={modalStyles}
+            contentLabel="modal"
+            >
+              <h2>정말로 추가하시겠습니까??</h2>
+              <YesBtnStyle onClick={joinFetch}>네</YesBtnStyle>
+              <NoBtnStyle onClick={closeModal}>아니요</NoBtnStyle>
+              
+    </Modal>
     <FloglistStyle>
       {flogs.map((flog)=>(
         <FlogStyle>
         <Flogimage src={"images/flogimages/"+flog.flog_img}  ></Flogimage>
-        <div>{flog.flog_name}</div><JoinButtonStyle>가입신청하기</JoinButtonStyle>  
+        <div>{flog.flog_name}</div><JoinButtonStyle onClick={()=>joinApplyFlog(flog.fno)}>가입신청하기</JoinButtonStyle>  
         </FlogStyle>
       ))}
       

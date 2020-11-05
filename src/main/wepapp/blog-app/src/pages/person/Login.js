@@ -89,7 +89,9 @@ const Login = (props) => {
 				"Authorization": localStorage.getItem("Authorization")
 			}
 		}).then(res=>res.json()).then(res=>{
-			setUser(res); 
+      setUser(res); 
+      
+      localStorage.setItem("user",JSON.stringify(res));
       console.log(res);
       if(res.flog === null){
         props.history.push("/floglist"); //라우터에서 역사를 찾아서 푸쉬를 하면 URL 이동가능
