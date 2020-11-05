@@ -39,6 +39,9 @@ const UserStyle = styled.div`
     border-radius: 6px;
     margin-bottom: 10px;
     padding: 5px 0 5px 0;
+    &:hover {
+      background-color: white;
+    }
 `;
 const UserTextStyle = styled.div`
 display : grid;
