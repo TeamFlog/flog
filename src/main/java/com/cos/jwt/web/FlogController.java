@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.cos.jwt.domain.access.Access;
+import com.cos.jwt.domain.access.AccessDto;
 import com.cos.jwt.domain.flog.Flog;
 import com.cos.jwt.domain.flog.FlogDto;
 import com.cos.jwt.domain.flog.FlogRepository;
@@ -80,4 +82,15 @@ public class FlogController {
 	    return "ok";
 	}
 	*/
+	
+	//블로그 신청
+	
+	@PostMapping("join_flog")
+	public String joinApplyFlog(@RequestBody AccessDto access) {
+		System.out.println("access정보:"+access);
+		
+		flogService.블로그신청(access);
+		return "ok";
+		
+	}
 }
