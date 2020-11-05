@@ -10,4 +10,5 @@ public interface MemberRepository extends JpaRepository<Member, Integer>{
 	
 	@Query(value = "SELECT * FROM member WHERE username = :username",nativeQuery = true)
 	Member findByUsername(String username);
+	
 }

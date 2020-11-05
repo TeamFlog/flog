@@ -53,6 +53,7 @@ public class FlogService {
 		Flog flogEntity = flogRepository.FindByFno(fno);
 		flogEntity.setFlog_name(flog.getFlog_name());
 		flogEntity.setFlog_motto(flog.getFlog_motto());
+		flogEntity.setFlog_img(flog.getFlog_img());
 	}
 	
 	@Transactional
