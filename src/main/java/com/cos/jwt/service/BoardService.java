@@ -1,8 +1,4 @@
-
 package com.cos.jwt.service;
-
-
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,12 +31,18 @@ public class BoardService {
 		boardRepository.save(board);
 	}
 	
-	
 	@Transactional(readOnly = true)
 	public Page<Board> 글목록(Pageable pageable){
 		return boardRepository.findAll(pageable);
 	}
-	
+	/*
+	@Transactional(readOnly = true)
+	public Page<Board> 글목록(Pageable pageable,int fno){
+		List<Board> boards = boardRepository.FindAllbyFno(fno);
+		return boardRepository.findAll(boards, pageable);
+		
+	}
+	*/
 	@Transactional(readOnly = true)
 	public Page<Board> 글목록2(Pageable pageable){
 		Page<Board> boards = boardRepository.findAll(pageable);

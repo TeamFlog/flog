@@ -31,7 +31,6 @@ public interface FlogRepository extends JpaRepository<Flog, Integer>{
 	
 	Page<Flog> findAllSearch(String flog_name, Pageable pageRequest);
 */
-
 	
 	
 	@Query(value= "SELECT f FROM Flog f WHERE f.flog_name LIKE %:flog_name%",

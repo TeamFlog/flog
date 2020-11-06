@@ -1,5 +1,6 @@
 package com.cos.jwt.web;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.catalina.connector.Response;
@@ -8,9 +9,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.cos.jwt.domain.flog.Flog;
 import com.cos.jwt.domain.person.Member;
 import com.cos.jwt.service.MemberService;
 
@@ -39,7 +44,11 @@ public class MemberController {
 		session.invalidate();
 		return new ResponseEntity<String>("ok", HttpStatus.OK);
 	}
-	
-	
+	@PutMapping("/user/{mno}")
+	public String updateProfile(HttpServletRequest request, MultipartFile profile_image, @RequestParam("nickname") String nickname,
+			@RequestParam("emotion") String emotion,@RequestParam("home_io") String home_io,@RequestParam("state_message") String state_message,@RequestParam("mno") int mno) {
+		memberService.회원정보수정(request, profile_image, nickname, emotion, home_io, state_message, mno);
+		return "ok";
+	}
 
 }

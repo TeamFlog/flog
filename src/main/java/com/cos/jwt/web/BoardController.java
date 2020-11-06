@@ -58,6 +58,13 @@ public class BoardController {
 		
 	}
 	
+//	@GetMapping("/boardList/{fno}") //글목록
+//	public Page<Board> boardList(@PageableDefault(size = 5, sort = "bno", direction = Direction.DESC) Pageable pageable,@PathVariable int fno){
+//		Page<Board> boards = boardService.글목록(pageable,fno);
+//		return boards;
+//		
+//	}
+	
 	
 	@GetMapping("/board/{bno}") //글상세보기 (글수정 시 정보 들고옴)
 	public Board boardDetail(@PageableDefault(size = 5, sort = "bno", direction = Direction.DESC) Pageable pageable,@PathVariable int bno){

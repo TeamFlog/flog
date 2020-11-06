@@ -72,6 +72,7 @@ public class FlogService {
 		Flog flogEntity = flogRepository.FindByFno(fno);
 		flogEntity.setFlog_name(flog.getFlog_name());
 		flogEntity.setFlog_motto(flog.getFlog_motto());
+		flogEntity.setFlog_img(flog.getFlog_img());
 	}
 
 	@Transactional
@@ -79,7 +80,6 @@ public class FlogService {
 		flogRepository.deleteByFno(fno);
 	}
 
-	
 	@Transactional
 	public Page<PagingDto> paging(@PageableDefault(size=15,sort="fno") Pageable pageRequest) {
 		Page<Flog> flogList = flogRepository.findAll(pageRequest); 		
@@ -128,8 +128,11 @@ public class FlogService {
 				.build();
 		}
 */
-}
 
+
+	// 블로그 신청
+
+}
 
 /*
  * @Transactional public List<FlogDto> searchFlog(String keyword) { List<Flog>

@@ -63,7 +63,13 @@ public class FlogController {
 	@PostMapping("create_flog") // 블로그 생성
 	public String createFlog(HttpServletRequest request, MultipartFile  flog_img,@RequestParam("flog_name")String flog_name,
 			@RequestParam("flog_motto")String flog_motto) {
+		System.out.println(flog_img.getOriginalFilename());
+		if("".equals(flog_motto)==true||"".equals(flog_name)==true||"".equals(flog_img.getOriginalFilename())==true) {
+			System.out.println("빈 값이 확인되었습니다.");
+			return "false";
+		}else {				
 		flogService.블로그생성(request, flog_img, flog_name, flog_motto);
+		}
 
 		return "ok";
 	}
@@ -121,7 +127,10 @@ public class FlogController {
 	    model.addAttribute("flogList", flogDtoList);    
 =======
 	    model.addAttribute("flogList", flogDtoList);
+<<<<<<< HEAD
 >>>>>>> 2e12dfd56d00e2f9ac6698666f9fdfb63cba3e13
+=======
+>>>>>>> 8e99d7da1e183581bc71e85c3fbf165d17fb1f9e
 	    return "ok";
 	}
 	*/

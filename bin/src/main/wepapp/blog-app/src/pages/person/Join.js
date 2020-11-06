@@ -6,11 +6,15 @@ const FormStyle = styled.div`
     display: grid;
     grid-template-columns: auto auto;
      justify-content: end;
-  
+     position: relative;
   `;
 
+const JoinBackgroundStyle = styled.div`
+min-height:680px;
+`;
+
   const JoinStyle = styled.div`
-    display:gird;
+    display:grid;
     grid-template-columns: auto;
     justify-content: end;
     width: 200px;
@@ -54,7 +58,6 @@ const JoinInputStyle = styled.input`
   `;
   
 
-
 const Join = (props) => {
 
   const [member, setMember] = useState({
@@ -67,7 +70,7 @@ const Join = (props) => {
 
     e.preventDefault(); //submit 되지마라
     fetch("http://localhost:8000/join",{
-      method:"post",
+      method:"POST",
       body: JSON.stringify(member),
       headers:{
         'Content-Type':"application/json; charset=utf-8"
@@ -92,7 +95,7 @@ const Join = (props) => {
   return (
     
     <FormStyle>
-      
+      <JoinBackgroundStyle>
       <JoinStyle>
 <JoinMainTitleStyle>여기는 가족블로그</JoinMainTitleStyle><br></br>
   <JoinSubTitleStyle >아이디</JoinSubTitleStyle>
@@ -103,10 +106,9 @@ const Join = (props) => {
        <JoinInputStyle type="password" name="password" onChange={inputHandle}/>
         <JoinSubTitleStyle >비밀번호 확인</JoinSubTitleStyle>             
        <JoinInputStyle type="password" name="password2" />
-
         <JoinButtonStyle onClick={createMember} >회원가입하겠습니다.</JoinButtonStyle>
-          
           </JoinStyle>
+          </JoinBackgroundStyle>
     </FormStyle>
   );
 };

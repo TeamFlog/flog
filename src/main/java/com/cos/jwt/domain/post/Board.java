@@ -15,6 +15,11 @@ import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import javax.persistence.OneToOne;
+
+import org.hibernate.annotations.CreationTimestamp;
+
+import com.cos.jwt.domain.flog.Flog;
 import com.cos.jwt.domain.image.Image;
 import com.cos.jwt.domain.person.Member;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -44,6 +49,10 @@ public class Board {
 	@JoinColumn(name="mno")
 	@ManyToOne //foreign key 설정
 	private Member member;
+	@JoinColumn(name="fno")
+	@OneToOne
+	private Flog flog;
+	
 	
 	//@JoinColumn(name="ino")
 	//@OneToMany(mappedBy = "board") //foreign key 설정

@@ -16,5 +16,4 @@ public class PagingDto {
 		this.flog_motto = flog_motto;
 		this.flog_img = flog_img;
 	}
-
 }
