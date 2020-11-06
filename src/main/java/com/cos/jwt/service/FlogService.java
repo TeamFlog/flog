@@ -8,8 +8,14 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.cos.jwt.domain.access.Access;
+
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -17,9 +23,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.cos.jwt.domain.access.Access;
 import com.cos.jwt.domain.access.AccessDto;
+
 import com.cos.jwt.domain.access.AccessRepository;
 import com.cos.jwt.domain.flog.Flog;
 import com.cos.jwt.domain.flog.FlogRepository;
+import com.cos.jwt.domain.flog.PagingDto;
 
 //Flog 가족 블로그 관련된 기능
 @Service
@@ -67,7 +75,38 @@ public class FlogService {
 		flogRepository.deleteByFno(fno);
 	}
 
+	@Transactional
+	public Page<PagingDto> paging(@PageableDefault(size=15,sort="fno") Pageable pageRequest) {
+		Page<Flog> flogList = flogRepository.findAll(pageRequest); 		
+		Page<PagingDto> pagingList = flogList.map(
+				flog -> new PagingDto(
+						flog.getFno(), flog.getFlog_name(),
+						flog.getFlog_motto(), flog.getFlog_img()
+		));
+		return pagingList;
+	}
+	
+	
+	@Transactional
+	public Page<PagingDto> searchPaging(
+		@RequestParam String flog_name,
+		@PageableDefault(size=15,sort="fno") Pageable pageRequest) {
+		
+		Page<Flog> flogList = flogRepository.findSearch(flog_name, pageRequest);
+		
+		Page<PagingDto> pagingList = flogList.map(
+				flog -> new PagingDto(
+						flog.getFno(), flog.getFlog_name(),
+						flog.getFlog_motto(), flog.getFlog_img()
+			));
+		return pagingList;
+	}
+
+
+	
+
 	// 블로그 신청
+
 
 	@Transactional
 	public void 블로그신청(AccessDto access) {

@@ -74,17 +74,21 @@ const Login = (props) => {
         }, body: JSON.stringify(member)
       }).then(res => {
 
+        // 로컬스토리지에 로그인정보를 저장함.
         for (let header of res.headers.entries()) {
-          if (header[0] === "authorization") {
-            localStorage.setItem("authorization", header[1]);
+          if (header[0] === "Authorization") {
+            localStorage.setItem("Authorization", header[1]);
           }
         }
         return res.text();
       }).then(res => {
 
         if(res==="ok"){ // ==두개는 값비교 === 세개는 값과 타입비교
-          alert(member.username+"님 환영합니다!");
           dispatch(login());
+
+          alert(member.username+"님 환영합니다!");
+          props.history.push("/floglist"); //라우터에서 역사를 찾아서 푸쉬를 하면 URL 이동가능
+
           fetch("http://localhost:8000/user/"+member.username, {
 			method: "GET",
 			headers:{
@@ -95,13 +99,15 @@ const Login = (props) => {
       
       localStorage.setItem("user",JSON.stringify(res));
       console.log(res);
+      console.log("flog정보 확인"+res.flog)
       if(res.flog === null){
         props.history.push("/floglist"); //라우터에서 역사를 찾아서 푸쉬를 하면 URL 이동가능
       
       }else{
-        props.history.push("/boardlist"); //라우터에서 역사를 찾아서 푸쉬를 하면 URL 이동가능
+        props.history.push("/boardlist/"+res.flog.getFno); //라우터에서 역사를 찾아서 푸쉬를 하면 URL 이동가능
       }
         });
+
           //push는 이전페이지를 기억하고  replace는 초기값으로 되돌림.
         } else {
           alert("아이디 혹은 비밀번호가 틀렸습니다!");

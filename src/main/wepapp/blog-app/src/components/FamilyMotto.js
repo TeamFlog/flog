@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
@@ -102,10 +102,15 @@ const FamilyMotto = () => {
       }
 
 	return (
+
+        <MottoBoxStyle>
+        <MottoStyle>
+
      
     <MottoBoxStyle>
        
 		<MottoStyle>
+
 			<TitleStyle>우리🐸집 가훈</TitleStyle>
             <div id="createFlog" style={{display:"none"}}>
                 <JoinStyle>
@@ -124,10 +129,15 @@ const FamilyMotto = () => {
             <StatusText id="statustext">아아아아아아ㅏ아아아아아ㄴㅇㅁㄹㄴㅇㄹㅁㄴㄹㅁㄴㄹㄴㅇ
                  <JoinButton2Style id="createBtn" onClick={CreateFlogBtn}>수정</JoinButton2Style>
             </StatusText>
+
+        </MottoStyle>
+        </MottoBoxStyle>
+
 		</MottoStyle>
     </MottoBoxStyle>
 
        
+
 	);
 };
 

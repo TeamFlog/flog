@@ -117,7 +117,7 @@ const modalStyles = {
   }
 };
 
-const FlogList = (props) => {
+const FlogList = () => {
 
   const [flogs, setFlogs] = useState([]);
   const [pages, setPages] = useState([]);
@@ -156,6 +156,7 @@ const FlogList = (props) => {
   }
 
   const [flog, setFlog] = useState({
+    fno:"",
     flog_name:"",
     flog_motto:"",
     flog_img:""
@@ -257,6 +258,17 @@ const closeModal = () => {
     setFlog({ ...flog, [e.target.name]: e.target.value });
     console.log(e.target.value)
   }
+  
+/*
+  const flogSign =()=> { 
+
+  }
+  onClick={()=>flogSign(frog.fno)}
+*/
+
+  const searchBtn=()=>{
+
+  }
 
   return (
     
@@ -285,6 +297,8 @@ const closeModal = () => {
       
       </FloglistStyle>
     <FlogWriteStyle>
+    <input type="text" name="keyword"/>
+    <button onClick={searchBtn}>검색</button>
     <JoinButtonStyle id="createBtn" onClick={CreateFlogBtn}>블로그생성</JoinButtonStyle> 
     <div id="createFlog" style={{display:"none"}}>
       <JoinStyle>
