@@ -103,10 +103,7 @@ const FamilyMotto = () => {
 
 	return (
 
-        <MottoBoxStyle>
-        <MottoStyle>
-
-     
+       
     <MottoBoxStyle>
        
 		<MottoStyle>
@@ -132,9 +129,6 @@ const FamilyMotto = () => {
 
         </MottoStyle>
         </MottoBoxStyle>
-
-		</MottoStyle>
-    </MottoBoxStyle>
 
        
 

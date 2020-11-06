@@ -179,11 +179,7 @@ const BoardList = (props) => {
                 <FlogimgStyle src="images/background.jpg"/>
                 <div dangerouslySetInnerHTML={ {__html: board.content} }></div>
                 <div>작성일: {board.reg_date}</div>
-            <div>작성자: </div>
                 <div>작성자: 마스터</div>
-
-                <Link to={"/updateForm/"+board.bno} style={{ textDecoration: "none", color: "black" }}>수정</Link>
-                <button onClick={()=>deleteBoard(board.bno)}>삭제</button>
                 <textarea name="content" placeholder="댓글입력" onChange={changeValue}></textarea>
                 <button onClick={()=>replySave(board.bno)}>등록</button>
 

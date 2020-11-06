@@ -79,6 +79,7 @@ font-size:12px;
 `;
 
 const Status = () => {
+    
     JSON.parse(localStorage.getItem("user"));
     console.log(JSON.parse(localStorage.getItem("user")));
     
@@ -95,6 +96,7 @@ const Status = () => {
         });
      
         useEffect(()=>{
+            
         fetch("http://localhost:8000/user/"+user.username, {
             method: "GET",
 			headers:{
@@ -103,8 +105,16 @@ const Status = () => {
 		}).then(res=>res.json()).then(res=>{
             setUpdateUser(res); 
         });
+        setMembers(user.flog.member);
+        
     },[]);
         
+    const [members, setMembers] = useState([]);
+
+    
+    
+    //setMembers(user.flog.member); 
+    console.log(user.flog.member);
     
     const changeValue = (e)=> {
 		setUpdateUser({ ...updateUser, [e.target.name]: e.target.value });
@@ -142,6 +152,7 @@ const Status = () => {
 
 
     return (
+        
         <StatusStyle>
             <SubStatusStyle>
             <form id="form2" >
@@ -177,6 +188,7 @@ const Status = () => {
             
             <UserStyle onClick={CreateFlogBtnStart}>
             <UserImgStyle name="profile_image" src={"images/profileimages/"+updateUser.profile_image}/>
+            
             <UserTextStyle>
             <UserCardStyle>     
     <NicknameStyle name="nickname">{updateUser.nickname}</NicknameStyle>    
@@ -186,8 +198,21 @@ const Status = () => {
     <StatusText name="state_message">{updateUser.state_message}</StatusText>
             </UserTextStyle>
             </UserStyle>
-            
-            
+
+        {members.map((member) => ( 
+            member.username==updateUser.username ? "" : 
+            <UserStyle>
+                   <UserImgStyle name="profile_image" src={"images/profileimages/"+member.profile_image}/>
+                   <UserTextStyle>
+                   <UserCardStyle>     
+                   <NicknameStyle name="nickname">{member.nickname}</NicknameStyle>    
+                   <div className="emotion" name="emotion">{member.emotion}</div>
+                   <div className="UserStatus" name="home_io">{member.home_io}</div>
+                   </UserCardStyle>
+                     <StatusText name="state_message">{member.state_message}</StatusText>
+                   </UserTextStyle>
+            </UserStyle>
+            ))}
             </SubStatusStyle>
         </StatusStyle>
     );

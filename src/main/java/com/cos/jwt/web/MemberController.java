@@ -44,9 +44,11 @@ public class MemberController {
 		session.invalidate();
 		return new ResponseEntity<String>("ok", HttpStatus.OK);
 	}
-	@PutMapping("/user/{mno}")
+	@PostMapping("/user/{mno}")
 	public String updateProfile(HttpServletRequest request, MultipartFile profile_image, @RequestParam("nickname") String nickname,
-			@RequestParam("emotion") String emotion,@RequestParam("home_io") String home_io,@RequestParam("state_message") String state_message,@RequestParam("mno") int mno) {
+			@RequestParam("emotion") String emotion,@RequestParam("home_io") String home_io,@RequestParam("state_message") String state_message,@RequestParam("mno") Integer mno) {
+		System.out.println(request+nickname+ emotion+ home_io+ state_message+ mno);
+		System.out.println(profile_image.getOriginalFilename());
 		memberService.회원정보수정(request, profile_image, nickname, emotion, home_io, state_message, mno);
 		return "ok";
 	}
