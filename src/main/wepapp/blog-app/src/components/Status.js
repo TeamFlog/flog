@@ -8,6 +8,7 @@ const StatusStyle = styled.div`
     display: grid;
     position: relative;
     width:240px;
+    text-align:center;
   `;
 const SubStatusStyle = styled.div`
     position:fixed;
@@ -15,28 +16,31 @@ const SubStatusStyle = styled.div`
 const UserStyle = styled.div`
     display :grid;
     grid-template-columns: 1fr 2fr ;
-    width: 200px;
-    height: 45px;
+    width: 250px;
+    height: 75px;
     background-color: honeydew;
     position: relative;
     border-radius: 6px;
     padding: 20px 15px;
-    margin:5px 0 10px 10px;
+    margin:5px 0 0px 10px;
     box-shadow: 0 8px 8px 0 rgb(214, 214, 214);
     &:hover {
       background-color: white;
+
     }
     
 `;
 const UserImgStyle = styled.img`
-width:50px;
-height:50px;
-border-radius:30px;
+width:80px;
+height:80px;
+border-radius:35px;
+
 `;
 const UserImgStyle2 = styled.label`
-width:50px;
-height:50px;
-border-radius:30px;
+width:80px;
+height:80px;
+border-radius:40px;
+
 cursor: pointer;
 `;
 
@@ -44,6 +48,13 @@ const UserTextStyle = styled.div`
 display : grid;
 grid-template-rows : auto auto;
 font-weight:800;
+border: ridge 5px;
+`;
+
+const UserTextSetStyle = styled.div`
+display : grid;
+grid-template-rows : auto auto;
+font-weight:500;
 
 `;
 const NicknameStyle = styled.div`
@@ -59,11 +70,12 @@ grid-template-columns: 2fr 1fr 1fr;
 `;
 
 const StatusText = styled.div`
-font-size:12px;
+font-size:15px;
 `;
 
 const StatusText2 = styled.input`
 width:150px;
+font-size:12px;
 `;
 
 const Status = () => {
@@ -72,15 +84,16 @@ const Status = () => {
     
     const user = JSON.parse(localStorage.getItem("user"));
     const usermno = user.mno
+    console.log(usermno);
     const [updateUser, setUpdateUser] = useState({
-        mno:usermno,
+        mno: usermno,
         nickname: "",
         profile_image: "",
         emotion: "",
         home_io: "",
         state_message: ""
         });
-        
+     
         useEffect(()=>{
         fetch("http://localhost:8000/user/"+user.username, {
             method: "GET",
@@ -99,7 +112,7 @@ const Status = () => {
 	}	
 
 
-    const CreateFlogBtnStart = () => {
+    const CreateFlogBtnStart = (props) => {
         var userStatusOut = document.querySelector("#userStatusOut");
 
         if(userStatusOut.style.display=="none"){
@@ -109,16 +122,16 @@ const Status = () => {
          }else if(userStatusOut.style.display=="grid"){
         userStatusOut.style.display="none";
 
-        let form = document.getElementById("form");
+        let form = document.getElementById("form2");
         const formData = new FormData(form);
-        fetch("http://localhost:8000/user/"+user.mno, {
-			method: "PUT",
+        
+        fetch("http://localhost:8000/user/"+updateUser.mno, {
+			method: "POST",
 			body: formData
 		}).then(res => res.text())
 		.then(res => {
 			if(res === "ok"){
-				alert("프로필 수정성공!");
-				//props.history.push("/boardList");
+                alert("프로필 수정성공!");
 			} else {
 				alert("수정 실패");
 			}
@@ -131,18 +144,26 @@ const Status = () => {
     return (
         <StatusStyle>
             <SubStatusStyle>
-            <form id="form" >
+            <form id="form2" >
+            <input name="mno" value={updateUser.mno} hidden></input>
             <UserStyle id="userStatusOut" style={{display:"none"}}>
-            <UserImgStyle2 for="file" ><UserImgStyle name="profile_image" src={"images/profileimages/"+user.profile_image}/></UserImgStyle2>
-            <input style={{display:"none"}} id="file" type="file"/>
-            <UserTextStyle>
+            <UserImgStyle2 for="file" ><UserImgStyle src="images/profileimages/notfoundimage.jpg"/></UserImgStyle2>
+            <input style={{display:"none"}} name="profile_image" onChange={changeValue} id="file" type="file"/>
+            <UserTextSetStyle>
             <UserCardStyle >     
             <NicknameStyle2 placeholder="닉네임" type="text" name="nickname" value={updateUser.nickname} onChange={changeValue}></NicknameStyle2>    
             <select className="emotion" name="emotion" value={updateUser.emotion} onChange={changeValue} >
                 <option value="😐">😐</option>
                 <option value="😍">😍</option>
-                <option value="😁">😁</option>
-                <option value="😂">😂</option>
+                <option value="🤬">🤬</option>
+                <option value="🤓">🤓</option>
+                <option value="🤑">🤑</option>
+                <option value="😭">😭</option>
+                <option value="🤧">🤧</option>
+                <option value="😇">😇</option>
+                <option value="😈">😈</option>
+                <option value="🤡">🤡</option>
+                <option value="🤓">🤓</option>
             </select>
             <select className="UserStatus"  name="home_io" value={updateUser.home_io} onChange={changeValue}>
                 <option value="🟢">🟢</option>
@@ -150,19 +171,19 @@ const Status = () => {
                 </select>
             </UserCardStyle>
             <StatusText2 placeholder="상태메시지" type="text" name="state_message" value={updateUser.state_message} onChange={changeValue}></StatusText2>
-            </UserTextStyle>
+            </UserTextSetStyle>
             </UserStyle>
             </form>
             
             <UserStyle onClick={CreateFlogBtnStart}>
-            <UserImgStyle name="profile_image" src={"images/profileimages/"+user.profile_image}/>
+            <UserImgStyle name="profile_image" src={"images/profileimages/"+updateUser.profile_image}/>
             <UserTextStyle>
             <UserCardStyle>     
-    <NicknameStyle name="nickname">{user.nickname}</NicknameStyle>    
-            <div className="emotion" name="emotion">{user.emotion}</div>
-    <div className="UserStatus" name="home_io">{user.home_io}</div>
+    <NicknameStyle name="nickname">{updateUser.nickname}</NicknameStyle>    
+            <div className="emotion" name="emotion">{updateUser.emotion}</div>
+    <div className="UserStatus" name="home_io">{updateUser.home_io}</div>
             </UserCardStyle>
-    <StatusText name="state_message">{user.state_message}</StatusText>
+    <StatusText name="state_message">{updateUser.state_message}</StatusText>
             </UserTextStyle>
             </UserStyle>
             

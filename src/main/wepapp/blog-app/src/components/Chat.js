@@ -1,11 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Calendar from 'react-calendar';
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import 'react-calendar/dist/Calendar.css';
-import Modal from 'react-modal';
-import moment from 'moment';
-
 
 const ChatStyle = styled.div`
     display:grid;
@@ -98,9 +95,9 @@ const CalendarBoxStyle = styled.div`
  position: fixed;
  background-color:#EAEAEA;
  border-radius: 6px;
- padding: 5px 10px 0px 0px;
+ padding: 5px 10px;
  box-shadow: 0 8px 8px 0 rgb(214, 214, 214);
- margin: 400px 110px;
+ margin: 0 110px;
  font-weight: 800;
  cursor:pointer;
  
@@ -120,6 +117,9 @@ const CalendarStyle = styled.div`
 background-color: #EAEAEA;
 position: fixed;
 padding: 5px 10px;
+<<<<<<< HEAD
+margin: 400px 20px 0px 0px;
+=======
 margin: 400px 1000px 0px 0px;
 z-index:2;
 `;
@@ -155,36 +155,10 @@ const WriteBtnStyle = styled.button`
     border: 0;
     cursor: pointer;
     font-family: 'Cafe24Simplehae';
+>>>>>>> b9278a6fe70f53c4cd693598a84d080dea4fdafc
 `;
 
-Modal.setAppElement('#root');
-
 const Chat = () => {
-    //시작시 임의로 값을 초기화해둬야 모달에 오류가 없음
-    useEffect(()=>{
-        fetch("http://localhost:8000/board/schedule/" + "1994-01-01", {
-			method: "GET",
-			headers:{
-				"Authorization": localStorage.getItem("Authorization")
-			}
-		}).then(res=>res.json()).then(res=>{
-            console.log(res);
-			setSList(res);
-        });
-        var month = new Date().getMonth()+1;
-       console.log('month:',month);
-        fetch("http://localhost:8000/board/monthschedule/" + month.toString(), {
-			method: "GET",
-			headers:{
-				"Authorization": localStorage.getItem("Authorization")
-			}
-		}).then(res=>res.json()).then(res=>{
-            console.log(res);
-			setMonthschedule(res);
-        });
-
-
-    },[])
 
 >>>>>>> 7aabc3c2bd7ddf1c6b009d0de2bacb56b2d007bc
     const CalendarBox = () =>{
@@ -196,10 +170,10 @@ const Chat = () => {
             cb.style.display="inline-block";
         }else if(cb.style.display=="inline-block"){
             cb.style.display="none";
-            
-        }else{
-            
+        }else{   
         }
+<<<<<<< HEAD
+=======
 
     } 
 <<<<<<< HEAD
@@ -328,10 +302,13 @@ const Chat = () => {
             [e.target.name]: e.target.value });
             //console.log(document.querySelector(".ql-editor").innerHTML);
             
+>>>>>>> b9278a6fe70f53c4cd693598a84d080dea4fdafc
     } 
    
   return (
       <div>
+<<<<<<< HEAD
+=======
           <Modal
             isOpen={modalIsOpen}
             onAfterOpen={afterOpenModal}
@@ -357,12 +334,11 @@ const Chat = () => {
           <Calendar  onChange={formatDate} onClickDay={(v,e)=>ClickDay(v,e)}/>
 
           </CalendarStyle>
+>>>>>>> b9278a6fe70f53c4cd693598a84d080dea4fdafc
       <ChatStyle>
               <CalendarBoxStyle onClick={CalendarBox}><div>이 달의 일정</div>
               <ScheduleText>
-              {monthschedule.map((s)=>(
-                  <div>{s.s_date} {s.s_name}</div>
-              ))}
+              <div>10/30 누구누구의 생일ㅇㅇ</div>
               </ScheduleText>
               </CalendarBoxStyle>
           <SubChatStyle>

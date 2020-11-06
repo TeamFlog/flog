@@ -12,6 +12,7 @@ display: grid;
 grid-template-columns: auto auto auto;
 justify-content: space-around;
 min-height: 680px;
+margin-right:60px;
 `;
 
 const BoardListStyle = styled.div`
