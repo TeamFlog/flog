@@ -15,6 +15,13 @@
     font-style: normal;
 }
 
+body{
+  margin :0!important;
+  background-image: url("/images/background.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+
+}
 
 .App-logo {
   height: 40vmin;

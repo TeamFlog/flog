@@ -100,10 +100,9 @@ public class FlogService {
 			));
 		return pagingList;
 	}
-}
 
-	/*
 
+	
 
 	// 블로그 신청
 

@@ -1,11 +1,6 @@
 package com.cos.jwt.domain.access;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-
-
-public interface AccessRepository extends JpaRepository<Access, Integer> {
-	
-
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 

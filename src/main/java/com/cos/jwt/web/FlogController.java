@@ -63,9 +63,7 @@ public class FlogController {
 	
 	@PostMapping("create_flog") // 블로그 생성
 
-	public String createFlog(@RequestBody Flog flog) {
-		
-		flogService.블로그생성(flog);
+	
 
 	public String createFlog(HttpServletRequest request, MultipartFile  flog_img,@RequestParam("flog_name")String flog_name,
 			@RequestParam("flog_motto")String flog_motto) {

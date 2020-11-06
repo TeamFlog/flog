@@ -1,10 +1,15 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { Provider, useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../store";
 
 const HeaderStyle = styled.div`
+position: sticky;
+z-index:1;
+top:0;
+background-color: white;
+border-bottom: solid 1px;
 `;
 
 const NavStyle = styled.div`
@@ -22,7 +27,6 @@ const NavStyle = styled.div`
     font-weight: 800;
     
   `;
-  
 
 const Header = () => {
 
@@ -45,7 +49,7 @@ const Header = () => {
              
           </li>        
           <li>
-            <Link onClick={logoutProc}>로그아웃</Link>  
+            <Link onClick={logoutProc} style={{ textDecoration: "none", color: "black" }}>로그아웃</Link>  
           </li>
         </>
         )
