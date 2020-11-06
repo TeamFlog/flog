@@ -7,6 +7,7 @@ const initstate = {
   isLogin: false,
 };
 
+
 const reducer = (state = initstate, action) => {
   switch (action.type) {
     case LOGIN:

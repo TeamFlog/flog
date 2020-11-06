@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import com.cos.jwt.domain.flog.Flog.FlogBuilder;
+
 
 public interface FlogRepository extends JpaRepository<Flog, Integer>{
 
@@ -29,4 +31,14 @@ public interface FlogRepository extends JpaRepository<Flog, Integer>{
 	
 	Page<Flog> findAllSearch(String flog_name, Pageable pageRequest);
 */
+
+	
+	
+	@Query(value= "SELECT f FROM Flog f WHERE f.flog_name LIKE %:flog_name%",
+			countQuery = "SELECT COUNT(f.fno) FROM Flog f WHERE f.flog_name LIKE %:flog_name%",
+			nativeQuery = true
+			)
+	Page<Flog> findSearch(String flog_name,Pageable pageRequest);
+		 
+
 }

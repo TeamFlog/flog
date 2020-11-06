@@ -6,6 +6,7 @@ import org.apache.catalina.connector.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,12 +29,17 @@ public class MemberController {
 		memberService.회원가입(member);
 		return new ResponseEntity<String>("ok", HttpStatus.CREATED);
 	}
-
+	@GetMapping("/user/{username}")
+	public Member user(@PathVariable String username) {
+		return memberService.회원정보(username);
+	}
 	// 로그아웃
 	@GetMapping("/logout")
 	public ResponseEntity<?> logout() {
 		session.invalidate();
 		return new ResponseEntity<String>("ok", HttpStatus.OK);
 	}
+	
+	
 
 }

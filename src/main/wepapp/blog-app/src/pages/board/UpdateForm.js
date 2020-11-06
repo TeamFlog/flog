@@ -63,7 +63,6 @@ const UpdateForm = (props) => {
 				alert("수정 실패");
 			}
 		});
-		
 	}
 /*
 	const changeValue = (e)=> {

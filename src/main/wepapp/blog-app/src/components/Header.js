@@ -35,6 +35,7 @@ const Header = () => {
 
   const logoutProc = () => {
     localStorage.removeItem("Authorization");
+    localStorage.removeItem("user");
     dispatch(logout());
   }
 
@@ -45,9 +46,6 @@ const Header = () => {
       {isLogin ? 
         (
         <>
-          <li>
-             
-          </li>        
           <li>
             <Link onClick={logoutProc} style={{ textDecoration: "none", color: "black" }}>로그아웃</Link>  
           </li>

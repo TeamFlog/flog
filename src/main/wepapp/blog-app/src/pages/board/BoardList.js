@@ -27,12 +27,12 @@ const BoardListStyle = styled.div`
   `;
 
 const WriteStyle = styled.button`
-    display:inline-block;
-    margin-left: 500px;
+    display:grid;
+    justify-content:  right;
     background-color: black;
     color: white;
     height: 25px;
-    width:70px;
+    
     padding:5px 15px;
     font-weight: 400;
     border-radius: 6px;
@@ -41,9 +41,25 @@ const WriteStyle = styled.button`
     font-family: 'Cafe24Simplehae';
 `;
 const FlogimgStyle = styled.img`
-max-width:500px; //보드이미지최대너비
+max-width:800px; //보드이미지최대너비
 `;
 
+const JoinButtonStyle = styled.button`
+    background-color: black;
+    color: white;
+    height: 25px;
+    font-size: 15px;
+    font-weight: 700;
+    border-radius: 6px;
+    border: 0;
+    cursor: pointer;
+    font-family: 'Cafe24Simplehae';
+  `;
+const BtnStyle = styled.div`
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-content: right;
+`;
 
 const BoardList = (props) => {
 
@@ -60,6 +76,10 @@ const BoardList = (props) => {
         member: {
             mno:0
         }
+    });
+
+    const [reply, setReply] = useState({
+        content:"",
     });
     
     /*
@@ -95,7 +115,7 @@ const BoardList = (props) => {
             method: "DELETE",
             headers: {
                "Authorization": localStorage.getItem("Authorization")
-            }, body: JSON.stringify(post)
+            }
         }).then(res=>res.text())
         .then(res => {
             if (res === "ok") {
@@ -109,6 +129,32 @@ const BoardList = (props) => {
             });
     }
 
+    const replySave = (boardNo) => {
+        fetch("http://localhost:8000/board/"+boardNo+"/reply", {
+            method: "post",
+            headers: {
+                'Content-Type':"application/json; charset=utf-8",
+				"Authorization": localStorage.getItem("Authorization")
+            },
+            body: JSON.stringify(reply)
+        })
+        .then(res => res.text())
+        .then(res => {
+            if(res === "ok") {
+                alert("댓글등록 성공!");
+                props.history.push("/boardList");
+            } else {
+                alert("댓글등록 실패");
+            }
+        });
+    }
+
+
+    const changeValue = (e)=> {
+        setReply({...reply, 
+	 		[e.target.name]: e.target.value });
+    }
+
     return (
 
         <div>
@@ -116,11 +162,13 @@ const BoardList = (props) => {
         <Status/>
         <div>
             <FamilyMotto/>
+            <BtnStyle>
                 <Link to={"/boardForm/"} style={{ textDecoration: "none", color: "white"}}>
             <WriteStyle>
                 글쓰기
             </WriteStyle>
             </Link>
+            </BtnStyle>
             {boards.map((board) => (    
             <BoardListStyle>
                 <div>글제목: {board.title} </div>
@@ -128,11 +176,21 @@ const BoardList = (props) => {
                 <div dangerouslySetInnerHTML={ {__html: board.content} }></div>
                 <div>작성일: {board.reg_date}</div>
                 <div>작성자: 마스터</div>
+
                 <Link to={"/updateForm/"+board.bno} style={{ textDecoration: "none", color: "black" }}>수정</Link>
                 <button onClick={()=>deleteBoard(board.bno)}>삭제</button>
+                <textarea name="content" placeholder="댓글입력" onChange={changeValue}></textarea>
+                <button onClick={()=>replySave(board.bno)}>등록</button>
+
+                <BtnStyle>
+                <Link to={"/updateForm/"+board.bno} style={{ textAlign:"center",textDecoration: "none", backgroundColor:"black",borderRadius:"6px"}}>
+                <JoinButtonStyle>수정</JoinButtonStyle></Link>
+                <JoinButtonStyle onClick={()=>deleteBoard(board.bno)}>삭제</JoinButtonStyle>
+                </BtnStyle>
+
             </BoardListStyle>
             ))}
-        
+
         </div>
         <Chat/>
         </BoardStyle>

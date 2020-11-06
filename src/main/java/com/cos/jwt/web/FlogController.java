@@ -2,6 +2,8 @@ package com.cos.jwt.web;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
@@ -13,9 +15,18 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.cos.jwt.domain.access.Access;
+
+import com.cos.jwt.domain.access.AccessDto;
 
 import com.cos.jwt.domain.flog.Flog;
+import com.cos.jwt.domain.flog.FlogRepository;
+import com.cos.jwt.domain.flog.PagingDto;
 import com.cos.jwt.service.FlogService;
 
 import lombok.RequiredArgsConstructor;
@@ -37,12 +48,25 @@ public class FlogController {
 		return flogs;
 	}
 	
-	@PostMapping("create_flog") // 블로그 생성
-	public String createFlog(@RequestBody Flog flog) {
-		flogService.블로그생성(flog);
-		return "ok";
+	@GetMapping("/flog/page")
+	public Page<PagingDto> pages(Pageable pageRequest) {
+		Page<PagingDto> pages = flogService.paging(pageRequest);
+		return pages;
+	}
+
+	@GetMapping("/flog/page/search")
+	public Page<PagingDto> searchPage(@PathVariable String flog_name, Pageable pageRequest) {
+		Page<PagingDto> pages = flogService.searchPaging(flog_name, pageRequest);
+		return pages;
 	}
 	
+	@PostMapping("create_flog") // 블로그 생성
+	public String createFlog(HttpServletRequest request, MultipartFile  flog_img,@RequestParam("flog_name")String flog_name,
+			@RequestParam("flog_motto")String flog_motto) {
+		flogService.블로그생성(request, flog_img, flog_name, flog_motto);
+
+		return "ok";
+	}
 	
 	@DeleteMapping("/flog/{fno}")
 	public String deleteFlog(@PathVariable int fno) {
@@ -93,8 +117,25 @@ public class FlogController {
 	@GetMapping("/flogList/search")
 	public String search(@RequestParam(value="keyword") String keyword, Model model) {
 	    List<FlogDto> flogDtoList = flogService.searchFlog(keyword);
+<<<<<<< HEAD
 	    model.addAttribute("flogList", flogDtoList);    
+=======
+	    model.addAttribute("flogList", flogDtoList);
+>>>>>>> 2e12dfd56d00e2f9ac6698666f9fdfb63cba3e13
 	    return "ok";
 	}
 	*/
+	
+
+	//블로그 신청
+	
+	@PostMapping("join_flog")
+	public String joinApplyFlog(@RequestBody AccessDto access) {
+		System.out.println("access정보:"+access);
+		
+		flogService.블로그신청(access);
+		return "ok";
+		
+	}
+
 }

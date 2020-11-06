@@ -8,7 +8,7 @@ import App from './App';
 
 const store = createStore(reducer);
 
-ReactDOM.render(
+ReactDOM.render (
   <React.StrictMode>
   <BrowserRouter>
     <Provider store={store}>
