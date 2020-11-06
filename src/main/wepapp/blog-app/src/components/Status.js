@@ -1,4 +1,6 @@
-import React from 'react';
+
+import userEvent from '@testing-library/user-event';
+import React, { memo,useEffect,useState } from 'react';
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
@@ -35,6 +37,7 @@ const UserImgStyle2 = styled.label`
 width:50px;
 height:50px;
 border-radius:30px;
+cursor: pointer;
 `;
 
 const UserTextStyle = styled.div`
@@ -63,48 +66,107 @@ const StatusText2 = styled.input`
 width:150px;
 `;
 
-const CreateFlogBtnStart = () => {
-    var userStatusOut = document.querySelector("#userStatusOut");
-    if(userStatusOut.style.display=="none"){
+const Status = () => {
+    JSON.parse(localStorage.getItem("user"));
+    console.log(JSON.parse(localStorage.getItem("user")));
+    
+    const user = JSON.parse(localStorage.getItem("user"));
+    const usermno = user.mno
+    const [updateUser, setUpdateUser] = useState({
+        mno:usermno,
+        nickname: "",
+        profile_image: "",
+        emotion: "",
+        home_io: "",
+        state_message: ""
+        });
+        
+        useEffect(()=>{
+        fetch("http://localhost:8000/user/"+user.username, {
+            method: "GET",
+			headers:{
+                "Authorization": localStorage.getItem("Authorization")
+			}
+		}).then(res=>res.json()).then(res=>{
+            setUpdateUser(res); 
+        });
+    },[]);
+        
+    
+    const changeValue = (e)=> {
+		setUpdateUser({ ...updateUser, [e.target.name]: e.target.value });
+		console.log(e.target.value);
+	}	
+
+
+    const CreateFlogBtnStart = () => {
+        var userStatusOut = document.querySelector("#userStatusOut");
+
+        if(userStatusOut.style.display=="none"){
         userStatusOut.style.display="grid";
         alert("프로필을 수정해보세요!");
         alert("프로필을 다시 클릭하시면 저장됩니다!");
-    }else if(userStatusOut.style.display=="grid"){
+         }else if(userStatusOut.style.display=="grid"){
         userStatusOut.style.display="none";
-        alert("프로필이 저장되었습니다!");
-    }else{}
-  }
-  
+
+        let form = document.getElementById("form");
+        const formData = new FormData(form);
+        fetch("http://localhost:8000/user/"+user.mno, {
+			method: "PUT",
+			body: formData
+		}).then(res => res.text())
+		.then(res => {
+			if(res === "ok"){
+				alert("프로필 수정성공!");
+				//props.history.push("/boardList");
+			} else {
+				alert("수정 실패");
+			}
+		});
+		
+          }else{}
+         }
 
 
-const Status = () => {
     return (
         <StatusStyle>
             <SubStatusStyle>
+            <form id="form" >
             <UserStyle id="userStatusOut" style={{display:"none"}}>
-            <UserImgStyle2 for="file" ><UserImgStyle src="../images/logo.jpg"/></UserImgStyle2>
+            <UserImgStyle2 for="file" ><UserImgStyle name="profile_image" src={"images/profileimages/"+user.profile_image}/></UserImgStyle2>
             <input style={{display:"none"}} id="file" type="file"/>
             <UserTextStyle>
             <UserCardStyle >     
-            <NicknameStyle2 placeholder="닉네임"></NicknameStyle2>    
-            <div className="emotion">😭</div>
-            <div className="UserStatus">🟢</div>
+            <NicknameStyle2 placeholder="닉네임" type="text" name="nickname" value={updateUser.nickname} onChange={changeValue}></NicknameStyle2>    
+            <select className="emotion" name="emotion" value={updateUser.emotion} onChange={changeValue} >
+                <option value="😐">😐</option>
+                <option value="😍">😍</option>
+                <option value="😁">😁</option>
+                <option value="😂">😂</option>
+            </select>
+            <select className="UserStatus"  name="home_io" value={updateUser.home_io} onChange={changeValue}>
+                <option value="🟢">🟢</option>
+                <option value="⚪">⚪</option>
+                </select>
             </UserCardStyle>
-            <StatusText2 placeholder="상태메시지"></StatusText2>
+            <StatusText2 placeholder="상태메시지" type="text" name="state_message" value={updateUser.state_message} onChange={changeValue}></StatusText2>
             </UserTextStyle>
             </UserStyle>
+            </form>
+            
             <UserStyle onClick={CreateFlogBtnStart}>
-            <UserImgStyle src="../images/logo.jpg"/>
+            <UserImgStyle name="profile_image" src={"images/profileimages/"+user.profile_image}/>
             <UserTextStyle>
             <UserCardStyle>     
-            <NicknameStyle>제준서</NicknameStyle>    
-            <div className="emotion">😭</div>
-            <div className="UserStatus">🟢</div>
+    <NicknameStyle name="nickname">{user.nickname}</NicknameStyle>    
+            <div className="emotion" name="emotion">{user.emotion}</div>
+    <div className="UserStatus" name="home_io">{user.home_io}</div>
             </UserCardStyle>
-            <StatusText>안녕하세요 준서에요asdfasdsadas</StatusText>
+    <StatusText name="state_message">{user.state_message}</StatusText>
             </UserTextStyle>
             </UserStyle>
-          
+            
+            
             </SubStatusStyle>
         </StatusStyle>
     );

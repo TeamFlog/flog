@@ -67,7 +67,13 @@ public class FlogController {
 
 	public String createFlog(HttpServletRequest request, MultipartFile  flog_img,@RequestParam("flog_name")String flog_name,
 			@RequestParam("flog_motto")String flog_motto) {
+		System.out.println(flog_img.getOriginalFilename());
+		if("".equals(flog_motto)==true||"".equals(flog_name)==true||"".equals(flog_img.getOriginalFilename())==true) {
+			System.out.println("빈 값이 확인되었습니다.");
+			return "false";
+		}else {				
 		flogService.블로그생성(request, flog_img, flog_name, flog_motto);
+		}
 
 		return "ok";
 	}

@@ -51,12 +51,14 @@ const JoinInputStyle = styled.input`
     border: 0;
     cursor: pointer;
     margin-top: 20px;
-    font-family: 'Cafe24Simplehae'
+    font-family: 'Cafe24Simplehae';
   `;
 
 const Login = (props) => {
   
   const dispatch = useDispatch();
+  
+
   const [member, setMember] = useState({
     username: "",
     password: "",
@@ -100,7 +102,7 @@ const Login = (props) => {
       console.log("flog정보 확인"+res.flog)
       if(res.flog === null){
         props.history.push("/floglist"); //라우터에서 역사를 찾아서 푸쉬를 하면 URL 이동가능
-
+      
       }else{
         props.history.push("/boardlist/"+res.flog.getFno); //라우터에서 역사를 찾아서 푸쉬를 하면 URL 이동가능
       }

@@ -67,7 +67,6 @@ const BoardList = (props) => {
 
     const [boards, setBoards] = useState([]);
         // 페이징은 아직 안했음.
-    
     const [post, setPost] = useState({
         bno:"",
         title:"",
@@ -94,6 +93,7 @@ const BoardList = (props) => {
 			props.history.push("/");  
 		}
         */
+
         fetch("http://localhost:8000/board/" + boardNo, {
 			method: "GET",
 			headers:{
@@ -110,6 +110,7 @@ const BoardList = (props) => {
             }
         );
     
+
     },[]);
 
     const deleteBoard =(boardNo) => {
@@ -177,6 +178,7 @@ const BoardList = (props) => {
                 <FlogimgStyle src="images/background.jpg"/>
                 <div dangerouslySetInnerHTML={ {__html: board.content} }></div>
                 <div>작성일: {board.reg_date}</div>
+            <div>작성자: </div>
                 <div>작성자: 마스터</div>
 
                 <Link to={"/updateForm/"+board.bno} style={{ textDecoration: "none", color: "black" }}>수정</Link>
