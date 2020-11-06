@@ -8,4 +8,5 @@ public interface AccessRepository extends JpaRepository<Access, Integer> {
 	@Modifying
 	@Query(value = "INSERT INTO ACCESS(FNO,MNO) VALUES(:fno,:mno)",nativeQuery = true)
 	void saveAccess(int fno,int mno);
+
 }

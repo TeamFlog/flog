@@ -49,9 +49,16 @@ public class BoardController {
 		return "ok";
 	}
 	
-	@GetMapping("/boardList") //글목록
-	public Page<Board> boardList(@PageableDefault(size = 5, sort = "bno", direction = Direction.DESC) Pageable pageable){
-		Page<Board> boards = boardService.글목록(pageable);
+//	@GetMapping("/boardList") //글목록
+//	public Page<Board> boardList(@PageableDefault(size = 5, sort = "bno", direction = Direction.DESC) Pageable pageable){
+//		Page<Board> boards = boardService.글목록(pageable);
+//		return boards;
+//		
+//	}
+	
+	@GetMapping("/boardList/{fno}") //글목록
+	public Page<Board> boardList(@PageableDefault(size = 5, sort = "bno", direction = Direction.DESC) Pageable pageable,@PathVariable int fno){
+		Page<Board> boards = boardService.글목록(pageable,fno);
 		return boards;
 		
 	}

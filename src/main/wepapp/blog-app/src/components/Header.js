@@ -48,9 +48,6 @@ const Header = () => {
         (
         <>
           <li>
-             
-          </li>        
-          <li>
             <Link onClick={logoutProc} style={{ textDecoration: "none", color: "black" }}>로그아웃</Link>  
           </li>
         </>

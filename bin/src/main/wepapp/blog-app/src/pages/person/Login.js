@@ -7,8 +7,8 @@ import { login } from '../../store';
 const FormStyle = styled.div`
     display: grid;
     grid-template-columns: auto auto;
-     justify-content: end;
-  
+    justify-content: end;
+    position: relative;
   `;
 
   const JoinStyle = styled.div`
@@ -23,12 +23,9 @@ const FormStyle = styled.div`
     padding: 20px 30px;
     box-shadow: 0 8px 8px 0 rgb(214, 214, 214);
   `;
-
-  const JoinMainTitleStyle = styled.td`
-    padding: 10px 0;
-    font-size: 22px;
-    font-weight: 600;
-  `;
+const JoinBackgroundStyle = styled.div`
+min-height:680px;
+`;
 
   const JoinSubTitleStyle = styled.td`
     padding: 10px 0;
@@ -69,7 +66,7 @@ const Login = (props) => {
   const loginBtn = (e) => {    
       e.preventDefault();
       fetch("http://localhost:8000/login", {
-        method: "post",
+        method: "POST",
         headers: {
           'Content-Type': "application/json; charset=utf-8"
         }, body: JSON.stringify(member)
@@ -85,6 +82,7 @@ const Login = (props) => {
 
         if(res==="ok"){ // ==두개는 값비교 === 세개는 값과 타입비교
           alert(member.username+"님 환영합니다!");
+          dispatch(login());
           props.history.push("/floglist"); //라우터에서 역사를 찾아서 푸쉬를 하면 URL 이동가능
           //push는 이전페이지를 기억하고  replace는 초기값으로 되돌림.
         } else {
@@ -100,6 +98,7 @@ const Login = (props) => {
 
   return (
     <FormStyle>
+    <JoinBackgroundStyle>
       <JoinStyle>
         <JoinSubTitleStyle >아이디</JoinSubTitleStyle>
         <JoinInputStyle type="text" name="username" value={member.username} onChange={inputHandle} />
@@ -107,6 +106,7 @@ const Login = (props) => {
         <JoinInputStyle type="password" name="password" value={member.password} onChange={inputHandle} />
         <JoinButtonStyle type="submit" onClick={loginBtn}>로그인</JoinButtonStyle>
       </JoinStyle>
+      </JoinBackgroundStyle>
     </FormStyle>
   );
 };
