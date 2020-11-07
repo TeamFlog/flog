@@ -12,11 +12,13 @@ import com.cos.jwt.domain.flog.Flog.FlogBuilder;
 
 
 public interface FlogRepository extends JpaRepository<Flog, Long>{
-
-	@Query(value = "SELECT * FROM flog WHERE fno = :fno",nativeQuery = true)
-	Flog FindByFno(int fno);
 	
-	@Modifying
+	//이 쿼리를 이용하여 수정
+	@Query(value = "SELECT * FROM flog WHERE fno = :fno",nativeQuery = true)
+	Flog FindByFno(Integer fno);
+	
+	
+	@Modifying //사용하지않을 것 같음 -제준서-
 	@Query(value = "DELETE FROM flog WHERE fno =:fno",nativeQuery = true)
 	void deleteByFno(int fno);
 

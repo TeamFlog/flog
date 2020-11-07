@@ -16,7 +16,6 @@ const MottoStyle = styled.div`
 	margin-bottom:30px;
     text-align: center;
     font-weight: 600;
-    max-width: 700px;
     padding:10px;
 `;
 const JoinButtonStyle = styled.button`
@@ -71,6 +70,7 @@ border: 3px solid black;
 border-radius: 5px;
 line-height: 150%;
 word-break: break-all;
+width: 500px;
 `;
 const JoinButton2Style = styled.button`
     background-color: black;
@@ -85,21 +85,74 @@ const JoinButton2Style = styled.button`
   `;
 
 const FamilyMotto = () => {
-    const CreateFlogBtn = () => {
-        var createFlog = document.querySelector("#createFlog");
-        var createBtn = document.querySelector("#createBtn");
-        var statustext = document.querySelector("#statustext");
+
+  const user = JSON.parse(localStorage.getItem("user"));
+  console.log(user.flog);
+
+  const [flog, setFlog] = useState({
+    fno: user.flog.fno,
+    flog_name:"",
+    flog_motto:"",
+    flog_img:""
+  });
+
+  useEffect(()=>{
+            
+    fetch("http://localhost:8000/flog/"+user.flog.fno, {
+        method: "GET",
+        headers:{
+        "Authorization": localStorage.getItem("Authorization")
+    }
+    }).then(res=>res.json()).then(res=>{
+        setFlog(res); 
+    });
+  },[]);
+  console.log("하아.....",flog);
+ 
+  const ChangeValue = (e) => {
+   
+    setFlog({ ...flog, [e.target.name]: e.target.value });
+    console.log(e.target.value)
+  }
+  var createFlog = document.querySelector("#createFlog");
+  var createBtn = document.querySelector("#createBtn");
+  var statustext = document.querySelector("#statustext");
+  
+  const UpdateFlogBtn = () => {
+   
         if(createFlog.style.display=="none"){
           createFlog.style.display="grid";
           createBtn.style.display="none";
-          statustext.style.display="none";
+          statustext.style.display="none";     
         }else if(createFlog.style.display=="grid"){
           createFlog.style.display="none";
           createBtn.style.display="inline";
           statustext.style.display="inline-block";
-        }else{}
-      
+    } 
+  }
+    const UpdateFlogBtnEnd = () =>{
+
+        let form = document.getElementById("form");
+        const formData = new FormData(form);
+        fetch("http://localhost:8000/flog/"+flog.fno, {
+          method:"post",
+          body: formData
+        }).then(res=> res.text())
+        .then(res=> {
+        if(res === "ok") {
+          if(createFlog.style.display=="grid"){
+            createFlog.style.display="none";
+            createBtn.style.display="inline";
+            statustext.style.display="inline-block";
+      } 
+          alert("블로그 수정 완료");
+        } else{
+          alert("블로그 수정 실패");
+        }
+      });      
+  
       }
+    
 
 	return (
 
@@ -111,21 +164,22 @@ const FamilyMotto = () => {
 			<TitleStyle>우리🐸집 가훈</TitleStyle>
             <div id="createFlog" style={{display:"none"}}>
                 <JoinStyle>
-                <JoinButtonStyle onClick={CreateFlogBtn}>닫기</JoinButtonStyle>
+                <JoinButtonStyle onClick={UpdateFlogBtn}>닫기</JoinButtonStyle>
                 <form id="form" >
+                <input name="fno" value={user.flog.fno} hidden></input>
                 <JoinSubTitleStyle>블로그 이름</JoinSubTitleStyle>
-                <JoinInputStyle type="text" name="flog_name" />
+                <JoinInputStyle type="text" name="flog_name" onChange={ChangeValue} value={flog.flog_name}/>
                 <JoinSubTitleStyle>블로그 가훈</JoinSubTitleStyle>
-                <JoinInputStyle type="text" name="flog_motto"/>
+                <JoinInputStyle type="text" name="flog_motto" onChange={ChangeValue} value={flog.flog_motto}/>
                 <JoinSubTitleStyle>블로그 이미지</JoinSubTitleStyle>
-                <JoinInputStyle type="file" name="flog_img" />
+                <JoinInputStyle type="file" name="flog_img" onChange={ChangeValue}  />
                 </form>
-                <JoinButtonStyle type="submit" >블로그수정</JoinButtonStyle>
+                <JoinButtonStyle type="submit" onClick={UpdateFlogBtnEnd}>블로그수정</JoinButtonStyle>
                 </JoinStyle>
         </div>
-            <StatusText id="statustext">아아아아아아ㅏ아아아아아ㄴㅇㅁㄹㄴㅇㄹㅁㄴㄹㅁㄴㄹㄴㅇ
-                 <JoinButton2Style id="createBtn" onClick={CreateFlogBtn}>수정</JoinButton2Style>
+            <StatusText id="statustext">{flog.flog_motto}
             </StatusText>
+                 <JoinButton2Style id="createBtn" onClick={UpdateFlogBtn}>수정</JoinButton2Style>
 
         </MottoStyle>
         </MottoBoxStyle>

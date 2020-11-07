@@ -28,6 +28,7 @@ import com.cos.jwt.domain.access.AccessRepository;
 import com.cos.jwt.domain.flog.Flog;
 import com.cos.jwt.domain.flog.FlogRepository;
 import com.cos.jwt.domain.flog.PagingDto;
+import com.cos.jwt.domain.person.Member;
 
 //Flog 가족 블로그 관련된 기능
 @Service
@@ -46,7 +47,7 @@ public class FlogService {
 			String flog_imgname = flog_img.getOriginalFilename();
 			String uploadFilename = uuid.toString() + "_" + flog_imgname;
 			File dest = new File(
-					"C:\\Users\\admin\\git\\flog\\src\\main\\wepapp\\blog-app\\public\\images\\flogimages\\"
+					"C:\\Users\\82102\\git\\flog\\src\\main\\wepapp\\blog-app\\public\\images\\flogimages\\"
 							+ uploadFilename);
 			flog_img.transferTo(dest);
 			// TODO
@@ -62,12 +63,36 @@ public class FlogService {
 		return flogRepository.findAll(pageable);
 	}
 
+	@Transactional(readOnly = true)
+	public Flog 블로그정보(int fno){
+		return flogRepository.FindByFno(fno);
+	}
+	
 	@Transactional
-	public void 블로그수정(int fno, Flog flog) {
-		Flog flogEntity = flogRepository.FindByFno(fno);
-		flogEntity.setFlog_name(flog.getFlog_name());
-		flogEntity.setFlog_motto(flog.getFlog_motto());
-		flogEntity.setFlog_img(flog.getFlog_img());
+	public void 블로그수정(HttpServletRequest request, MultipartFile flog_img, @RequestParam("flog_name") String flog_name,
+			@RequestParam("flog_motto") String flog_motto,@RequestParam("fno") Integer fno) {
+		try {
+			UUID uuid = UUID.randomUUID();
+			String flog_imgname = flog_img.getOriginalFilename();
+			String uploadFilename = uuid.toString() + "_" + flog_imgname;
+			File dest = new File(
+					"C:\\Users\\82102\\git\\flog\\src\\main\\wepapp\\blog-app\\public\\images\\flogimages\\"
+							+ uploadFilename);
+			flog_img.transferTo(dest);
+			Flog flogEntity = flogRepository.FindByFno(fno);
+			
+			flogEntity.setFlog_name(flog_name);
+			flogEntity.setFlog_motto(flog_motto);
+			if("".equals(flog_imgname)==true) {
+				System.out.println("이미지가 들어오지 않았습니다.");
+			}else {
+				flogEntity.setFlog_img(uploadFilename);				
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		
 	}
 
 	@Transactional

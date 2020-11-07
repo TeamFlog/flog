@@ -156,9 +156,9 @@ const Status = () => {
         <StatusStyle>
             <SubStatusStyle>
             <form id="form2" >
-            <input name="mno" value={updateUser.mno} hidden></input>
+            <input name="mno" value={updateUser.mno} hidden readOnly></input>
             <UserStyle id="userStatusOut" style={{display:"none"}}>
-            <UserImgStyle2 for="file" ><UserImgStyle src="images/profileimages/notfoundimage.jpg"/></UserImgStyle2>
+            <UserImgStyle2 htmlfor="file" ><UserImgStyle src="images/profileimages/notfoundimage.jpg"/></UserImgStyle2>
             <input style={{display:"none"}} name="profile_image" onChange={changeValue} id="file" type="file"/>
             <UserTextSetStyle>
             <UserCardStyle >     

@@ -28,6 +28,7 @@ import com.cos.jwt.domain.access.AccessDto;
 import com.cos.jwt.domain.flog.Flog;
 import com.cos.jwt.domain.flog.FlogRepository;
 import com.cos.jwt.domain.flog.PagingDto;
+import com.cos.jwt.domain.person.Member;
 import com.cos.jwt.service.FlogService;
 
 import lombok.RequiredArgsConstructor;
@@ -54,6 +55,10 @@ public class FlogController {
 		Page<PagingDto> pages = flogService.paging(pageRequest);
 		return pages;
 	}
+	@GetMapping("/flog/{fno}")
+	public Flog flog(@PathVariable int fno) {
+		return flogService.블로그정보(fno);
+	}
 
 	@GetMapping("/flog/page/search")
 	public Page<PagingDto> searchPage(@PathVariable String flog_name, Pageable pageRequest) {
@@ -62,9 +67,6 @@ public class FlogController {
 	}
 	
 	@PostMapping("create_flog") // 블로그 생성
-
-	
-
 	public String createFlog(HttpServletRequest request, MultipartFile  flog_img,@RequestParam("flog_name")String flog_name,
 			@RequestParam("flog_motto")String flog_motto) {
 		System.out.println(flog_img.getOriginalFilename());
@@ -84,10 +86,11 @@ public class FlogController {
 		return "ok";
 	}
 	
-	@PutMapping("/flog/{fno}")
+	@PostMapping("/flog/{fno}")
 	public String 
-	updateFlog(@PathVariable int fno, @RequestBody Flog flog) {
-		flogService.블로그수정(fno,flog);
+	updateFlog(HttpServletRequest request, MultipartFile flog_img, @RequestParam("flog_name") String flog_name,
+			@RequestParam("flog_motto") String flog_motto,@RequestParam(value="fno", defaultValue="fno") Integer fno) {
+		flogService.블로그수정(request,flog_img,flog_name,flog_motto,fno);
 		return "ok";
 	}
 
