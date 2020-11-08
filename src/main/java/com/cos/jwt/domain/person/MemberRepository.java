@@ -12,7 +12,11 @@ public interface MemberRepository extends JpaRepository<Member, Integer>{
 	
 	@Query(value = "SELECT * FROM member WHERE username = :username",nativeQuery = true)
 	Member findByUsername(String username);
-	@Modifying
+	
 	@Query(value = "SELECT * FROM member WHERE mno = :mno",nativeQuery = true)
 	Member findByMno(int mno);
+	
+	@Modifying
+	@Query(value = "update member set fno= :fno where mno= :mno",nativeQuery = true)
+	int UpdateFnoBymno(int mno,int fno);
 }

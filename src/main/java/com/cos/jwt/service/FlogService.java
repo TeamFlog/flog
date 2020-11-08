@@ -45,9 +45,14 @@ public class FlogService {
 			UUID uuid = UUID.randomUUID();
 			String flog_imgname = flog_img.getOriginalFilename();
 			String uploadFilename = uuid.toString() + "_" + flog_imgname;
+//			File dest = new File(
+//					"C:\\Users\\admin\\git\\flog\\src\\main\\wepapp\\blog-app\\public\\images\\flogimages\\"
+//							+ uploadFilename);
 			File dest = new File(
-					"C:\\Users\\admin\\git\\flog\\src\\main\\wepapp\\blog-app\\public\\images\\flogimages\\"
+					"C:\\Users\\82105\\git\\flog\\src\\main\\wepapp\\blog-app\\public\\images\\flogimages\\"
 							+ uploadFilename);
+			
+			
 			flog_img.transferTo(dest);
 			// TODO
 			Flog flog = Flog.builder().flog_name(flog_name).flog_motto(flog_motto).flog_img(uploadFilename).build();

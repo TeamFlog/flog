@@ -136,7 +136,7 @@ const FlogList = () => {
       );
       //console.log('user정보 가져와지는지 확인:',JSON.parse(localStorage.getItem("user")));
       
-
+      console.log('user정보 가져와지는지 확인:',JSON.parse(localStorage.getItem("user")).mno);
       setUser({...user,mno:JSON.parse(localStorage.getItem("user")).mno});
       
   },[]);

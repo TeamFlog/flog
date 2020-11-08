@@ -62,9 +62,6 @@ public class FlogController {
 	}
 	
 	@PostMapping("create_flog") // 블로그 생성
-
-	
-
 	public String createFlog(HttpServletRequest request, MultipartFile  flog_img,@RequestParam("flog_name")String flog_name,
 			@RequestParam("flog_motto")String flog_motto) {
 		System.out.println(flog_img.getOriginalFilename());
@@ -73,6 +70,7 @@ public class FlogController {
 			return "false";
 		}else {				
 		flogService.블로그생성(request, flog_img, flog_name, flog_motto);
+		System.out.println("블로그 생성 완료");
 		}
 
 		return "ok";
@@ -90,6 +88,8 @@ public class FlogController {
 		flogService.블로그수정(fno,flog);
 		return "ok";
 	}
+	
+	
 
 	
 	/*
