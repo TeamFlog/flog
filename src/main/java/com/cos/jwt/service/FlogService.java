@@ -1,17 +1,20 @@
 package com.cos.jwt.service;
 
 import java.io.File;
+import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cos.jwt.domain.access.Access;
@@ -27,7 +30,6 @@ import com.cos.jwt.domain.access.AccessDto;
 import com.cos.jwt.domain.access.AccessRepository;
 import com.cos.jwt.domain.flog.Flog;
 import com.cos.jwt.domain.flog.FlogRepository;
-import com.cos.jwt.domain.flog.PagingDto;
 
 //Flog 가족 블로그 관련된 기능
 @Service
@@ -37,6 +39,7 @@ public class FlogService {
 	private FlogRepository flogRepository;
 	@Autowired
 	private AccessRepository accessRepository;
+	
 
 	@Transactional
 	public void 블로그생성(HttpServletRequest request, MultipartFile flog_img, @RequestParam("flog_name") String flog_name,
@@ -56,12 +59,38 @@ public class FlogService {
 			// TODO: handle exception
 		}
 	}
-
+	
 	@Transactional(readOnly = true)
 	public Page<Flog> 블로그목록(Pageable pageable) {
 		return flogRepository.findAll(pageable);
 	}
-
+	
+	/*
+	@Transactional(readOnly = true)
+	public Page<Flog> 페이징(Model model, @PageableDefault(size = 5,sort="fno") Pageable pageable, @RequestParam String flog_name) {
+		Page<Flog> flogs = flogRepository.findByFlog_NameContaining(flog_name, pageable);
+		int startPage = Math.max(1, flogs.getPageable().getPageNumber() - 4);
+        int endPage = Math.min(flogs.getTotalPages(), flogs.getPageable().getPageNumber() + 4);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+        model.addAttribute("flogs", flogs);
+		return flogRepository.findAll(pageable);
+	}
+/*
+	
+	@Transactional(readOnly = true)
+	public Page<Flog> 블로그목록(Model model, @PageableDefault(size = 5,sort="fno") Pageable pageable,
+            @RequestParam(required = false, defaultValue = "") String searchFlog) {
+		Page<Flog> flogs = flogRepository.findByFlog_NameContaining(searchFlog, pageable);
+		
+        int startPage = Math.max(1, flogs.getPageable().getPageNumber() - 4);
+        int endPage = Math.min(flogs.getTotalPages(), flogs.getPageable().getPageNumber() + 4);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+        model.addAttribute("flogs", flogs);
+		return flogRepository.findAll(pageable);
+	}
+*/
 	@Transactional
 	public void 블로그수정(int fno, Flog flog) {
 		Flog flogEntity = flogRepository.FindByFno(fno);
@@ -70,10 +99,7 @@ public class FlogService {
 		flogEntity.setFlog_img(flog.getFlog_img());
 	}
 
-	@Transactional
-	public void 블로그삭제(int fno) {
-		flogRepository.deleteByFno(fno);
-	}
+	/*
 
 	@Transactional
 	public Page<PagingDto> paging(@PageableDefault(size=15,sort="fno") Pageable pageRequest) {
@@ -102,17 +128,23 @@ public class FlogService {
 		return pagingList;
 	}
 
+*/
+	@Transactional(readOnly = true)
+	public Flog 블로그상세보기(Pageable pageable,int fno){
+		return flogRepository.findById(fno).get();
+	}
 
 	
-
 	// 블로그 신청
-
-
 	@Transactional
 	public void 블로그신청(AccessDto access) {
 		accessRepository.saveAccess(access.getFno(), access.getMno());
 	}
 
+	@Transactional
+	public void 블로그삭제(int fno) {
+		flogRepository.deleteByFno(fno);
+	}
 }
 
 /*

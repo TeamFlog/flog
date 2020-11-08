@@ -2,7 +2,25 @@ import React, { useEffect,useState } from 'react';
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Modal from 'react-modal';
+import { Pagination } from 'react-bootstrap';
 
+const FlogStyle = styled.div`
+    grid-template-columns: auto;
+    background-color: #EBF7FF;
+    grid-gap: 15px;
+    position: relative;
+    border-radius: 6px;
+    padding: 20px 30px;
+    box-shadow: 0 8px 8px 0 #D9E5FF;
+    &:hover {
+      background-color: white;
+    }
+`;
+
+const Flogimage = styled.img`
+  width:130px;
+  height:100px;
+`;
 
 const FlogBoxStyle = styled.div`
 display: grid;
@@ -22,43 +40,29 @@ const FlogWriteStyle = styled.div`
 display : fixed;
 justify-content : end;
 margin-right: 10px;
-`;
-const FlogStyle = styled.div`
-    display:grid;
-    grid-template-columns: auto;
-    background-color: #EBF7FF;
-    grid-gap: 15px;
-    position: relative;
-    border-radius: 6px;
-    padding: 20px 30px;
-    box-shadow: 0 8px 8px 0 #D9E5FF;
-    &:hover {
-      background-color: white;
-    }
-  `;
-const Flogimage = styled.img`
-  width:120px;
-  height:100px;
-`;
-const JoinButtonStyle = styled.button`
-background-color: black;
-color: white;
-width: 100%;
-height: 25px;
-font-size: 15px;
-font-weight: 700;
-border-radius: 6px;
-border: 0;
-cursor: pointer;
-font-family: 'Cafe24Simplehae';
 
 `;
+
+const JoinButtonStyle = styled.button`
+  background-color: black;
+  color: white;
+  width: 100%;
+  height: 25px;
+  font-size: 15px;
+  font-weight: 700;
+  border-radius: 6px;
+  border: 0;
+  cursor: pointer;
+  font-family: 'Cafe24Simplehae';
+
+`;
+
 const YesBtnStyle = styled.button`
 
-	background-color: green;
+	  background-color: green;
     color: white;
     height: 25px;
-  width:100px;
+    width:100px;
   margin-right:100px;
     font-size: 15px;
     font-weight: 400;
@@ -73,7 +77,7 @@ const NoBtnStyle = styled.button`
 
     color: white;
     height: 25px;
-	width:100px;
+	  width:100px;
     font-size: 15px;
     font-weight: 400;
     border-radius: 6px;
@@ -95,17 +99,18 @@ const JoinInputStyle = styled.input`
     border: 1px solid rgb(230, 230, 230);
   `;
  const JoinStyle = styled.div`
- display: grid;
- grid-template-columns: auto;
- justify-content: end;
- width: 200px;
- display: inline-block;
- background-color: white;
- position: relative;
- border-radius: 6px;
- padding: 20px 30px;
- box-shadow: 0 8px 8px 0 rgb(214, 214, 214);
+  display: grid;
+  grid-template-columns: auto;
+  justify-content: end;
+  width: 200px;
+  display: inline-block;
+  background-color: white;
+  position: relative;
+  border-radius: 6px;
+  padding: 20px 30px;
+  box-shadow: 0 8px 8px 0 rgb(214, 214, 214);
 `;
+
 const modalStyles = {
   content : {
       top                   : '50%',
@@ -117,29 +122,36 @@ const modalStyles = {
   }
 };
 
-const FlogList = () => {
+const FlogList = ({fno, flog_name, flog_img}) => {
 
   const [flogs, setFlogs] = useState([]);
-  const [pages, setPages] = useState([]);
-  
+	const [last, setLast] = useState('');
+	const [page, setPage] = useState(0);
 
-  useEffect(()=>{
-      fetch("http://localhost:8000/flogList")
-      .then((res)=>res.json())
-      .then((res)=>
-      {setFlogs(res.content);
-        setPages(res.pageable);
-        console.log(res);
-        console.log(res.content);
-        console.log(res.pageable);
-      }
-      );
-      //console.log('user정보 가져와지는지 확인:',JSON.parse(localStorage.getItem("user")));
-      
+	useEffect(() => {
 
+    // flogList 페이징해서 화면에 표시.
+		fetch("http://localhost:8000/floglist?page="+page, {
+			method: "GET"
+		}).then(res => res.json())
+			.then(res => {
+				console.log(res);
+				setFlogs(res.content);
+				setLast(res.last);
+      });
       setUser({...user,mno:JSON.parse(localStorage.getItem("user")).mno});
-      
-  },[]);
+	}, [page]);
+
+  // 1이지 앞으로.
+	const prev = () =>{
+		setPage(page-1);
+	}
+
+  // 1페이지 뒤로.
+	const next = () =>{
+		setPage(page+1);
+  }
+
 
   const CreateFlogBtn = () => {
     var createFlog = document.querySelector("#createFlog");
@@ -166,12 +178,11 @@ const FlogList = () => {
   });
   const [access,setAccess] = useState({
     mno:null,
+    
     fno:null
   });
  
  
-  
-
   //가입신청함수
   const joinApplyFlog = (fno) =>{
     
@@ -198,20 +209,19 @@ const FlogList = () => {
    
     
   }
-//모달 열려있는지 닫혀있는지 상태
-const [modalIsOpen,setIsOpen] = useState(false);
-  const openModal = () => {
-    
-    setIsOpen(true);
-}
-const afterOpenModal = () => {
-    
-}
-const closeModal = () => {
-    setIsOpen(false);
-}
+  //모달 열려있는지 닫혀있는지 상태
+  const [modalIsOpen,setIsOpen] = useState(false);
+    const openModal = () => {
+      
+      setIsOpen(true);
+  }
+  const afterOpenModal = () => {
+      
+  }
+  const closeModal = () => {
+      setIsOpen(false);
+  }
 
- 
 
   const joinFetch = () => {
 
@@ -259,21 +269,13 @@ const closeModal = () => {
     console.log(e.target.value)
   }
   
-/*
-  const flogSign =()=> { 
 
-  }
-  onClick={()=>flogSign(frog.fno)}
-*/
-
-  const searchBtn=()=>{
-
+  const searchBtn=(e)=>{
+    e.preventDefault();
   }
 
   return (
-    
-
-
+  
     <FlogBoxStyle>
       <Modal
             isOpen={modalIsOpen}
@@ -288,17 +290,33 @@ const closeModal = () => {
               
     </Modal>
     <FloglistStyle>
+
+       {/* flogList를 화면에 뿌려줄 map */}
       {flogs.map((flog)=>(
         <FlogStyle>
         <Flogimage src={"images/flogimages/"+flog.flog_img}  ></Flogimage>
         <div>{flog.flog_name}</div><JoinButtonStyle onClick={()=>joinApplyFlog(flog.fno)}>가입신청하기</JoinButtonStyle>  
         </FlogStyle>
+
       ))}
-      
-      </FloglistStyle>
+        
+      {/* 페이지 Section */}
+      <div>
+        <br /><br /><br /><br />
+				<Pagination>
+					{page === 0 ? 
+						<Pagination.Item onClick={prev} disabled>Prev</Pagination.Item> : 
+						<Pagination.Item onClick={prev}>Prev</Pagination.Item>}
+					{last === true ? 
+						<Pagination.Item onClick={next} disabled>Next</Pagination.Item> : 
+						<Pagination.Item onClick={next}>Next</Pagination.Item>}
+				</Pagination>
+			</div>
+
+    </FloglistStyle>
     <FlogWriteStyle>
-    <input type="text" name="keyword"/>
-    <button onClick={searchBtn}>검색</button>
+    <input type="text" name="searchFlog"/>
+    <button type="submit" onClick={searchBtn}>검색</button>
     <JoinButtonStyle id="createBtn" onClick={CreateFlogBtn}>블로그생성</JoinButtonStyle> 
     <div id="createFlog" style={{display:"none"}}>
       <JoinStyle>
@@ -315,8 +333,9 @@ const closeModal = () => {
         </JoinStyle>
     </div>
       </FlogWriteStyle>
-  
-      </FlogBoxStyle>
+
+    </FlogBoxStyle>
+    
   );
 };
 

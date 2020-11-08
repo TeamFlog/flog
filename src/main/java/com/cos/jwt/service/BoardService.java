@@ -34,17 +34,17 @@ public class BoardService {
 		boardRepository.save(board);
 	}
 	
-//	@Transactional(readOnly = true)
-//	public Page<Board> 글목록(Pageable pageable){
-//		return boardRepository.findAll(pageable);
-//	}
-	
 	@Transactional(readOnly = true)
-	public Page<Board> 글목록(Pageable pageable,int fno){
-		List<Board> boards = boardRepository.FindAllbyFno(fno);
-		return boardRepository.findAll(boards, pageable);
-		
+	public Page<Board> 글목록(Pageable pageable){
+		return boardRepository.findAll(pageable);
 	}
+	
+//	@Transactional(readOnly = true)
+//	public Page<Board> 글목록(Pageable pageable,int fno){
+//		List<Board> boards = boardRepository.FindAllbyFno(fno);
+//		return boardRepository.findAll(boards, pageable);
+//		
+//	}
 	
 	@Transactional(readOnly = true)
 	public Page<Board> 글목록2(Pageable pageable){
@@ -58,8 +58,6 @@ public class BoardService {
 		}
 		return boards;
 	}
-	
-
 	
 	@Transactional(readOnly = true)
 	public Board 글상세보기(Pageable pageable,int bno){

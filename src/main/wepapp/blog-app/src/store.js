@@ -8,8 +8,6 @@ const initstate = {
 };
 
 
-
-
 const reducer = (state = initstate, action) => {
   switch (action.type) {
     case LOGIN:

@@ -47,11 +47,10 @@ public class Board {
 	@ManyToOne //foreign key 설정
 	private Member member;
 	
+	
 	@JoinColumn(name="fno")
 	@OneToOne
 	private Flog flog;
-	
-	
 	
 	//@JoinColumn(name="ino")
 	//@OneToMany(mappedBy = "board") //foreign key 설정

@@ -1,3 +1,4 @@
+  
 package com.cos.jwt.domain.flog;
 
 import java.util.List;
@@ -9,24 +10,33 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import com.cos.jwt.domain.flog.Flog.FlogBuilder;
+import com.cos.jwt.domain.post.Board;
 
 
-public interface FlogRepository extends JpaRepository<Flog, Long>{
-
+public interface FlogRepository extends JpaRepository<Flog, Integer>{
+	
 	@Query(value = "SELECT * FROM flog WHERE fno = :fno",nativeQuery = true)
 	Flog FindByFno(int fno);
 	
 	@Modifying
 	@Query(value = "DELETE FROM flog WHERE fno =:fno",nativeQuery = true)
 	void deleteByFno(int fno);
-
+    
+	@Query(value = "SELECT * FROM flog WHERE fno = :fno",nativeQuery = true)
+	List<Flog> FindAllbyFno(int fno);
 	
+	//Page<Flog> findAll(Pageable pageable);
+	/*
+	@Query(value= "SELECT f FROM Flog f WHERE f.flog_name LIKE %:flog_name%", nativeQuery = true)
+	List<Flog> findByFlog_Name(String flog_name);
+    Page<Flog> findByFlog_NameContaining(String flog_name, Pageable pageable);
 	
+	/*
 	@Query(value= "SELECT f FROM Flog f WHERE f.flog_name LIKE %:flog_name%",
 			countQuery = "SELECT COUNT(f.fno) FROM Flog f WHERE f.flog_name LIKE %:flog_name%",
-			nativeQuery = true
-			)
+			nativeQuery = true)
+	
 	Page<Flog> findSearch(String flog_name,Pageable pageRequest);
-		 
-
+	*/
+	
 }

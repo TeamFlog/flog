@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Calendar from 'react-calendar';
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import 'react-calendar/dist/Calendar.css';
+import Modal from 'react-modal';
+import moment from 'moment';
+
 
 const ChatStyle = styled.div`
     display:grid;
@@ -95,9 +98,9 @@ const CalendarBoxStyle = styled.div`
  position: fixed;
  background-color:#EAEAEA;
  border-radius: 6px;
- padding: 5px 10px;
+ padding: 5px 10px 0px 0px;
  box-shadow: 0 8px 8px 0 rgb(214, 214, 214);
- margin: 0 110px;
+ margin: 400px 110px;
  font-weight: 800;
  cursor:pointer;
  
@@ -117,20 +120,10 @@ const CalendarStyle = styled.div`
 background-color: #EAEAEA;
 position: fixed;
 padding: 5px 10px;
-<<<<<<< HEAD
-margin: 400px 20px 0px 0px;
-=======
 margin: 400px 1000px 0px 0px;
 z-index:2;
 `;
 
-<<<<<<< HEAD
-const Chat = (props) => {
-/*
-    super(props);
-    this.state = {date: new Date()};
-*/
-=======
 const modalStyles = {
     content : {
         top                   : '50%',
@@ -142,25 +135,49 @@ const modalStyles = {
     }
 };
 const WriteBtnStyle = styled.button`
-
-	background-color: black;
-	margin-left: 670px;
-	margin-top:50px;
+   background-color: black;
+   margin-left: 670px;
+   margin-top:50px;
     color: white;
     height: 25px;
-	width:100px;
+   width:100px;
     font-size: 15px;
     font-weight: 400;
     border-radius: 6px;
     border: 0;
     cursor: pointer;
     font-family: 'Cafe24Simplehae';
->>>>>>> b9278a6fe70f53c4cd693598a84d080dea4fdafc
 `;
 
-const Chat = () => {
+Modal.setAppElement('#root');
 
->>>>>>> 7aabc3c2bd7ddf1c6b009d0de2bacb56b2d007bc
+const Chat = () => {
+    //시작시 임의로 값을 초기화해둬야 모달에 오류가 없음
+    useEffect(()=>{
+        fetch("http://localhost:8000/board/schedule/" + "1994-01-01", {
+         method: "GET",
+         headers:{
+            "Authorization": localStorage.getItem("Authorization")
+         }
+      }).then(res=>res.json()).then(res=>{
+            console.log(res);
+         setSList(res);
+        });
+        var month = new Date().getMonth()+1;
+       console.log('month:',month);
+        fetch("http://localhost:8000/board/monthschedule/" + month.toString(), {
+         method: "GET",
+         headers:{
+            "Authorization": localStorage.getItem("Authorization")
+         }
+      }).then(res=>res.json()).then(res=>{
+            console.log(res);
+         setMonthschedule(res);
+        });
+
+
+    },[])
+
     const CalendarBox = () =>{
         
         var cb = document.querySelector("#cbcb");
@@ -170,34 +187,13 @@ const Chat = () => {
             cb.style.display="inline-block";
         }else if(cb.style.display=="inline-block"){
             cb.style.display="none";
-        }else{   
+            
+        }else{
+            
         }
-<<<<<<< HEAD
-=======
 
     } 
-<<<<<<< HEAD
-/*
-    state ={
-        date: new Date(),
-    }
-
-    onChange = date => this.setState({date})
-*
-    changeSelectedDate = (event) => {
-        const day = event.target.dataset.day
-        const selectedDate = moment(day, 'YYYY-MM-DD').toDate()
-        this.props.changeSelectedDate(selectedDate)
-    }
-
-    className="click-event-day"
-            onClick={this.props.changeSelectedDate}
-            data-day={formatedDate} 
-            value={this.state.date}
-*/
-=======
     //달력에서 날 선택시 실행, tempdate값 설정 및 포맷 변경하고 일정모달 오픈함.
->>>>>>> 7aabc3c2bd7ddf1c6b009d0de2bacb56b2d007bc
     const ClickDay = (v,e) =>{
         setTempDate({date:v});
         formatDate(v);
@@ -251,47 +247,41 @@ const Chat = () => {
     //일정리스트 불러오기
     const loadScheduleList = () => {
         fetch("http://localhost:8000/board/schedule/" + tempdate.date.toString(), {
-			method: "GET",
-			headers:{
-				"Authorization": localStorage.getItem("Authorization")
-			}
-		}).then(res=>res.json()).then(res=>{
+         method: "GET",
+         headers:{
+            "Authorization": localStorage.getItem("Authorization")
+         }
+      }).then(res=>res.json()).then(res=>{
             console.log(res);
-			setSList(res);
+         setSList(res);
         });
         console.log('불러오기=',tempdate.date.toString());
     }
-<<<<<<< HEAD
-
-  return (
-      <div>
-    
-=======
     //일정추가
     const submitSchedule = (e) => {
-		e.preventDefault();
+      e.preventDefault();
 
         changeValue(e);
         //setSchedule({s_date : tempdate.date.toString()});
         
-		fetch("http://localhost:8000/boardlist/addschedule", {
-			method: "post",
-			headers: {
-				'Content-Type':"application/json; charset=utf-8",
-				"Authorization": localStorage.getItem("Authorization")
-			}, body: JSON.stringify(schedule)
-		}).then(res=>res.text())
-		.then((res)=> {
-			if(res === "ok") {
-				alert("일정이 추가되었습니다!");
-				
-			} else {
-				alert("일정 등록실패");
-			}
+      fetch("http://localhost:8000/boardlist/addschedule", {
+         method: "post",
+         headers: {
+            'Content-Type':"application/json; charset=utf-8",
+            "Authorization": localStorage.getItem("Authorization")
+         }, body: JSON.stringify(schedule)
+      }).then(res=>res.text())
+      .then((res)=> {
+         if(res === "ok") {
+            alert("일정이 추가되었습니다!");
+            
+         } else {
+            alert("일정 등록실패");
+         }
 
         });
         closeModal();
-	}
+   }
 
     //일정추가에서 입력값 바뀔때 저장하는 메소드
     const changeValue = (e) => {
@@ -302,13 +292,10 @@ const Chat = () => {
             [e.target.name]: e.target.value });
             //console.log(document.querySelector(".ql-editor").innerHTML);
             
->>>>>>> b9278a6fe70f53c4cd693598a84d080dea4fdafc
     } 
    
   return (
       <div>
-<<<<<<< HEAD
-=======
           <Modal
             isOpen={modalIsOpen}
             onAfterOpen={afterOpenModal}
@@ -329,16 +316,16 @@ const Chat = () => {
                 <div>date : {tempdate.date.toString()}</div>
                 <button onClick={closeModal}>close</button>
             </Modal>
->>>>>>> 7aabc3c2bd7ddf1c6b009d0de2bacb56b2d007bc
            <CalendarStyle id="cbcb" style={{display:"none"}}>
           <Calendar  onChange={formatDate} onClickDay={(v,e)=>ClickDay(v,e)}/>
 
           </CalendarStyle>
->>>>>>> b9278a6fe70f53c4cd693598a84d080dea4fdafc
       <ChatStyle>
               <CalendarBoxStyle onClick={CalendarBox}><div>이 달의 일정</div>
               <ScheduleText>
-              <div>10/30 누구누구의 생일ㅇㅇ</div>
+              {monthschedule.map((s)=>(
+                  <div>{s.s_date} {s.s_name}</div>
+              ))}
               </ScheduleText>
               </CalendarBoxStyle>
           <SubChatStyle>

@@ -13,6 +13,8 @@ import Status from "./components/Status";
 import UpdateForm from './pages/board/UpdateForm';
 import { useDispatch } from 'react-redux';
 import {login} from './store';
+import ReplyItem from "./components/ReplyItem";
+
 
 const AppFont = styled.div`
   font-family : 'Cafe24Simplehae';  
@@ -54,8 +56,12 @@ function App() {
     <Route path="/login" exact={true} component={Login}></Route>
     <Route path="/floglist" exact={true} component={FlogList}></Route>
     <Route path="/boardlist" exact={true} component={BoardList}></Route>
+    <Route path="/flog/:fno" exact={true} component={FlogList}></Route>
     <Route path="/updateForm/:bno" exact={true} component={UpdateForm}></Route>
     <Route path="/boardForm" exact={true} component={BoardForm}></Route>
+    <Route path="/replyList" exact={true} component={BoardList}></Route>  
+    <Route path="/replyList/:bno" exact={true} component={ReplyItem}></Route>    
+
     </AppBodyStyle>
 
    <Footer/>
