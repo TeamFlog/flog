@@ -71,6 +71,7 @@ public class FlogController {
 			return "false";
 		}else {				
 		flogService.블로그생성(request, flog_img, flog_name, flog_motto);
+		System.out.println("블로그 생성 완료");
 		}
 
 		return "ok";
@@ -88,6 +89,8 @@ public class FlogController {
 		flogService.블로그수정(fno,flog);
 		return "ok";
 	}
+	
+	
 
 	@GetMapping("/flog/{fno}") //글상세보기 (글수정 시 정보 들고옴)
 	public Flog flogDetail(@PageableDefault(size = 5, sort = "fno", direction = Direction.DESC) Pageable pageable,@PathVariable int fno){

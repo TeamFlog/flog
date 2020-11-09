@@ -23,7 +23,6 @@ public interface BoardRepository extends JpaRepository<Board,Integer>{
 	@Query(value = "DELETE FROM board WHERE bno =:bno",nativeQuery = true)
 	int DeleteByBno(int bno);
 
-	//Page<Board> findAll(List<Board> boards, Pageable pageable);
 	
 	
 	
