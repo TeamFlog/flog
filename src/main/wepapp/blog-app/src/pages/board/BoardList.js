@@ -5,14 +5,16 @@ import Status from "../../components/Status";
 import Chat from "../../components/Chat";
 import 'react-calendar/dist/Calendar.css';
 import FamilyMotto from '../../components/FamilyMotto';
-
+import { Pagination } from 'react-bootstrap';
+import ReplyItem from "../../components/ReplyItem";
+import Modal from 'react-modal';
 
 const BoardStyle = styled.div`
-display: grid;
-grid-template-columns: auto auto auto;
-justify-content: space-around;
-min-height: 680px;
-margin-right:60px;
+    display: grid;
+    grid-template-columns: auto auto auto;
+    justify-content: space-around;
+    min-height: 680px;
+    margin-right:60px;
 `;
 
 const BoardListStyle = styled.div`
@@ -62,58 +64,128 @@ const BtnStyle = styled.div`
     justify-content: right;
 `;
 
-const BoardList = (props) => {
+const YesBtnStyle = styled.button`
 
-    let boardNo = props.match.params.bno;
+	background-color: lightgray;
+    color: white;
+    height: 25px;
+    width:70px;
+    margin-left: 10px;
+    margin-right:10px;
+    font-size: 15px;
+    font-weight: 400;
+    border-radius: 5px;
+    border: 0;
+    cursor: pointer;
+    font-family: 'Cafe24Simplehae';
+`;
+
+const RepViewBtnStyle = styled.button`
+    background-color: gray;
+    color: white;
+    height: 25px;
+    width:70px;
+    margin-left: 10px;
+    margin-right:10px;
+    font-size: 15px;
+    font-weight: 400;
+    border-radius: 5px;
+    border: 0;
+    cursor: pointer;
+    font-family: 'Cafe24Simplehae';
+`;
+
+const NoBtnStyle = styled.button`
+
+    background-color: white;
+    float: right;
+    color: black;
+    height: 25px;
+	width:100px;
+    font-size: 15px;
+    font-weight: 400;
+    border-radius: 6px;
+    border: 0;
+    cursor: pointer;
+    font-family: 'Cafe24Simplehae';
+`;
+
+const modalStyles = {
+  content : {
+      top                   : '50%',
+      left                  : '50%',
+      right                 : 'auto',
+      bottom                : 'auto',
+      marginRight           : '-50%',
+      transform             : 'translate(-50%, -50%)'
+  }
+};
+
+const BoardList = (props, {bno, content, title, reg_date}) => {
+
+    //let boardNo = props.match.params.bno;
 
     const [boards, setBoards] = useState([]);
-        // 페이징은 아직 안했음.
-    const [post, setPost] = useState({
-        bno:"",
-        title:"",
-        content:"",
-        reg_date:"",
-        member: {
-            mno:0
+	const [last, setLast] = useState('');
+	const [page, setPage] = useState(0);
+
+	useEffect(() => {
+
+    // flogList 페이징해서 화면에 표시.
+        fetch("http://localhost:8000/boardlist?page="+page, {
+            method: "GET"
+        }).then(res => res.json())
+            .then(res => {
+                console.log(res);
+                setBoards(res.content);
+                setLast(res.last);
+        });
+        setUser({...user,mno:JSON.parse(localStorage.getItem("user")).mno});
+
+	}, [page]);
+
+
+    // 1이지 앞으로.
+        const prev = () =>{
+            setPage(page-1);
         }
-    });
+
+    // 1페이지 뒤로.
+        const next = () =>{
+            setPage(page+1);
+    }
+
+
+    // const [post, setPost] = useState({
+    //     bno:"",
+    //     title:"",
+    //     content:"",
+    //     reg_date:"",
+    //     member: {
+    //         mno:0
+    //     }
+    // });
 
     const [reply, setReply] = useState({
-        content:"",
+        rno:null,
     });
+
+    const [replys, setReplys] = useState([]);
+
+    const [board, setBoard] = useState({
+        bno:null,
     
+    });
+
+    const [user,setUser]= useState({
+        mno:null,
+    });
     /*
     // 로그인해야 게시물 등록/수정/삭제 가능.
     const isLogin = useSelector((store)=> store.isLogin);
     
     */
-    useEffect(()=>{
-        /*
-		if(!isLogin){
-			alert('로그인 후 이용할 수 있습니다.');
-			props.history.push("/");  
-		}
-        */
-
-        fetch("http://localhost:8000/board/" + boardNo, {
-			method: "GET",
-			headers:{
-				"Authorization": localStorage.getItem("Authorization")
-			}
-		}).then(res=>res.json()).then(res=>{
-			setPost(res); 
-        });
-        
-        fetch("http://localhost:8000/boardList")
-        .then((res)=>res.json())
-        .then((res)=>{
-            setBoards(res.content);
-            }
-        );
     
-
-    },[]);
-
     const deleteBoard =(boardNo) => {
         fetch("http://localhost:8000/board/"+ boardNo, {
             method: "DELETE",
@@ -133,30 +205,91 @@ const BoardList = (props) => {
             });
     }
 
-    const replySave = (boardNo) => {
-        fetch("http://localhost:8000/board/"+boardNo+"/reply", {
-            method: "post",
-            headers: {
-                'Content-Type':"application/json; charset=utf-8",
-				"Authorization": localStorage.getItem("Authorization")
-            },
-            body: JSON.stringify(reply)
-        })
-        .then(res => res.text())
-        .then(res => {
-            if(res === "ok") {
-                alert("댓글등록 성공!");
-                props.history.push("/boardList");
-            } else {
-                alert("댓글등록 실패");
-            }
-        });
+    const changeValue = (e)=> {
+        setReply({...reply, 
+             [e.target.name]: e.target.value });
+             
+        setBoard({...board, 
+             [e.target.name]: e.target.value });     
     }
 
 
-    const changeValue = (e)=> {
-        setReply({...reply, 
-	 		[e.target.name]: e.target.value });
+    const replyApplyBtn = (bno) =>{
+    
+        setBoard({...board,
+            bno:bno, 
+        });
+    
+        console.log('bno정보:',bno);
+        openModal();
+        
+    }
+
+    //모달 열려있는지 닫혀있는지 상태
+    const [modalIsOpen,setIsOpen] = useState(false);
+        const openModal = () => {
+        
+        setIsOpen(true);
+    }
+    const afterOpenModal = () => {
+        
+    }
+    const closeModal = () => {
+        setIsOpen(false);
+    }
+
+
+    const ReplyList = (bno) => {
+        // setReplys({...replys,
+        //     bno:bno, 
+        // });
+
+        var replySection = document.querySelector("#replySection");
+        var replyOpen = document.querySelector("#replyOpen");
+
+        if(replySection.style.display==="none"){
+            replySection.style.display="grid";
+            replyOpen.style.display="none";
+                    
+        }else if(replySection.style.display==="grid"){
+            replySection.style.display="none";
+            replyOpen.style.display="inline";
+        }else{}
+
+        fetch("http://localhost:8000/replyList/"+ board.bno, {
+            method:"GET",
+            headers:{
+            "Authorization": localStorage.getItem("Authorization")
+            }
+        })
+        .then((res)=>res.json())
+        .then((res)=>{
+            setReplys(res.content);
+            console.log(res);
+            }
+        );
+    }
+
+    const ReplySave = () => {
+
+        console.log('board정보:',board);
+        fetch("http://localhost:8000/board/"+ board.bno + "/reply",{
+        method:"post",
+        headers: {
+                    'Content-Type':"application/json; charset=utf-8",
+                    "Authorization": localStorage.getItem("Authorization")
+                },
+        body: JSON.stringify(board)
+        }).then(res => res.text())
+        .then(res => {
+        if(res==="ok"){
+            alert("댓글등록이 완료되었습니다.");
+        }else{
+            alert("댓글등록 실패");
+        }
+    })
+    
+        closeModal();
     }
 
     return (
@@ -164,6 +297,26 @@ const BoardList = (props) => {
         <div>
         <BoardStyle>
         <Status/>
+
+        <Modal
+            isOpen={modalIsOpen}
+            onAfterOpen={afterOpenModal}
+            onRequestClose={closeModal}
+            style={modalStyles}
+            contentLabel="modal"
+        >
+            <div>
+                <h2>댓글</h2>
+                <input type="text" name="content" placeholder="댓글입력" onChange={changeValue}/> 
+                <YesBtnStyle onClick={ReplySave}>등록하기</YesBtnStyle>
+                <RepViewBtnStyle id="replyOpen" onClick={()=>ReplyList(board.bno.rno)}>댓글보기</RepViewBtnStyle><br /><br />
+                <div id="replySection" style={{display:"none"}}> 
+                    댓글{reply.content}
+                </div>
+            <NoBtnStyle onClick={closeModal}>나가기</NoBtnStyle>
+            </div>
+        </Modal>
+
         <div>
             <FamilyMotto/>
             <BtnStyle>
@@ -175,17 +328,11 @@ const BoardList = (props) => {
             </BtnStyle>
             {boards.map((board) => (    
             <BoardListStyle>
-                <div>글제목: {board.title} </div>
+                <div>글제목: {board.title}</div>
                 <FlogimgStyle src="images/background.jpg"/>
                 <div dangerouslySetInnerHTML={ {__html: board.content} }></div>
                 <div>작성일: {board.reg_date}</div>
-            <div>작성자: </div>
                 <div>작성자: 마스터</div>
-
-                <Link to={"/updateForm/"+board.bno} style={{ textDecoration: "none", color: "black" }}>수정</Link>
-                <button onClick={()=>deleteBoard(board.bno)}>삭제</button>
-                <textarea name="content" placeholder="댓글입력" onChange={changeValue}></textarea>
-                <button onClick={()=>replySave(board.bno)}>등록</button>
 
                 <BtnStyle>
                 <Link to={"/updateForm/"+board.bno} style={{ textAlign:"center",textDecoration: "none", backgroundColor:"black",borderRadius:"6px"}}>
@@ -193,9 +340,32 @@ const BoardList = (props) => {
                 <JoinButtonStyle onClick={()=>deleteBoard(board.bno)}>삭제</JoinButtonStyle>
                 </BtnStyle>
 
+                <JoinButtonStyle onClick={()=>replyApplyBtn(board.bno)}>댓글</JoinButtonStyle>
+                
+                {/* {replys.map(reply => <ReplyItem key={reply.rno} content={reply.content} reg_date={reply.reg_date} />)} */}
+                {/* <h3>댓글</h3>                       
+                <button id="replyOpen" onClick={()=>replyOpenBtn(board.bno)}>댓글열기↓</button>
+                <div id="replySection"  style={{display:"none"}}>
+                        <form id="form">
+                            댓글 : {reply.content}<br />
+                        </form>                 
+                    <button onClick={replyClsoe}>닫기</button>
+                </div>   */}
             </BoardListStyle>
             ))}
+            
+            <div>
+            <br /><br /><br /><br />
+				<Pagination>
+					{page === 0 ? 
+						<Pagination.Item onClick={prev} disabled>Prev</Pagination.Item> : 
+						<Pagination.Item onClick={prev}>Prev</Pagination.Item>}
+					{last === true ? 
+						<Pagination.Item onClick={next} disabled>Next</Pagination.Item> : 
+						<Pagination.Item onClick={next}>Next</Pagination.Item>}
+				</Pagination>
 
+			</div>
         </div>
         <Chat/>
         </BoardStyle>

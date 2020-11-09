@@ -1,4 +1,3 @@
-
 import userEvent from '@testing-library/user-event';
 import React, { memo,useEffect,useState } from 'react';
 import { Link } from "react-router-dom";
@@ -27,7 +26,6 @@ const UserStyle = styled.div`
     box-shadow: 0 8px 8px 0 rgb(214, 214, 214);
     &:hover {
       background-color: white;
-
     }
     
 `;
@@ -35,13 +33,11 @@ const UserImgStyle = styled.img`
 width:80px;
 height:80px;
 border-radius:35px;
-
 `;
 const UserImgStyle2 = styled.label`
 width:80px;
 height:80px;
 border-radius:40px;
-
 cursor: pointer;
 `;
 
@@ -56,7 +52,6 @@ const UserTextSetStyle = styled.div`
 display : grid;
 grid-template-rows : auto auto;
 font-weight:500;
-
 `;
 const NicknameStyle = styled.div`
 margin : 5px 5px 0 0;
@@ -160,6 +155,7 @@ const AccessListBox = styled.div`
 
 
 const Status = () => {
+    
     JSON.parse(localStorage.getItem("user"));
     console.log(JSON.parse(localStorage.getItem("user")));
     const [AccessmodalIsOpen,setAccessIsOpen] = useState(false);
@@ -186,6 +182,7 @@ const Status = () => {
      const [accesses,setAccesses] = useState([]);
 
         useEffect(()=>{
+            
         fetch("http://localhost:8000/user/"+user.username, {
             method: "GET",
 			headers:{
@@ -203,8 +200,14 @@ const Status = () => {
         }).then(res=> res.json()).then(res=>{
             setAccesses(res);
         })
+        setMembers(user.flog.member);
+        
     },[]);
         
+    const [members, setMembers] = useState([]);
+
+    //setMembers(user.flog.member); 
+    console.log(user.flog.member);
     
     const changeValue = (e)=> {
 		setUpdateUser({ ...updateUser, [e.target.name]: e.target.value });
@@ -274,6 +277,7 @@ const Status = () => {
 
 
     return (
+        
         <StatusStyle>
             <Modal
             isOpen={AccessmodalIsOpen}
@@ -337,6 +341,7 @@ const Status = () => {
             </AccessBox>
             <UserStyle onClick={CreateFlogBtnStart}>
             <UserImgStyle name="profile_image" src={"images/profileimages/"+updateUser.profile_image}/>
+            
             <UserTextStyle>
             <UserCardStyle>     
     <NicknameStyle name="nickname">{updateUser.nickname}</NicknameStyle>    
@@ -346,8 +351,21 @@ const Status = () => {
     <StatusText name="state_message">{updateUser.state_message}</StatusText>
             </UserTextStyle>
             </UserStyle>
-            
-            
+
+        {members.map((member) => ( 
+            member.username===updateUser.username ? "" : 
+            <UserStyle>
+                   <UserImgStyle name="profile_image" src={"images/profileimages/"+member.profile_image}/>
+                   <UserTextStyle>
+                   <UserCardStyle>     
+                   <NicknameStyle name="nickname">{member.nickname}</NicknameStyle>    
+                   <div className="emotion" name="emotion">{member.emotion}</div>
+                   <div className="UserStatus" name="home_io">{member.home_io}</div>
+                   </UserCardStyle>
+                     <StatusText name="state_message">{member.state_message}</StatusText>
+                   </UserTextStyle>
+            </UserStyle>
+            ))}
             </SubStatusStyle>
         </StatusStyle>
     );

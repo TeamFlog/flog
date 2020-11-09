@@ -59,8 +59,6 @@ public class BoardService {
 		return boards;
 	}
 	
-
-	
 	@Transactional(readOnly = true)
 	public Board 글상세보기(Pageable pageable,int bno){
 		return boardRepository.findById(bno).get();

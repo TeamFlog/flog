@@ -27,7 +27,6 @@ import com.cos.jwt.domain.access.AccessDto;
 
 import com.cos.jwt.domain.flog.Flog;
 import com.cos.jwt.domain.flog.FlogRepository;
-import com.cos.jwt.domain.flog.PagingDto;
 import com.cos.jwt.service.FlogService;
 
 import lombok.RequiredArgsConstructor;
@@ -43,12 +42,14 @@ public class FlogController {
 		return "index";
 	}
 	
-	@GetMapping("flogList") //블로그 목록
-	public Page<Flog> flogList(@PageableDefault(size=15,sort = "fno", direction = Direction.DESC) Pageable pageable){
+	
+	@GetMapping("/floglist") //블로그 목록
+	public Page<Flog> flogList(@PageableDefault(size = 10, sort = "fno", direction = Direction.DESC) Pageable pageable){
 		Page<Flog> flogs = flogService.블로그목록(pageable);
 		return flogs;
 	}
 	
+	/*
 	@GetMapping("/flog/page")
 	public Page<PagingDto> pages(Pageable pageRequest) {
 		Page<PagingDto> pages = flogService.paging(pageRequest);
@@ -60,7 +61,7 @@ public class FlogController {
 		Page<PagingDto> pages = flogService.searchPaging(flog_name, pageRequest);
 		return pages;
 	}
-	
+	*/
 	@PostMapping("create_flog") // 블로그 생성
 	public String createFlog(HttpServletRequest request, MultipartFile  flog_img,@RequestParam("flog_name")String flog_name,
 			@RequestParam("flog_motto")String flog_motto) {
@@ -91,6 +92,11 @@ public class FlogController {
 	
 	
 
+	@GetMapping("/flog/{fno}") //글상세보기 (글수정 시 정보 들고옴)
+	public Flog flogDetail(@PageableDefault(size = 5, sort = "fno", direction = Direction.DESC) Pageable pageable,@PathVariable int fno){
+		Flog flog = flogService.블로그상세보기(pageable, fno);
+		return flog;	
+	}
 	
 	/*
 	@GetMapping("/flogList/search")

@@ -63,6 +63,7 @@ const Login = (props) => {
     username: "",
     password: "",
   });
+  
   const [user, setUser] = useState({});
 
   const loginBtn = (e) => {    
@@ -104,7 +105,7 @@ const Login = (props) => {
         props.history.push("/floglist"); //라우터에서 역사를 찾아서 푸쉬를 하면 URL 이동가능
       
       }else{
-        props.history.push("/boardlist/"+res.flog.getFno); //라우터에서 역사를 찾아서 푸쉬를 하면 URL 이동가능
+        props.history.push("/boardlist"); //라우터에서 역사를 찾아서 푸쉬를 하면 URL 이동가능
       }
         });
 
