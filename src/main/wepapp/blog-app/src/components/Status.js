@@ -2,6 +2,7 @@ import userEvent from '@testing-library/user-event';
 import React, { memo,useEffect,useState } from 'react';
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import Modal from 'react-modal';
 
 const StatusStyle = styled.div`
     display: grid;
@@ -73,11 +74,100 @@ width:150px;
 font-size:12px;
 `;
 
+const CloseBtnStyle = styled.button`
+
+   background-color: black;
+   margin-left: 670px;
+   margin-top:50px;
+    color: white;
+    height: 25px;
+   width:100px;
+    font-size: 15px;
+    font-weight: 400;
+    border-radius: 6px;
+    border: 0;
+    cursor: pointer;
+    font-family: 'Cafe24Simplehae';
+`;
+//수락버튼
+const AcceptBtnStyle = styled.button`
+
+   background-color: green;
+   margin-left: 670px;
+   margin-top:50px;
+    color: white;
+    height: 25px;
+   width:100px;
+    font-size: 15px;
+    font-weight: 400;
+    border-radius: 6px;
+    border: 0;
+    cursor: pointer;
+    font-family: 'Cafe24Simplehae';
+`;
+//거절버튼
+const RejectBtnStyle = styled.button`
+
+   background-color: red;
+   margin-left: 670px;
+   margin-top:50px;
+    color: white;
+    height: 25px;
+   width:100px;
+    font-size: 15px;
+    font-weight: 400;
+    border-radius: 6px;
+    border: 0;
+    cursor: pointer;
+    font-family: 'Cafe24Simplehae';
+`;
+
+//가입요청 알람창
+const AccessBox = styled.div`
+    width:200px;
+    height:50px;
+    display: flex;
+    justify-content:center;
+    align-items:center;
+    margin: 10px 10px;
+    background-color:#7BF7FD;
+`;
+//가입요청모달 스타일
+const AccessModalStyles = {
+    content : {
+        top                   : '50%',
+        left                  : '50%',
+        right                 : 'auto',
+        bottom                : 'auto',
+        marginRight           : '-50%',
+        transform             : 'translate(-50%, -50%)'
+    }
+};
+const AccessListStyles = styled.div`
+    display:flex;
+    justify-content:center;
+    align-items:center;
+`;
+const AccessListBox = styled.div`
+    
+`;
+
+
+
 const Status = () => {
     
     JSON.parse(localStorage.getItem("user"));
     console.log(JSON.parse(localStorage.getItem("user")));
-    
+    const [AccessmodalIsOpen,setAccessIsOpen] = useState(false);
+    const AccessopenModal = () => {
+        
+        setAccessIsOpen(true);
+    }
+    const AccessafterOpenModal = () => {
+    }
+    const AccesscloseModal = () => {
+        setAccessIsOpen(false);
+    }
     const user = JSON.parse(localStorage.getItem("user"));
     const usermno = user.mno
     console.log(usermno);
@@ -89,7 +179,8 @@ const Status = () => {
         home_io: "",
         state_message: ""
         });
-     
+     const [accesses,setAccesses] = useState([]);
+
         useEffect(()=>{
             
         fetch("http://localhost:8000/user/"+user.username, {
@@ -100,6 +191,15 @@ const Status = () => {
 		}).then(res=>res.json()).then(res=>{
             setUpdateUser(res); 
         });
+
+        fetch("http://localhost:8000/access/"+user.flog.fno,{
+            method: "GET",
+			headers:{
+                "Authorization": localStorage.getItem("Authorization")
+			}
+        }).then(res=> res.json()).then(res=>{
+            setAccesses(res);
+        })
         setMembers(user.flog.member);
         
     },[]);
@@ -112,11 +212,43 @@ const Status = () => {
     const changeValue = (e)=> {
 		setUpdateUser({ ...updateUser, [e.target.name]: e.target.value });
 		console.log(e.target.value);
-	}	
+    }	
+    
+    const accept = (ano)=>{
+        fetch("http://localhost:8000/access/"+ano,{
+            method: "Post",
+			headers:{
+                "Authorization": localStorage.getItem("Authorization")
+			}
+        }).then(res=> res.text()).then(res=>{
+            if(res === "ok"){
+                alert("수락완료했습니다");
+            }else{
+                alert("수락실패했습니다");
+            }
+        });
+        AccesscloseModal();
+    }
+
+    const reject = (ano)=>{
+        fetch("http://localhost:8000/access/"+ano,{
+            method: "Delete",
+			headers:{
+                "Authorization": localStorage.getItem("Authorization")
+			}
+        }).then(res=> res.text()).then(res=>{
+            if(res === "ok"){
+                alert("거절완료했습니다");
+            }else{
+                alert("거절실패했습니다");
+            }
+        })
+    }
 
 
     const CreateFlogBtnStart = (props) => {
         var userStatusOut = document.querySelector("#userStatusOut");
+        console.log("요청리스트 확인중:",accesses);
 
         if(userStatusOut.style.display=="none"){
         userStatusOut.style.display="grid";
@@ -147,6 +279,30 @@ const Status = () => {
     return (
         
         <StatusStyle>
+            <Modal
+            isOpen={AccessmodalIsOpen}
+            onAfterOpen={AccessafterOpenModal}
+            onRequestClose={AccesscloseModal}
+            style={AccessModalStyles}
+            contentLabel="modal"
+            >
+              {accesses.map((access)=>(
+
+                  <AccessListBox>
+                    <AccessListStyles>
+                    <div>{access.member.nickname}님이 가입요청 하셨습니다!</div>
+                     </AccessListStyles>
+                    <AcceptBtnStyle onClick={()=>accept(access.ano)}>수락</AcceptBtnStyle>
+                  <RejectBtnStyle onClick={()=>reject(access.ano)}>거절</RejectBtnStyle>
+                  </AccessListBox>
+                  
+                  
+                  
+                  ))}
+              
+              <CloseBtnStyle onClick={AccesscloseModal}>close</CloseBtnStyle>
+              
+    </Modal>
             <SubStatusStyle>
             <form id="form2" >
             <input name="mno" value={updateUser.mno} hidden readOnly></input>
@@ -179,6 +335,10 @@ const Status = () => {
             </UserStyle>
             </form>
             
+            <AccessBox onClick={AccessopenModal}>
+            <img src={"images/bell.png"} height="30px"/>  
+            요청수: {accesses.length}
+            </AccessBox>
             <UserStyle onClick={CreateFlogBtnStart}>
             <UserImgStyle name="profile_image" src={"images/profileimages/"+updateUser.profile_image}/>
             

@@ -128,6 +128,20 @@ const FlogList = ({fno, flog_name, flog_img}) => {
 	const [last, setLast] = useState('');
 	const [page, setPage] = useState(0);
 
+  useEffect(()=>{
+      fetch("http://localhost:8000/flogList")
+      .then((res)=>res.json())
+      .then((res)=>
+      {setFlogs(res.content);
+        setPages(res.pageable);
+        console.log(res);
+        console.log(res.content);
+        console.log(res.pageable);
+      }
+      );
+      //console.log('user정보 가져와지는지 확인:',JSON.parse(localStorage.getItem("user")));
+      
+      console.log('user정보 가져와지는지 확인:',JSON.parse(localStorage.getItem("user")).mno);
 	useEffect(() => {
 
     // flogList 페이징해서 화면에 표시.

@@ -50,7 +50,9 @@ public class BoardController {
 	}
 	
 
-	@GetMapping("/boardList") //글목록
+
+
+	@GetMapping("/boardlist") //글목록
 
 	public Page<Board> boardList(@PageableDefault(size = 5, sort = "bno", direction = Direction.DESC) Pageable pageable){
 		Page<Board> boards = boardService.글목록(pageable);
@@ -64,7 +66,6 @@ public class BoardController {
 //		return boards;
 //		
 //	}
-	
 	
 	
 	@GetMapping("/board/{bno}") //글상세보기 (글수정 시 정보 들고옴)
