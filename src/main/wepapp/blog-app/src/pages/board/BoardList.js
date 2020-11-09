@@ -333,6 +333,9 @@ const BoardList = (props, {bno, content, title, reg_date}) => {
                 <div dangerouslySetInnerHTML={ {__html: board.content} }></div>
                 <div>작성일: {board.reg_date}</div>
                 <div>작성자: 마스터</div>
+                <textarea name="content" placeholder="댓글입력" onChange={changeValue}></textarea>
+                <button onClick={()=>replySave(board.bno)}>등록</button>
+
 
                 <BtnStyle>
                 <Link to={"/updateForm/"+board.bno} style={{ textAlign:"center",textDecoration: "none", backgroundColor:"black",borderRadius:"6px"}}>

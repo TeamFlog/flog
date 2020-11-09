@@ -43,6 +43,8 @@ public class MemberService {
 			String profile_imagename = profile_image.getOriginalFilename();
 			String uploadFilename2 = uuid.toString() + "_" + profile_imagename;
 			File dest = new File(
+
+
 					"C:\\Users\\admin\\git\\flog\\src\\main\\wepapp\\blog-app\\public\\images\\profileimages\\"
 							+ uploadFilename2);
 			profile_image.transferTo(dest);
