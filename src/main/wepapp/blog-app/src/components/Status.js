@@ -1,4 +1,3 @@
-
 import userEvent from '@testing-library/user-event';
 import React, { memo,useEffect,useState } from 'react';
 import { Link } from "react-router-dom";
@@ -26,7 +25,6 @@ const UserStyle = styled.div`
     box-shadow: 0 8px 8px 0 rgb(214, 214, 214);
     &:hover {
       background-color: white;
-
     }
     
 `;
@@ -34,13 +32,11 @@ const UserImgStyle = styled.img`
 width:80px;
 height:80px;
 border-radius:35px;
-
 `;
 const UserImgStyle2 = styled.label`
 width:80px;
 height:80px;
 border-radius:40px;
-
 cursor: pointer;
 `;
 
@@ -55,7 +51,6 @@ const UserTextSetStyle = styled.div`
 display : grid;
 grid-template-rows : auto auto;
 font-weight:500;
-
 `;
 const NicknameStyle = styled.div`
 margin : 5px 5px 0 0;
@@ -111,8 +106,6 @@ const Status = () => {
         
     const [members, setMembers] = useState([]);
 
-    
-    
     //setMembers(user.flog.member); 
     console.log(user.flog.member);
     
@@ -200,7 +193,9 @@ const Status = () => {
             </UserStyle>
 
         {members.map((member) => ( 
-            member.username==updateUser.username ? "" : 
+
+            member.username===updateUser.username ? "" : 
+
             <UserStyle>
                    <UserImgStyle name="profile_image" src={"images/profileimages/"+member.profile_image}/>
                    <UserTextStyle>

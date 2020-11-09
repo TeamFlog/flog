@@ -135,7 +135,6 @@ const modalStyles = {
     }
 };
 const WriteBtnStyle = styled.button`
-
    background-color: black;
    margin-left: 670px;
    margin-top:50px;
