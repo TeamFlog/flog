@@ -121,7 +121,7 @@ const FamilyMotto = () => {
                 <JoinButtonStyle type="submit" >블로그수정</JoinButtonStyle>
                 </JoinStyle>
         </div>
-            <StatusText id="statustext">아아아아아아ㅏ아아아아아ㄴㅇㅁㄹㄴㅇㄹㅁㄴㄹㅁㄴㄹㄴㅇ
+            <StatusText id="statustext">착하게 살자
                  <JoinButton2Style id="createBtn" onClick={CreateFlogBtn}>수정</JoinButton2Style>
             </StatusText>
 		</MottoStyle>

@@ -98,6 +98,7 @@ const Login = (props) => {
 
       }else{
         props.history.push("/boardlist"); //라우터에서 역사를 찾아서 푸쉬를 하면 URL 이동가능
+        // props.history.push("/boardlist/",res.flog.getFno());
       }
         });
           //push는 이전페이지를 기억하고  replace는 초기값으로 되돌림.

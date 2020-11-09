@@ -87,7 +87,7 @@ const Status = () => {
             <UserTextStyle>
             <UserCardStyle >     
             <NicknameStyle2 placeholder="닉네임"></NicknameStyle2>    
-            <div className="emotion">😭</div>
+            <div className="emotion">😎</div>
             <div className="UserStatus">🟢</div>
             </UserCardStyle>
             <StatusText2 placeholder="상태메시지"></StatusText2>
@@ -97,11 +97,11 @@ const Status = () => {
             <UserImgStyle src="../images/logo.jpg"/>
             <UserTextStyle>
             <UserCardStyle>     
-            <NicknameStyle>제준서</NicknameStyle>    
-            <div className="emotion">😭</div>
+            <NicknameStyle>김재학</NicknameStyle>    
+            <div className="emotion">😎</div>
             <div className="UserStatus">🟢</div>
             </UserCardStyle>
-            <StatusText>안녕하세요 준서에요asdfasdsadas</StatusText>
+            <StatusText>엄마 엔디소프트 지원넣었어!!</StatusText>
             </UserTextStyle>
             </UserStyle>
           
